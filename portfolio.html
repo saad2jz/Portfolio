@@ -3708,9 +3708,13 @@
     /* ════════════════════════════════════════════
        HERO ENTRANCE
     ════════════════════════════════════════════ */
-    document.addEventListener('DOMContentLoaded', () => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => document.getElementById('hero').classList.add('hero-animated'), 60);
+      });
+    } else {
       setTimeout(() => document.getElementById('hero').classList.add('hero-animated'), 60);
-    });
+    }
 
     /* ════════════════════════════════════════════
        TYPEWRITER — debounced, no glitch on lang switch
@@ -4174,7 +4178,7 @@
         'exp1-li2': "<strong>Automatisation priorisée :</strong> Spécification et livraison de l'automatisation n8n reliant Shopify, Erplain, Colissimo et Pennylane — 0 saisie manuelle du réassort à la facturation. Sélecteur de Point Relais dynamique via l'API Google Maps, intégré directement au checkout.",
         'exp1-li3': "<strong>Delivery cross-fonctionnelle :</strong> Ownership de l'onboarding catalogue et de l'alignement stakeholders sur 5 partenaires marketplace via Mirakl — AstoreShop (Groupe Accor), Nature & Découvertes, Veepee, Ankorstore et Kviste. Fiches dédiées construites par plateforme, couvrant canaux B2B et B2C, taxonomie des champs, mapping des variantes et conformité SLA.",
         'exp1-li4': "<strong>Nouvelle ligne de revenu :</strong> Intégration de Kwanko comme régie d'affiliation de la marque — tracking configuré, structures de commission définies, activation des éditeurs pilotée pour générer du revenu B2C additionnel.",
-        'exp1-li5': "<strong>Spécification de fonctionnalité :</strong> Spécification, déploiement et itération d'une fonctionnalité de chatbot IA — adaptation d'une app de chatbot Shopify open-source en véritable outil de support, construite autour d'une knowledge base détaillée et d'une logique conditionnelle qui classe automatiquement les conversations par gravité et par type — aidant l'équipe à prioriser les files de chat et à en tirer une lecture client exploitable."
+        'exp1-li5': "<strong>Spécification de fonctionnalité :</strong> Spécification, déploiement et itération d'une fonctionnalité de chatbot IA — adaptation d'une app de chatbot Shopify open-source en véritable outil de support, construite autour d'une knowledge base détaillée et d'une logique conditionnelle qui classe automatiquement les conversations par gravité et par type — aidant l'équipe à prioriser les files de chat et à en tirer une lecture client exploitable.",
         'exp1-li6': "<strong>Reprioritisation par impact :</strong> Réduction de 40% de la charge de facturation B2B (priorisé sur l'impact) ; identification d'une fuite critique de données GA en audit et reprioritisation immédiate du correctif — reconstruite en architecture de tags côté serveur alignée ISO 27001.",
         'exp1-li7': "<strong>Release zéro régression :</strong> Pilotage de la migration WordPress → Shopify legacy comme une release zéro régression — avec préservation SEO complète (redirections d'URL, mapping canonique, migration des metafields).",
         'exp2-date': '2023 – 2025', 'exp2-role': 'PM Qualité & Optimisation des Processus', 'exp2-body': "Conception de boucles de feedback (RETEX) pour identifier les causes racines, traduisant les points de friction opérationnels en spécifications d'amélioration. Pilotage de la cartographie des processus interservices pour réduire le gaspillage et optimiser les délais.",
