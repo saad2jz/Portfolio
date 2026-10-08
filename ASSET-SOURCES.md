@@ -52,3 +52,13 @@ Retrieved on 8 October 2026 for the user-requested logo band. Erplain appears on
 | `assets/toolkit/pennylane.webp` | [Pennylane white logo](https://www.pennylane.com/_nuxt/logo-white.BdAS5uKh.png) | Transparent padding trimmed, resized to 420px wide and losslessly encoded as WebP. |
 
 The band uses `brightness(0) invert(1)` only for its on-page monochrome presentation. Original shape and aspect ratio are retained; the screenshots elsewhere retain their source pixels. Screenshot hover uses a temporary zoom, desaturation and decorative clipped strips; the image viewer loads the original without those effects. The shared grain in `assets/page-grain.svg` is an original SVG noise filter, not a downloaded Matveyan texture.
+
+## Local typography
+
+Inter was retrieved on 8 October 2026 from the [Google Fonts Inter stylesheet](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap). Its original variable WOFF2 files are served without altering their contents:
+
+- `assets/fonts/inter-latin.woff2`: [original Latin subset](https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2), 48,256 bytes.
+- `assets/fonts/inter-latin-ext.woff2`: [original Latin-extended subset](https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa25L7SUc.woff2), 85,068 bytes.
+- `assets/fonts/OFL.txt`: [original SIL Open Font License](https://github.com/google/fonts/blob/main/ofl/inter/OFL.txt), included with the font.
+
+`fonts.css` retains the source Unicode ranges and exposes the used 300–700 weight range. Only the Latin subset is preloaded; the extended subset loads when needed. No Google Fonts runtime request remains in either HTML entry point.

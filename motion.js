@@ -4,7 +4,8 @@
 (() => {
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const fine=matchMedia('(pointer: fine)');
-  const surfaces=[...document.querySelectorAll('.project>figure')];
+  const surfaces=[...document.querySelectorAll('.project>figure,.secours-stage,.lab-card-career .lab-capture')];
+  surfaces.forEach(surface=>surface.classList.add('depth-surface'));
   const active=new Set();
   const revealed=new WeakSet();
   function clearTilt(surface){surface.classList.remove('is-tilting');for(const key of ['--tilt-x','--tilt-y','--tilt-z'])surface.style.removeProperty(key);}
@@ -21,12 +22,12 @@
     for(const entry of entries){
       if(!entry.isIntersecting||reduced.matches||document.documentElement.classList.contains('motion-paused')||revealed.has(entry.target))continue;
       revealed.add(entry.target);
-      const surface=entry.target.tagName==='FIGURE';
+      const surface=entry.target.classList.contains('depth-surface');
       const frames=surface?[{transform:'perspective(1200px) translate3d(0,48px,-70px) rotateX(8deg)',opacity:.65},{transform:'perspective(1200px) translate3d(0,0,0) rotateX(0deg)',opacity:1}]:[{transform:'translate3d(0,22px,0)',opacity:.65,filter:'blur(2px)'},{transform:'translate3d(0,0,0)',opacity:1,filter:'blur(0)'}];
       const animation=entry.target.animate(frames,{duration:surface?850:650,easing:'cubic-bezier(.2,.8,.2,1)'});active.add(animation);animation.finished.then(()=>active.delete(animation)).catch(()=>active.delete(animation));
     }
   },{threshold:.12,rootMargin:'0px 0px -30px 0px'});
-  for(const element of document.querySelectorAll('.project>figure,.lab-card,.about-grid'))observer.observe(element);
+  for(const element of document.querySelectorAll('.project>figure,.lab-card,.about-grid,.timeline>div,.education-list>li'))observer.observe(element);
   new MutationObserver(()=>{if(document.documentElement.classList.contains('motion-paused')){for(const animation of active)animation.cancel();active.clear();surfaces.forEach(clearTilt);}}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
   reduced.addEventListener('change',()=>{if(reduced.matches){for(const animation of active)animation.cancel();active.clear();surfaces.forEach(clearTilt);}});
 })();

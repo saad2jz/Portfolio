@@ -65,7 +65,7 @@ const french = {
   linkedin: 'Échanger sur LinkedIn', aboutIntro: "Mon parcours produit a commencé par l'ingénierie — et par la conviction que chaque décision doit résister à la réalité du terrain.",
   aboutText: "Six années dans des environnements industriels exigeants, de la qualité automobile chez Schaeffler aux dispositifs médicaux chez MASCIR, ont forgé mon approche des systèmes, des risques et des causes racines. J'applique aujourd'hui cette discipline aux plateformes e-commerce, aux opérations B2B et à la delivery produit.",
   aboutPersonal: "En dehors de l'écran : formation au pilotage PPL, sécurité en rallye et mécanique automobile. D'autres systèmes, la même curiosité.",
-  background: 'Découvrir mon parcours', experienceLabel: 'Expérience', present: 'Présent', experienceFFA: 'Product Owner · E-Commerce & B2B',
+  background: 'Formation & diplômes', experienceLabel: 'Expérience', present: 'Présent', experienceFFA: 'Product Owner · E-Commerce & B2B',
   experienceQuality: 'Qualité & optimisation des processus', experienceQualityDetail: 'Amélioration des processus interservices', experienceQA: 'QA & support produit',
   experienceQADetail: 'Discovery, causes racines et validation des releases', experienceMascir: 'Ingénieur QHSE · Dispositifs médicaux', experienceSchaeffler: 'Ingénieur Qualité · Automobile',
   educationLabel: 'Formation', educationKedge: "MSc en Ingénierie d'Affaires · 2026", educationQuality: 'Master en Management de la Qualité et de la Performance', educationEngineering: 'Double diplôme de Génie Informatique', educationISEN: 'Parcours Business & Data Analyst',

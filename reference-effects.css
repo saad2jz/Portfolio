@@ -69,3 +69,25 @@ html.motion-paused .media-glitch { opacity: 0 !important; }
 @media (max-width:560px) { .toolkit-logos { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; } .toolkit-logos a { min-height: 64px; padding: 14px 12px; } .toolkit-logos img { max-height: 30px; max-width: 132px; width: 100%; } .toolkit-logos img[alt='n8n'] { width: 108px; } .toolkit { padding: 24px 0 28px; } .reference-corners i { transition: none; } .dtc-copy { flex-direction: column; align-items: flex-start; gap: 20px; } }
 @media (hover:none), (pointer:coarse) { .image-cursor { display: none; } .media-surface > img, .media-surface > picture > img { filter: none; } }
 @media (prefers-reduced-motion:reduce) { .global-grain { animation: none !important; } .media-glitch { display: none; } .image-cursor { display: none; } .media-surface > img, .media-surface > picture > img { filter: none; transform: none !important; } .reference-corners i { transform: none !important; } }
+
+/* The same restrained image depth continues into the product lab. */
+.secours-capture, .lab-card-career { perspective: 1200px; }
+.secours-stage.depth-surface, .lab-card-career .lab-capture.depth-surface { transform-style: preserve-3d; backface-visibility: hidden; transform: rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateZ(var(--tilt-z,0px)); transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+.secours-stage.depth-surface.is-tilting, .lab-card-career .lab-capture.depth-surface.is-tilting { transition: transform .12s linear; }
+
+/* A readable career chronology, framed with the reference's fine rules. */
+.experience-panel { margin-top: 40px; }
+.experience-panel h3 { font: 300 20px/1.4 var(--font); letter-spacing: .035em; margin-bottom: 24px; }
+.experience-panel .timeline { border-top: 1px solid var(--faint-line); }
+.experience-panel .timeline > div { grid-template-columns: 110px minmax(0,1fr); gap: 22px; padding: 20px 0; }
+.experience-panel .timeline dt { padding-top: 3px; font-size: 10px; }
+.experience-panel .timeline dd strong { font-size: 15px; font-weight: 400; line-height: 1.5; }
+.experience-panel .timeline dd > span { font-size: 13px; line-height: 1.75; }
+.background-details { margin-top: 32px; }
+.background-content { padding-top: 12px; }
+.education-list li { border-bottom: 1px solid var(--faint-line); padding: 16px 0; }
+.contact-arrow svg { transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+@media (hover:hover) and (pointer:fine) { html:not(.motion-paused) .contact-arrow:hover svg { transform: translate(3px,-3px); } }
+@media (max-width:760px) { .experience-panel { margin-top: 32px; } .experience-panel .timeline > div { grid-template-columns: 100px minmax(0,1fr); gap: 16px; } }
+@media (max-width:450px) { .experience-panel .timeline > div { grid-template-columns: 1fr; gap: 6px; } .experience-panel .timeline dt { padding-top: 0; } }
+@media (prefers-reduced-motion:reduce) { .secours-stage.depth-surface, .lab-card-career .lab-capture.depth-surface { transition: none; transform: none; } .contact-arrow svg { transition: none; transform: none !important; } }

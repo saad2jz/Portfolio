@@ -10,7 +10,7 @@
   const active = new Set();
   const prepared = new WeakMap();
   const revealed = new WeakSet();
-  const headings = [...document.querySelectorAll('.specialty h2,.section-heading h2,.project h3,.lab-heading h3,.lab-card h4,.approach h3,.about h2,.contact h2')];
+  const headings = [...document.querySelectorAll('.specialty h2,.section-heading h2,.project h3,.lab-heading h3,.lab-card h4,.approach h3,.about h2,.experience-panel h3,.background-content h3,.contact h2')];
   const stopped = () => reduced.matches || root.classList.contains('motion-paused');
 
   function corners(element) {
