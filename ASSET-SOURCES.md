@@ -62,3 +62,13 @@ Inter was retrieved on 8 October 2026 from the [Google Fonts Inter stylesheet](h
 - `assets/fonts/OFL.txt`: [original SIL Open Font License](https://github.com/google/fonts/blob/main/ofl/inter/OFL.txt), included with the font.
 
 `fonts.css` retains the source Unicode ranges and exposes the used 300–700 weight range. Only the Latin subset is preloaded; the extended subset loads when needed. No Google Fonts runtime request remains in either HTML entry point.
+
+## Responsive delivery derivatives
+
+Created locally on 8 October 2026 from the existing assets; no replacement or retouching of screenshot content:
+
+- `ffa-products-{320,640,960}.{avif,webp}`, `leadhunt-agents-{320,640,960}.{avif,webp}` and `cardiag-inspection-{320,640,960}.{avif,webp}` are aspect-preserving preview derivatives. AVIF uses quality 70 with 4:4:4 chroma; WebP uses quality 88. The browser chooses the appropriate width and supported format. These lossy previews are not pixel-identical to their sources; full-image links and the viewer retain the original files, including lossless supplied screenshots.
+- `saad-avatar.webp` is a 120×120 attention crop of the existing portrait, WebP quality 85, for the small hero avatar. `saad-portrait-420.webp` is a 420px-wide quality-88 derivative for the biography. The original portrait remains available.
+- `assets/toolkit/mirakl.webp` is a transparent, 360px-wide lossless rasterization of the unchanged official `mirakl.svg`. It preserves the wordmark proportions and reduces the delivered logo from 119,672 to 9,262 bytes. The original SVG remains in the source repository.
+
+Production fingerprints only rename copied assets for caching. They do not change their pixels or file contents. Font licensing and original-media provenance remain as documented above.

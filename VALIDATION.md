@@ -2,9 +2,9 @@
 
 Checked locally on 8 October 2026 in Chrome using Playwright after revising the page against the live reference.
 
-- 155 checks passed: 38 portfolio checks, 15 dedicated 3D interaction checks, nine project-media checks, 16 gallery/refinement checks, 25 supplied-LeadHunt checks, 22 supplied-SecoursNow checks and 30 shared-reference-effects checks; no JavaScript errors. All suites were run after the visible career chronology, secondary-preview depth and local Inter font update.
+- 174 checks passed: 38 portfolio checks, 15 dedicated 3D interaction checks, nine project-media checks, 16 gallery/refinement checks, 25 supplied-LeadHunt checks, 22 supplied-SecoursNow checks, 30 shared-reference-effects checks and 19 production/performance checks; no JavaScript errors. The suites cover the worker renderer, responsive previews, offscreen layout and compiled production version.
 - 12 responsive layouts checked: 320, 390, 560, 768, 1024 and 1440 pixels, in English and French. No horizontal overflow.
-- Seven axe-core WCAG 2 A/AA and 2.1 AA audits passed without reported violations: four page audits on mobile and desktop, in both languages, with all case-study disclosures open; two gallery audits on desktop in English and mobile in French, plus a SecoursNow gallery audit on mobile in French. Automated audits do not replace a full manual accessibility review.
+- Eight axe-core WCAG 2 A/AA and 2.1 AA audits passed without reported violations: four page audits on mobile and desktop, in both languages, with all case-study disclosures open; two gallery audits on desktop in English and mobile in French; a SecoursNow gallery audit on mobile in French; and a compiled-production page audit. Automated audits do not replace a full manual accessibility review.
 - Keyboard language switching, mobile menu closing with Escape and focus restoration, native deep links and project disclosures checked.
 - Contact success and failure paths checked using intercepted requests, without sending a real message. A deployed end-to-end test remains necessary.
 - Native disclosures, page fit and HTML form action checked with JavaScript disabled; reduced-motion preference checked.
@@ -23,4 +23,14 @@ Seven LeadHunt screenshots supplied by Saad replace the previous public sign-in 
 
 No production deployment has been made.
 
-The five career entries are visible without opening a disclosure. Education remains independently expandable and translates correctly into French. SecoursNow and Career Ops previews tilt in perspective under the pointer; shared pause and reduced motion prevent this movement. Local Inter WOFF2 loading was verified without a Google Fonts stylesheet. The updated career chronology was visually reviewed on desktop and mobile; all twelve page layouts and seven accessibility audits still pass.
+The five career entries are visible without opening a disclosure. Education remains independently expandable and translates correctly into French. SecoursNow and Career Ops previews tilt in perspective under the pointer; shared pause and reduced motion prevent this movement. Local Inter WOFF2 loading was verified without a Google Fonts stylesheet. The updated career chronology was visually reviewed on desktop and mobile; all twelve page layouts still pass, alongside the additional production accessibility audit.
+
+## Production optimization checks
+
+The esbuild production build completes successfully with 68 fingerprinted media/font assets, one minified stylesheet and one main script bundle, plus the worker and shared-renderer fallback. Source and production HTML entry points match their respective mirrors. Brotli, gzip, disabled-encoding handling, ETag revalidation, immutable fingerprint caching, WOFF2 MIME type and private-path rejection were verified against the local production server.
+
+The hero paints before the worker reports scene readiness. Rendering runs in the worker on compatible browsers; its fallback starts when OffscreenCanvas is unavailable. A high-DPR phone is capped at 1.25x and no more than 30 frames per second. Pause stops rendering. Returning to the hero while paused restores its camera without advancing the animation clock. Hidden/offscreen handling, reduced motion and GPU-loss restoration are also covered by the interaction suites.
+
+Production selects local AVIF previews while the viewer opens the explicitly linked full original. All thirteen supplied LeadHunt/SecoursNow images still match the PNG source pixels. Both languages, native no-JavaScript links and the static hero remain available in the compiled version. Updated desktop/mobile production views were visually reviewed.
+
+Lighthouse 13.5 audits compare the previous source with the optimized production build under the same device profiles. See `PERFORMANCE.md` for scores, timings, transfer sizes and measurement limits. Final hosting compression/caching and real Formspree delivery must still be checked after deployment.

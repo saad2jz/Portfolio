@@ -31,7 +31,7 @@ The landing page is implemented and usable. The remaining work is mainly real pr
 - **Testimonials:** one or two attributable quotes with permission, name, role and exact wording. None are invented in this adaptation.
 - **Brand assets — partly supplied:** FFA, Cardiag, SecoursNow, Rencontre and Career Ops logos are integrated from official site/repository assets. The eight requested toolkit logos (Shopify, n8n, Mirakl, HubSpot, Erplain, GitHub, Colissimo and Pennylane) are also integrated from official sources. An approved distinctive LeadHunt logo and any DTC brands you want to name remain optional additions.
 - **Cartograph Mono CF:** licensed `.woff2` font files only if you want the exact reference button face. Inter and a system monospace fallback already work; this is optional.
-- **Local Inter:** licensed/subset `.woff2` files if you want to remove Google Fonts. The current page has a standard font fallback.
+- **Local Inter — supplied:** Latin and Latin-extended WOFF2 subsets and their OFL licence are included. The page no longer requests the Google Fonts stylesheet at runtime.
 - **App store links:** only for products already distributed publicly; otherwise keep prototype/demo wording.
 
 ## Repository visibility and links

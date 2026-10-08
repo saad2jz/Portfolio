@@ -4,13 +4,23 @@ A separate adaptation cloned from the original [`saad2jz/Portfolio`](https://git
 
 ## Open locally
 
-No dependencies or build step are required. Open `index.html` or serve this folder:
+The editable source still works without a build. Serve this folder:
 
 ```sh
 python -m http.server 8000
 ```
 
 Open `http://localhost:8000/`.
+
+For the optimized production version, use Node.js 20 or later:
+
+```sh
+npm ci
+npm run build
+npm run preview
+```
+
+Open `http://127.0.0.1:4175/`. The build creates `dist/` with bundled/minified CSS and JavaScript, fingerprinted assets, and Brotli/gzip copies. The preview serves compressed responses, conditional requests and long-lived asset caching. Publish the contents of `dist/`. No runtime npm dependencies are needed by the website. See `PERFORMANCE.md` for measurements and hosting requirements.
 
 ## Contents
 
@@ -23,7 +33,8 @@ Open `http://localhost:8000/`.
 - `assets/toolkit/` — eight official tool logos, served locally and displayed in monochrome.
 - `assets/page-grain.svg` — original lightweight grain texture.
 - `script.js` — safe text-only EN/FR translations, mobile navigation and contact form.
-- `hero-scene.js` — nine original animated WebGL meshes, perspective lighting, hover rotation, scroll dispersion and a persistent pause control.
+- `hero-scene.js` — input, scroll, resize and persistent pause controls for the nine-object scene.
+- `hero-worker.js` and `hero-renderer.js` — WebGL rendering and shader compilation in a worker, with the same renderer as a main-thread fallback and static SVGs when WebGL is unavailable.
 - `motion.js` — project depth/tilt and scroll reveal choreography.
 - `gallery.js` — native dialog image viewer with keyboard navigation, translated controls and focus restoration; original image links remain usable without JavaScript.
 - `assets/product-orbit.svg` and `assets/product-orbit-mobile.svg` — original static desktop/mobile scene fallbacks.
@@ -40,6 +51,8 @@ Open `http://localhost:8000/`.
 - `DESIGN.md` — complete downloaded Inspo reference.
 - `DESIGN-DECISIONS.md` — how the reference was adapted to this content.
 - `MISSING-ASSETS.md` — prioritised list of evidence, files, links and publication details still needed.
+- `scripts/build.mjs`, `scripts/serve.mjs` — reproducible production build and local compression/cache preview.
+- `PERFORMANCE.md` — measured before/after performance and optimization decisions.
 
 After editing `index.html`, mirror it to `portfolio.html`:
 
@@ -68,6 +81,6 @@ The five existing career entries are visible directly beside the portrait and bi
 
 ## Publishing
 
-Publish the HTML, CSS, JS and `assets/` directory together. Relative resource paths support GitHub Pages subfolders as well as domain-root hosting. Confirm the public URL before adding canonical, Open Graph URL and structured-data URL fields. See `MISSING-ASSETS.md` for all remaining inputs.
+Build and publish the contents of `dist/` together. Relative resource paths support subfolder hosting as well as domain-root hosting. Configure the host to serve Brotli/gzip responses and cache fingerprinted assets; `_headers` is supplied for hosts that support that convention. Other hosts need equivalent configuration, and may ignore the precompressed files. Confirm the public URL before adding canonical, Open Graph URL and structured-data URL fields. See `MISSING-ASSETS.md` for all remaining inputs.
 
 This repo adaptation does not create or publish a Higgsfield-hosted site. There is no deployed production version in this change.

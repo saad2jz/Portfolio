@@ -8,12 +8,19 @@
   surfaces.forEach(surface=>surface.classList.add('depth-surface'));
   const active=new Set();
   const revealed=new WeakSet();
-  function clearTilt(surface){surface.classList.remove('is-tilting');for(const key of ['--tilt-x','--tilt-y','--tilt-z'])surface.style.removeProperty(key);}
+  const pending=new Map();
+  function clearTilt(surface){if(pending.has(surface)){cancelAnimationFrame(pending.get(surface));pending.delete(surface);}surface.classList.remove('is-tilting');for(const key of ['--tilt-x','--tilt-y','--tilt-z'])surface.style.removeProperty(key);}
   for(const surface of surfaces){
+    let pointerX=0,pointerY=0;
     surface.addEventListener('pointermove',event=>{
       if(reduced.matches||document.documentElement.classList.contains('motion-paused')||!fine.matches)return;
-      const rect=surface.getBoundingClientRect(),x=(event.clientX-rect.left)/rect.width-.5,y=(event.clientY-rect.top)/rect.height-.5;
-      surface.style.setProperty('--tilt-x',`${-y*10}deg`);surface.style.setProperty('--tilt-y',`${x*12}deg`);surface.style.setProperty('--tilt-z','12px');surface.classList.add('is-tilting');
+      pointerX=event.clientX;pointerY=event.clientY;
+      if(pending.has(surface))return;
+      pending.set(surface,requestAnimationFrame(()=>{
+        pending.delete(surface);
+        const rect=surface.getBoundingClientRect(),x=(pointerX-rect.left)/rect.width-.5,y=(pointerY-rect.top)/rect.height-.5;
+        surface.style.setProperty('--tilt-x',`${-y*10}deg`);surface.style.setProperty('--tilt-y',`${x*12}deg`);surface.style.setProperty('--tilt-z','12px');surface.classList.add('is-tilting');
+      }));
     },{passive:true});
     surface.addEventListener('pointerleave',()=>clearTilt(surface));
     surface.addEventListener('focusout',()=>clearTilt(surface));

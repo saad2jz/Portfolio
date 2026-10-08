@@ -1,8 +1,9 @@
 /* Shared visual language adapted from the live Matveyan reference. */
 :root { --reading-size: 14px; --reading-leading: 1.8; --reference-title: 30px; --reference-project-title: 24px; --surface-soft: #111; }
-.global-grain { position: fixed; z-index: 29; inset: 0; pointer-events: none; background: url('assets/page-grain.svg') repeat; opacity: .045; }
-.effects-ready .global-grain { animation: reference-grain .24s steps(1,end) infinite; }
-@keyframes reference-grain { 0%,100% { background-position: 0 0; } 25% { background-position: -3px 2px; } 50% { background-position: 2px -3px; } 75% { background-position: -2px -2px; } }
+.global-grain { position: fixed; z-index: 29; inset: 0; pointer-events: none; opacity: .045; overflow: hidden; contain: strict; }
+.global-grain::before { content: ''; position: absolute; inset: -4px; background: url('assets/page-grain.svg') repeat; }
+.effects-ready .global-grain::before { animation: reference-grain .24s steps(1,end) infinite; will-change: transform; }
+@keyframes reference-grain { 0%,100% { transform: translate3d(0,0,0); } 25% { transform: translate3d(-3px,2px,0); } 50% { transform: translate3d(2px,-3px,0); } 75% { transform: translate3d(-2px,-2px,0); } }
 .section-heading h2, .specialty h2, .about h2, .contact h2 { font-size: var(--reference-title); font-weight: 300; line-height: 1.4; letter-spacing: .035em; }
 .project h3, .lab-card h4, .lab-card-secours .brand-heading, .lab-heading h3 { font-size: var(--reference-project-title); font-weight: 300; line-height: 1.4; letter-spacing: .035em; }
 .project-body > p:not(.micro), .section-lead, .specialty > p:not(.specialty-tags), .lab-card > p, .lab-copy > p, .about-copy > p + p, .approach-grid p { font-size: var(--reading-size); line-height: var(--reading-leading); }
@@ -62,13 +63,27 @@
 @keyframes reference-glitch { 0%,22%,100% { opacity: 0; transform: none; clip-path: inset(0 0 100% 0); } 3%,8% { opacity: .4; transform: translateX(7px); clip-path: inset(18% 0 78% 0); } 10%,14% { opacity: .25; transform: translateX(-5px); clip-path: inset(64% 0 32% 0); } 17%,20% { opacity: .3; transform: translateX(4px); clip-path: inset(42% 0 56% 0); } }
 .image-cursor { position: fixed; z-index: 60; top: 0; left: 0; display: flex; gap: 18px; padding: 6px 9px; background: #ffffff16; border: 1px solid var(--faint-line); backdrop-filter: blur(6px); font: 10px/1.4 var(--mono); pointer-events: none; opacity: 0; transform: translate(-200px,-200px); transition: opacity .15s; }
 .image-cursor.is-visible { opacity: 1; }
-html.motion-paused .global-grain, html.motion-paused .media-glitch { animation-play-state: paused; }
+html.motion-paused .global-grain::before, html.effects-suspended .global-grain::before, html.effects-suspended .media-glitch, html.motion-paused .media-glitch { animation-play-state: paused; }
 html.motion-paused .media-glitch { opacity: 0 !important; }
 @media (max-width:1100px) { .toolkit-logos { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px 24px; } .toolkit { width: min(100%,920px); } }
 @media (max-width:760px) { :root { --reference-title: 26px; --reference-project-title: 24px; } .contact { padding: 32px 0 40px; } .toolkit { margin-bottom: 72px; } .toolkit-logos { gap: 18px 12px; } }
 @media (max-width:560px) { .toolkit-logos { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; } .toolkit-logos a { min-height: 64px; padding: 14px 12px; } .toolkit-logos img { max-height: 30px; max-width: 132px; width: 100%; } .toolkit-logos img[alt='n8n'] { width: 108px; } .toolkit { padding: 24px 0 28px; } .reference-corners i { transition: none; } .dtc-copy { flex-direction: column; align-items: flex-start; gap: 20px; } }
 @media (hover:none), (pointer:coarse) { .image-cursor { display: none; } .media-surface > img, .media-surface > picture > img { filter: none; } }
-@media (prefers-reduced-motion:reduce) { .global-grain { animation: none !important; } .media-glitch { display: none; } .image-cursor { display: none; } .media-surface > img, .media-surface > picture > img { filter: none; transform: none !important; } .reference-corners i { transform: none !important; } }
+@media (prefers-reduced-motion:reduce) { .global-grain::before { animation: none !important; will-change: auto; } .media-glitch { display: none; } .image-cursor { display: none; } .media-surface > img, .media-surface > picture > img { filter: none; transform: none !important; } .reference-corners i { transform: none !important; } }
+
+/* Reserve the pause control before the deferred scene boots, avoiding header shift. */
+.motion-toggle[hidden] { display: grid; visibility: hidden; }
+@media (scripting:enabled) and (prefers-reduced-motion:no-preference) { .hero-stage:not(.scene-static) { height:185svh; min-height:1295px; } .hero-stage:not(.scene-static)>.hero { position:sticky; top:0; } }
+.toolkit-logos img { object-fit:contain; }
+/* Skip offscreen layout; cached intrinsic sizes preserve the native scroll space. */
+@supports (content-visibility:auto) {
+ @media (scripting:enabled) {
+  .project, .lab-card { content-visibility:auto; contain-intrinsic-size:auto 620px; overflow-clip-margin:64px; }
+  .lab-card { contain-intrinsic-size:auto 360px; }
+  .lab-card-secours { contain-intrinsic-size:auto 750px; }
+  @media(max-width:760px) { .project { contain-intrinsic-size:auto 950px; } .lab-card-secours { contain-intrinsic-size:auto 1450px; } .lab-card-career { contain-intrinsic-size:auto 900px; } }
+ }
+}
 
 /* The same restrained image depth continues into the product lab. */
 .secours-capture, .lab-card-career { perspective: 1200px; }

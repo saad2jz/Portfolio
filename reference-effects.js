@@ -11,7 +11,7 @@
   const prepared = new WeakMap();
   const revealed = new WeakSet();
   const headings = [...document.querySelectorAll('.specialty h2,.section-heading h2,.project h3,.lab-heading h3,.lab-card h4,.approach h3,.about h2,.experience-panel h3,.background-content h3,.contact h2')];
-  const stopped = () => reduced.matches || root.classList.contains('motion-paused');
+  const stopped = () => document.hidden || reduced.matches || root.classList.contains('motion-paused');
 
   function corners(element) {
     element.classList.add('reference-framed');
@@ -21,8 +21,11 @@
     for (let i = 0; i < 4; i++) frame.append(document.createElement('i'));
     element.append(frame);
   }
-  document.querySelectorAll('.button,.case-study > summary,.lab-card details > summary,.background-details > summary,.contact-form-details > summary').forEach(corners);
-  document.querySelectorAll('.media-link').forEach(link => {
+  const frames = new IntersectionObserver(entries => {
+    for (const entry of entries) if (entry.isIntersecting) { corners(entry.target); frames.unobserve(entry.target); }
+  }, {rootMargin: '200px'});
+  document.querySelectorAll('.button,.case-study > summary,.lab-card details > summary,.background-details > summary,.contact-form-details > summary').forEach(element=>frames.observe(element));
+  function prepareImage(link) {
     const image = link.querySelector('img');
     if (!image) return;
     const media = image.closest('picture') || image;
@@ -44,7 +47,11 @@
       cursor.classList.add('is-visible');
     });
     link.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
-  });
+  }
+  const mediaObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) if (entry.isIntersecting) { prepareImage(entry.target); mediaObserver.unobserve(entry.target); }
+  }, {rootMargin: '300px'});
+  document.querySelectorAll('.media-link').forEach(link=>mediaObserver.observe(link));
   let pending = false, pointer = {x: -200, y: -200};
   addEventListener('pointermove', event => {
     if (!fine.matches || stopped() || !cursor.classList.contains('is-visible')) return;
@@ -89,10 +96,12 @@
 
   function syncPause() {
     root.classList.toggle('motion-paused', reduced.matches || control.getAttribute('aria-pressed') === 'true');
+    root.classList.toggle('effects-suspended', document.hidden);
     if (stopped()) { for (const animation of active) animation.cancel(); active.clear(); cursor.classList.remove('is-visible'); }
   }
   // Keep the same pause preference available when WebGL cannot initialise.
-  if (control.hidden) {
+  function fallbackControl() {
+    if (!control.hidden || control.dataset.scenePending === 'true') return;
     control.hidden = false;
     let paused = false;
     try { paused = localStorage.getItem('portfolio-motion-paused') === 'true'; } catch {}
@@ -108,6 +117,9 @@
     reduced.addEventListener('change', label);
     label();
   }
+  fallbackControl();
+  document.addEventListener('hero-scene-ready', fallbackControl, {once: true});
+  document.addEventListener('visibilitychange', syncPause);
   new MutationObserver(syncPause).observe(control, {attributes: true, attributeFilter: ['aria-pressed']});
   reduced.addEventListener('change', syncPause);
   new MutationObserver(() => {
