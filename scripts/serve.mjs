@@ -9,7 +9,7 @@ const argument=name=>process.argv.find(x=>x.startsWith(`--${name}=`))?.split('='
 const root=path.resolve(repository,argument('root')||'dist');
 const port=Number(argument('port')||4175);
 await fs.access(path.join(root,'index.html'));
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.avif':'image/avif','.woff2':'font/woff2','.json':'application/json','.txt':'text/plain; charset=utf-8'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.avif':'image/avif','.jpg':'image/jpeg','.png':'image/png','.xml':'application/xml; charset=utf-8','.woff2':'font/woff2','.json':'application/json','.txt':'text/plain; charset=utf-8'};
 http.createServer(async(req,res)=>{
   try{
     if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{Allow:'GET, HEAD'});return res.end();}

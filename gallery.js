@@ -9,6 +9,9 @@
   const caption = dialog.querySelector('.lightbox-caption');
   const count = dialog.querySelector('.lightbox-count');
   const original = dialog.querySelector('.lightbox-original');
+  const status = dialog.querySelector('.lightbox-status');
+  const imageWrap = dialog.querySelector('.lightbox-image-wrap');
+  let loadingState = 'idle';
   let position = 0;
   let opener = null;
   let backdropStart = false;
@@ -22,20 +25,39 @@
       '[data-direction="next"]': fr ? 'Image suivante' : 'Next image'
     };
     for (const [selector, label] of Object.entries(labels)) dialog.querySelector(selector).setAttribute('aria-label', label);
+    status.textContent = loadingState === 'loading' ? (fr ? 'Chargement de l’image…' : 'Loading image…') : loadingState === 'error' ? (fr ? 'Image indisponible. Essayez le lien vers l’original.' : 'Image unavailable. Try the original-file link.') : '';
+    if (dialog.open) updateCaption();
   }
   new MutationObserver(updateLabels).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   updateLabels();
 
+  function updateCaption() {
+    const link = galleryLinks[position];
+    caption.textContent = link.closest('figure').querySelector('figcaption')?.textContent || link.querySelector('img').alt;
+  }
+  function imageSettled(failed = false) {
+    loadingState = failed ? 'error' : 'idle';
+    imageWrap.setAttribute('aria-busy', 'false');
+    dialog.classList.toggle('image-loading', false);
+    updateLabels();
+  }
+  image.addEventListener('load', () => imageSettled());
+  image.addEventListener('error', () => imageSettled(true));
   function show(index) {
     position = (index + galleryLinks.length) % galleryLinks.length;
     const link = galleryLinks[position];
     const source = link.querySelector('img');
+    loadingState = 'loading';
+    imageWrap.setAttribute('aria-busy', 'true');
+    dialog.classList.add('image-loading');
     // Prefer the currently displayed mobile capture when inspecting it on a phone.
     image.src = link.dataset.fullSrc || source.currentSrc || source.src;
     image.alt = source.alt;
-    caption.textContent = link.closest('figure').querySelector('figcaption')?.textContent || source.alt;
+    updateCaption();
     count.textContent = `${position + 1} / ${galleryLinks.length}`;
     original.href = image.src;
+    updateLabels();
+    if (image.complete) imageSettled(!image.naturalWidth);
   }
 
   links.forEach(link => {

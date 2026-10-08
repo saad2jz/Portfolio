@@ -8,7 +8,7 @@ Lighthouse 13.5.0 in local Chrome compares the previous version at commit `7c51c
 
 | Category | Mobile before → after | Desktop before → after |
 |---|---|---|
-| Performance | **81 → 97** | **100 → 100** |
+| Performance | **81 → 98** | **100 → 100** |
 | Accessibility | 100 → 100 | 100 → 100 |
 | Best practices | 96 → 100 | 100 → 100 |
 | SEO | 91 → 100 | 91 → 100 |
@@ -17,11 +17,11 @@ Lighthouse 13.5.0 in local Chrome compares the previous version at commit `7c51c
 |---|---|---|
 | First contentful paint | 1.54 s → 0.76 s | 0.37 s → 0.27 s |
 | Largest contentful paint | 2.68 s → 1.73 s | 0.53 s → 0.41 s |
-| Total blocking time | 557 ms → 168 ms | 69 ms → 12 ms |
+| Total blocking time | 557 ms → 160 ms | 69 ms → 9 ms |
 | Cumulative layout shift | 0.000948 → 0.000003 | 0 → 0.0000004 |
-| Speed index | 2.96 s → 3.08 s | 0.75 s → 0.66 s |
+| Speed index | 2.96 s → 1.79 s | 0.75 s → 0.65 s |
 
-Animation makes the visual-completeness speed index sensitive to capture timing; its mobile value did not improve. Mobile LCP improves by approximately 35%, and blocking time by approximately 70%. The scene starts after the semantic hero paints and is not disabled for the audit.
+Animation makes the visual-completeness speed index sensitive to capture timing; an earlier audit measured 3.08 s on mobile with the same preserved effects. Optimized mobile performance scores have been 97–98 across repeated audits; the table records the final run after the domain/social/feedback continuation. Mobile LCP improves by approximately 35%, and blocking time by approximately 71%. The scene starts after the semantic hero paints and is not disabled for the audit.
 
 ## Transfer measurements
 
@@ -29,16 +29,16 @@ A separate Playwright cold-load capture uses desktop 1440×1000 and mobile 390×
 
 | Page resource bodies | Mobile before → after | Desktop before → after |
 |---|---|---|
-| Initial bytes | 185,275 → 74,543 | 185,292 → 74,556 |
+| Initial bytes | 185,275 → 74,961 | 185,292 → 74,974 |
 | Initial requests | 14 → 8 | 14 → 8 |
-| After loading page previews | 1,040,975 → 364,549 | 1,043,930 → 418,993 |
+| After loading page previews | 1,040,975 → 364,967 | 1,043,930 → 419,411 |
 
 Initial observed resource bytes fall by about **60%**. Loading all page previews costs about **65% less on mobile** and **60% less on desktop**. These totals differ from complete HTTP transfer sizes and intentionally exclude original images requested only when opening a gallery.
 
 ## Changes
 
 - AVIF/WebP project previews at 320, 640 and 960 pixels; explicit full-original gallery sources; small avatar and portrait derivatives; smaller official Mirakl wordmark.
-- Local fonts, one minified stylesheet and main script bundle, hashed assets and Brotli/gzip copies. The build has 68 fingerprinted media/font assets. The initial page does not download all of them.
+- Local fonts, one minified stylesheet and main script bundle, hashed assets and Brotli/gzip copies. The build has 69 fingerprinted media/font assets, including the social cover. The initial page does not download all of them.
 - WebGL compilation/rendering in an OffscreenCanvas worker, with shared-renderer and static-SVG fallbacks. Adaptive geometry, pixel ratio and frame rate retain the same lighting, objects and interactions.
 - Reused render buffers, coalesced pointer updates, lazy decorative setup, compositor-based grain and offscreen project layout where supported.
 - Paused, reduced-motion, hidden and offscreen rendering stops. Returning to the hero while paused restores the camera without restarting the animation clock.
@@ -54,4 +54,6 @@ npm run preview
 
 Audit `http://127.0.0.1:4175/` with Lighthouse. Publish the contents of `dist/`; use the supplied `_headers` where supported, or configure equivalent compression, correct MIME types, no-cache HTML and one-year immutable caching for fingerprinted assets. Precompressed `.br`/`.gz` files require hosting support and must not be linked as application assets. GitHub Pages and other static hosts may apply their own caching/compression rules.
 
-Remaining production work: confirm the final public URL for canonical/social/structured-data URLs, provide a branded sharing cover, and verify real contact delivery and hosting headers after deployment. See `MISSING-ASSETS.md`. There is no production deployment in this change. See `VALIDATION.md` for 174 checks, twelve responsive layouts and eight automated accessibility audits.
+The user-confirmed `https://saadbayahia.com/` is stored in `site.config.json`; production canonical/social/structured-data URLs and the sitemap use it automatically. A branded local 1200×630 JPEG cover is included. An explicit `SITE_URL` overrides the configured address for root/subfolder hosting; an empty value omits public metadata for local previews. `npm run test:build` verifies this configuration and restores the configured build afterward.
+
+Remaining production work: hosting/DNS/HTTPS setup and verification of real contact delivery, sharing-image access and hosting headers after deployment. See `MISSING-ASSETS.md`. There is no production deployment in this change. See `VALIDATION.md` for 222 passing checks, twelve responsive layouts and eight automated accessibility audits.

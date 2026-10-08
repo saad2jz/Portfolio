@@ -72,3 +72,7 @@ Created locally on 8 October 2026 from the existing assets; no replacement or re
 - `assets/toolkit/mirakl.webp` is a transparent, 360px-wide lossless rasterization of the unchanged official `mirakl.svg`. It preserves the wordmark proportions and reduces the delivered logo from 119,672 to 9,262 bytes. The original SVG remains in the source repository.
 
 Production fingerprints only rename copied assets for caching. They do not change their pixels or file contents. Font licensing and original-media provenance remain as documented above.
+
+## Branded social cover
+
+`assets/og-cover.jpg` was rendered locally on 8 October 2026 from the editable `social-cover.html` composition at exactly 1200×630 pixels, JPEG quality 92 (67,653 bytes). It reuses the portfolio's original `product-orbit.svg` copper-object illustration, personal monogram, existing avatar and local Inter font. Embedded template assets keep it editable and self-contained. The artwork is a portfolio sharing cover, not a product screenshot; no project evidence was altered. Only the JPEG is copied to production, with an absolute URL under the user-confirmed domain.

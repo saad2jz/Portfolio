@@ -163,6 +163,9 @@
 .lightbox-close:hover, .lightbox-step:hover { border-color: var(--ink); background: #201916; }
 .lightbox-image-wrap { position: relative; min-height: 140px; display: grid; place-items: center; padding: 20px 72px; }
 .lightbox-image { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 235px); object-fit: contain; }
+.lightbox-status { position: absolute; inset: auto 72px; text-align: center; font: 12px/1.7 var(--mono); color: var(--ink); pointer-events: none; }
+.lightbox-status:empty { display: none; }
+.image-loading .lightbox-image { opacity: .18; }
 .lightbox-step { position: absolute; top: 50%; transform: translateY(-50%); }
 .lightbox-step[data-direction="previous"] { left: 16px; }
 .lightbox-step[data-direction="next"] { right: 16px; }

@@ -93,10 +93,15 @@ function setLanguage(language) {
     ? 'Saad Bayahia, Product Owner à Paris. Discovery produit, Shopify Plus, plateformes B2B et automatisation : des problèmes complexes aux résultats mesurables.'
     : 'Saad Bayahia, Product Owner in Paris. Product discovery, Shopify Plus, B2B platforms and automation — from complex problems to measurable outcomes.';
   for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) document.querySelector(selector).content = description;
+  const coverAlt = currentLanguage === 'fr' ? 'Saad Bayahia — Product Owner, E-Commerce & B2B. Portfolio à Paris.' : 'Saad Bayahia — Product Owner, E-Commerce & B2B. Portfolio in Paris.';
+  for (const selector of ['meta[property="og:image:alt"]', 'meta[name="twitter:image:alt"]']) document.querySelector(selector).content = coverAlt;
   document.querySelector('.desktop-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation principale' : 'Main navigation');
   document.querySelector('.mobile-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation mobile' : 'Mobile navigation');
   document.querySelector('.contact-arrow').setAttribute('aria-label', currentLanguage === 'fr' ? 'Envoyer un email à Saad Bayahia' : 'Email Saad Bayahia');
+  document.querySelector('.wordmark').setAttribute('aria-label', currentLanguage === 'fr' ? 'Saad Bayahia, accueil' : 'Saad Bayahia, home');
+  document.querySelector('.hero-profile').setAttribute('aria-label', currentLanguage === 'fr' ? 'À propos de Saad Bayahia' : 'About Saad Bayahia');
   updateMenuLabel();
+  updateFormFeedback();
   try { localStorage.setItem('portfolio-language', currentLanguage); } catch {}
 }
 document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.language)));
@@ -131,30 +136,50 @@ document.addEventListener('click', event => {
 window.matchMedia('(min-width:761px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
 
 const form = document.querySelector('.contact-form');
+const formButton = form.querySelector('button[type="submit"]');
+const formButtonLabel = formButton.querySelector('[data-i18n="formSubmit"]');
+const formStatus = form.querySelector('.form-status');
+let formState = 'idle';
+form.addEventListener('input', () => { if (formState !== 'sending') { formState = 'idle'; updateFormFeedback(); } });
+function updateFormFeedback() {
+  const fr = currentLanguage === 'fr';
+  const messages = fr ? {
+    sending: 'Envoi en cours…',
+    success: 'Message envoyé. Merci, je vous réponds rapidement.',
+    error: 'Envoi impossible. Réessayez ou contactez-moi directement par email.'
+  } : {
+    sending: 'Sending…',
+    success: "Message sent. Thank you — I'll get back to you shortly.",
+    error: 'Could not send. Please retry or email me directly.'
+  };
+  formButtonLabel.textContent = formState === 'sending' ? messages.sending : fr ? french.formSubmit : english.formSubmit;
+  formStatus.textContent = messages[formState] || '';
+}
 form.addEventListener('submit', async event => {
   event.preventDefault();
-  const button = form.querySelector('button[type="submit"]');
-  const buttonLabel = button.querySelector('[data-i18n="formSubmit"]');
-  const status = form.querySelector('.form-status');
-  if (button.disabled) return;
+  if (formState === 'sending' || !form.reportValidity()) return;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
-  button.disabled = true;
+  const data = new FormData(form);
+  const fields = [...form.querySelectorAll('input, textarea')];
+  fields.forEach(field => { field.readOnly = true; });
+  formState = 'sending';
+  formButton.disabled = true;
   form.setAttribute('aria-busy', 'true');
-  buttonLabel.textContent = currentLanguage === 'fr' ? 'Envoi en cours…' : 'Sending…';
-  status.textContent = '';
+  updateFormFeedback();
   try {
-    const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' }, signal: controller.signal });
+    const response = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' }, signal: controller.signal });
     if (!response.ok) throw new Error('Submission failed');
-    status.textContent = currentLanguage === 'fr' ? 'Message envoyé. Merci, je vous réponds rapidement.' : "Message sent. Thank you — I'll get back to you shortly.";
+    formState = 'success';
     form.reset();
   } catch {
-    status.textContent = currentLanguage === 'fr' ? 'Envoi impossible. Réessayez ou contactez-moi directement par email.' : 'Could not send. Please retry or email me directly.';
+    formState = 'error';
   } finally {
     clearTimeout(timeout);
-    button.disabled = false;
+    fields.forEach(field => { field.readOnly = false; });
+    formButton.disabled = false;
     form.setAttribute('aria-busy', 'false');
-    buttonLabel.textContent = currentLanguage === 'fr' ? french.formSubmit : english.formSubmit;
+    updateFormFeedback();
   }
 });
 

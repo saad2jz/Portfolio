@@ -6,6 +6,14 @@ import {brotliCompressSync,gzipSync,constants} from 'node:zlib';
 import {transform,build} from 'esbuild';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const config=JSON.parse(await fs.readFile(path.join(root,'site.config.json'),'utf8'));
+const configuredUrl=(process.env.SITE_URL ?? config.url ?? '').trim();
+let siteUrl=null;
+if(configuredUrl){
+  siteUrl=new URL(configuredUrl);
+  if(!['http:','https:'].includes(siteUrl.protocol)||siteUrl.username||siteUrl.password||siteUrl.search||siteUrl.hash)throw Error('SITE_URL must be an HTTP(S) domain/subfolder without credentials, query or fragment');
+  if(!siteUrl.pathname.endsWith('/'))siteUrl.pathname+='/';
+}
 const dist=path.resolve(root,'dist');
 if(path.dirname(dist)!==root||path.basename(dist)!=='dist')throw Error('Invalid build directory');
 await fs.rm(dist,{recursive:true,force:true});
@@ -26,7 +34,8 @@ for(const [entry,format] of [['hero-worker.js','iife'],['hero-renderer.js','esm'
   js=js.replaceAll(`'${entry}'`,`'${target}'`);
 }
 const map=new Map();
-const references=new Set((html+'\n'+css).match(/assets\/[a-zA-Z0-9_./-]+\.(?:svg|webp|avif|woff2)/g)||[]);
+const assetPattern=/assets\/[a-zA-Z0-9_./-]+\.(?:svg|webp|avif|woff2|jpg|png)/g;
+const references=new Set((html+'\n'+css).match(assetPattern)||[]);
 for(const name of [...references].sort()){
   const source=path.resolve(root,name);
   if(!source.startsWith(path.join(root,'assets')+path.sep))throw Error('Invalid asset');
@@ -35,8 +44,15 @@ for(const name of [...references].sort()){
   map.set(name,target);await fs.mkdir(path.dirname(path.join(dist,target)),{recursive:true});await fs.writeFile(path.join(dist,target),buffer);
 }
 // HTML paths remain relative to the page; stylesheet URLs are relative to assets/.
-html=html.replace(/assets\/[a-zA-Z0-9_./-]+\.(?:svg|webp|avif|woff2)/g,name=>map.get(name)||name);
-css=css.replace(/assets\/[a-zA-Z0-9_./-]+\.(?:svg|webp|avif|woff2)/g,name=>path.posix.relative('assets',map.get(name)||name));
+html=html.replace(assetPattern,name=>map.get(name)||name);
+css=css.replace(assetPattern,name=>path.posix.relative('assets',map.get(name)||name));
+const escape=value=>value.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+if(siteUrl){
+  const canonical=escape(siteUrl.href),cover=escape(new URL(map.get('assets/og-cover.jpg'),siteUrl).href);
+  html=html.replace('  <meta property="og:type"',`  <link rel="canonical" href="${canonical}">\n  <meta property="og:url" content="${canonical}">\n  <meta property="og:type"`);
+  html=html.replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]+("\s*>)/g,(match,start,end)=>start+cover+end);
+  html=html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/,(match,start,json,end)=>{const person=JSON.parse(json);person.url=siteUrl.href;person['@id']=new URL('#saad-bayahia',siteUrl).href;return start+JSON.stringify(person).replaceAll('<','\\u003c')+end;});
+}
 const cssResult=await transform(css,{loader:'css',minify:true,target:'es2020',charset:'utf8'});
 const jsResult=await transform(js,{loader:'js',minify:true,format:'iife',target:'es2020',charset:'utf8',legalComments:'none'});
 const cssFile=`assets/site.${fingerprint(cssResult.code)}.css`,jsFile=`assets/site.${fingerprint(jsResult.code)}.js`;
@@ -46,7 +62,8 @@ html=html.replace(/\s*<script src="(?:script|hero-scene|motion|reference-effects
 html=html.replace('  <script type="application/ld+json">',`  <link rel="stylesheet" href="${cssFile}">\n  <script src="${jsFile}" defer></script>\n  <script type="application/ld+json">`);
 await fs.copyFile(path.join(root,'assets/fonts/OFL.txt'),path.join(dist,'assets/fonts/OFL.txt'));
 for(const name of ['index.html','portfolio.html'])await fs.writeFile(path.join(dist,name),html);
-await fs.writeFile(path.join(dist,'robots.txt'),'User-agent: *\nAllow: /\n');
+await fs.writeFile(path.join(dist,'robots.txt'),'User-agent: *\nAllow: /\n'+(siteUrl?`Sitemap: ${new URL('sitemap.xml',siteUrl).href}\n`:''));
+if(siteUrl)await fs.writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escape(siteUrl.href)}</loc></url></urlset>\n`);
 await fs.writeFile(path.join(dist,'_headers'),'/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n');
 let compressedBytes=0;
 for(const name of ['index.html','portfolio.html',cssFile,jsFile,...rendererFiles,...map.values()]){
@@ -55,6 +72,6 @@ for(const name of ['index.html','portfolio.html',cssFile,jsFile,...rendererFiles
   const br=brotliCompressSync(buffer,{params:{[constants.BROTLI_PARAM_QUALITY]:11}}),gz=gzipSync(buffer,{level:9});
   await fs.writeFile(path.join(dist,name+'.br'),br);await fs.writeFile(path.join(dist,name+'.gz'),gz);compressedBytes+=br.length;
 }
-const manifest={assets:Object.fromEntries(map),css:cssFile,js:jsFile,cssBytes:Buffer.byteLength(cssResult.code),jsBytes:Buffer.byteLength(jsResult.code),brotliTextBytes:compressedBytes};
+const manifest={url:siteUrl?.href||null,assets:Object.fromEntries(map),css:cssFile,js:jsFile,cssBytes:Buffer.byteLength(cssResult.code),jsBytes:Buffer.byteLength(jsResult.code),brotliTextBytes:compressedBytes};
 await fs.writeFile(path.join(dist,'build-manifest.json'),JSON.stringify(manifest,null,2));
 console.log(`Built dist/: ${map.size} fingerprinted assets, CSS ${manifest.cssBytes} bytes, JS ${manifest.jsBytes} bytes.`);

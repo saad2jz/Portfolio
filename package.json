@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "preview": "node scripts/serve.mjs"
+    "preview": "node scripts/serve.mjs",
+    "test:build": "node scripts/check-build.mjs"
   },
   "engines": { "node": ">=20" },
   "devDependencies": { "esbuild": "0.28.2" }

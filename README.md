@@ -53,6 +53,8 @@ Open `http://127.0.0.1:4175/`. The build creates `dist/` with bundled/minified C
 - `MISSING-ASSETS.md` — prioritised list of evidence, files, links and publication details still needed.
 - `scripts/build.mjs`, `scripts/serve.mjs` — reproducible production build and local compression/cache preview.
 - `PERFORMANCE.md` — measured before/after performance and optimization decisions.
+- `site.config.json` — confirmed public address, `https://saadbayahia.com/`.
+- `assets/og-cover.jpg`, `social-cover.html` — branded 1200×630 social cover and editable source template; the template is not published in `dist/`.
 
 After editing `index.html`, mirror it to `portfolio.html`:
 
@@ -70,6 +72,8 @@ Selected project rows use real FFA product photography, seven supplied LeadHunt 
 
 Native anchors, case-study disclosures and the form's HTML action work without JavaScript. JavaScript adds saved language choice, mobile menu controls and a submit flow with a 15-second timeout, duplicate-submit prevention and an accessible status. The existing Formspree endpoint and real contact/CV links are retained.
 
+Sending temporarily makes the fields read-only so a successful response cannot erase edits made during the request. Errors and timeouts retain the draft and restore editing. Loading/success/error feedback follows the selected language, and editing the next message clears stale feedback. Galleries show translated loading/error status and retain their original-file link when an image fails; keyboard navigation can recover to another image.
+
 ## Design references
 
 - [Matveyan](https://matveyan.com/) — visual inspiration.
@@ -81,6 +85,8 @@ The five existing career entries are visible directly beside the portrait and bi
 
 ## Publishing
 
-Build and publish the contents of `dist/` together. Relative resource paths support subfolder hosting as well as domain-root hosting. Configure the host to serve Brotli/gzip responses and cache fingerprinted assets; `_headers` is supplied for hosts that support that convention. Other hosts need equivalent configuration, and may ignore the precompressed files. Confirm the public URL before adding canonical, Open Graph URL and structured-data URL fields. See `MISSING-ASSETS.md` for all remaining inputs.
+Build and publish the contents of `dist/` together. `site.config.json` contains the user-confirmed `https://saadbayahia.com/`; the build injects its canonical, Open Graph URL, absolute cover URLs, structured identity URL, `sitemap.xml` and robots sitemap declaration. `SITE_URL` can override the address for another domain/subfolder, or be empty for a purely local build. Addresses with credentials, query strings or fragments are rejected before the previous build is changed.
+
+Relative application assets support subfolder hosting as well as domain-root hosting. Configure the host to serve Brotli/gzip responses and cache fingerprinted assets; `_headers` is supplied for hosts that support that convention. Other hosts need equivalent configuration, and may ignore the precompressed files. `npm run test:build` checks root/subfolder metadata, empty/invalid configuration, asset existence and compression using only the included build dependencies. See `MISSING-ASSETS.md` for the remaining project evidence and deployment checks.
 
 This repo adaptation does not create or publish a Higgsfield-hosted site. There is no deployed production version in this change.

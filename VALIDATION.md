@@ -2,7 +2,7 @@
 
 Checked locally on 8 October 2026 in Chrome using Playwright after revising the page against the live reference.
 
-- 174 checks passed: 38 portfolio checks, 15 dedicated 3D interaction checks, nine project-media checks, 16 gallery/refinement checks, 25 supplied-LeadHunt checks, 22 supplied-SecoursNow checks, 30 shared-reference-effects checks and 19 production/performance checks; no JavaScript errors. The suites cover the worker renderer, responsive previews, offscreen layout and compiled production version.
+- The verification set now has 222 passing checks: 38 portfolio checks, 15 dedicated 3D interaction checks, nine project-media checks, 16 gallery/refinement checks, 25 supplied-LeadHunt checks, 22 supplied-SecoursNow checks, 30 shared-reference-effects checks, 19 production/performance checks, 22 sharing/form/gallery-feedback checks and 26 reproducible build checks; no JavaScript errors. The suites cover the worker renderer, responsive previews, offscreen layout, compiled production, confirmed domain and interrupted-network feedback.
 - 12 responsive layouts checked: 320, 390, 560, 768, 1024 and 1440 pixels, in English and French. No horizontal overflow.
 - Eight axe-core WCAG 2 A/AA and 2.1 AA audits passed without reported violations: four page audits on mobile and desktop, in both languages, with all case-study disclosures open; two gallery audits on desktop in English and mobile in French; a SecoursNow gallery audit on mobile in French; and a compiled-production page audit. Automated audits do not replace a full manual accessibility review.
 - Keyboard language switching, mobile menu closing with Escape and focus restoration, native deep links and project disclosures checked.
@@ -27,10 +27,16 @@ The five career entries are visible without opening a disclosure. Education rema
 
 ## Production optimization checks
 
-The esbuild production build completes successfully with 68 fingerprinted media/font assets, one minified stylesheet and one main script bundle, plus the worker and shared-renderer fallback. Source and production HTML entry points match their respective mirrors. Brotli, gzip, disabled-encoding handling, ETag revalidation, immutable fingerprint caching, WOFF2 MIME type and private-path rejection were verified against the local production server.
+The esbuild production build completes successfully with 69 fingerprinted media/font assets, one minified stylesheet and one main script bundle, plus the worker and shared-renderer fallback. Source and production HTML entry points match their respective mirrors. Brotli, gzip, disabled-encoding handling, ETag revalidation, immutable fingerprint caching, WOFF2 MIME type and private-path rejection were verified against the local production server.
 
 The hero paints before the worker reports scene readiness. Rendering runs in the worker on compatible browsers; its fallback starts when OffscreenCanvas is unavailable. A high-DPR phone is capped at 1.25x and no more than 30 frames per second. Pause stops rendering. Returning to the hero while paused restores its camera without advancing the animation clock. Hidden/offscreen handling, reduced motion and GPU-loss restoration are also covered by the interaction suites.
 
 Production selects local AVIF previews while the viewer opens the explicitly linked full original. All thirteen supplied LeadHunt/SecoursNow images still match the PNG source pixels. Both languages, native no-JavaScript links and the static hero remain available in the compiled version. Updated desktop/mobile production views were visually reviewed.
 
 Lighthouse 13.5 audits compare the previous source with the optimized production build under the same device profiles. See `PERFORMANCE.md` for scores, timings, transfer sizes and measurement limits. Final hosting compression/caching and real Formspree delivery must still be checked after deployment.
+
+## Confirmed-domain and feedback continuation
+
+Production canonical, Open Graph URL, absolute social-image URL, structured identity, sitemap and robots sitemap declaration use the user-confirmed `https://saadbayahia.com/`. The local server delivers the cover as JPEG at exactly 1200×630 pixels, and sitemap as XML. The editable cover template is excluded from production. The 26 portable `npm run test:build` checks verify both HTML aliases, root/subfolder deployments, an intentionally unconfigured preview, invalid-address rejection before destructive build work, every referenced asset and exact Brotli/gzip round trips; the configured domain build is restored afterward.
+
+The 22 continuation checks exercise form language changes during sending, read-only fields, duplicate-submit prevention, translated success/error status, clearing stale status, native email validation and timeout recovery with the draft retained. All requests are intercepted; no real message is sent. Slow/failed gallery loads expose translated feedback while preserving the full-original recovery link; navigation recovers to the next image and Escape restores focus. The existing portfolio, production and three gallery suites were rerun after these changes, including the twelve responsive layouts and eight accessibility audits.
