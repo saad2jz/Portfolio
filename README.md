@@ -16,8 +16,11 @@ Open `http://localhost:8000/`.
 
 - `index.html` — new landing page.
 - `portfolio.html` — identical entry point preserving the original filename.
-- `styles.css` — responsive bento layout, terracotta surfaces and typography.
+- `styles.css` — black viewport frame, full-screen hero, alternating project rows and responsive typography.
 - `script.js` — safe text-only EN/FR translations, mobile navigation and contact form.
+- `hero-scene.js` — original animated WebGL sculpture with reduced-motion and visibility handling.
+- `assets/product-orbit.svg` — original static sculpture fallback.
+- `assets/saad-portrait.webp` — local copy of the existing portrait.
 - `assets/favicon.svg` — local favicon.
 - `assets/leadhunt-login.webp` — actual public LeadHunt sign-in screen, captured 7 October 2026.
 - `avatar.jpg` — original repository illustration, retained; it is not the portrait used in the landing page.
@@ -46,7 +49,7 @@ Native anchors, case-study disclosures and the form's HTML action work without J
 - [Matveyan](https://matveyan.com/) — visual inspiration.
 - [Inspo design reference](https://inspomcp.dev/d/matveyan-com/DESIGN.md) — saved in `DESIGN.md`, accessed 7 October 2026.
 
-The supplied palette is preserved. Large type, weight and spacing carry the hierarchy; the dark accent is used sparingly. Inter is loaded from Google Fonts with system fallbacks. Square corners and an asymmetric two-column bento grid replace the previous dark-and-gold layout.
+The 8 October revision follows the live reference: black surfaces, a full-screen cinematic hero, a fine viewport frame, crosshair details, small uppercase headings and alternating project rows. Copper tones colour an original procedural sculpture. Inter is loaded from Google Fonts with system fallbacks. The visible portrait is served locally. See `DESIGN-DECISIONS.md` for the latest direction and inspection limits.
 
 ## Publishing
 

@@ -26,7 +26,7 @@ The landing page is implemented and usable. The remaining work is mainly real pr
 
 ## Priority 3 — polish
 
-- **Portrait source:** the existing Cloudinary portrait is reused. A local high-resolution original (`assets/saad-portrait.webp`, at least 800 × 1000) would remove the external image dependency. A new photo is optional.
+- **Portrait source — supplied:** the existing portrait is now local in `assets/saad-portrait.webp` (800 × 1000). A new photo is optional. Sharing metadata retains the original remote portrait until a public URL is confirmed.
 - **Social preview:** a branded 1200 × 630 cover, for example `assets/og-cover.webp`. The current sharing image retains the original portrait URL.
 - **Testimonials:** one or two attributable quotes with permission, name, role and exact wording. None are invented in this adaptation.
 - **Brand assets:** official product logos only if you want them; the page uses text wordmarks and code-native diagrams. No third-party logo files are required for the current version.

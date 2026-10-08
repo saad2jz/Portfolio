@@ -1,18 +1,15 @@
 # Adaptation decisions
 
-Read alongside [DESIGN.md](DESIGN.md), the complete supplied Inspo reference. The reference is inspiration; the content and composition remain Saad Bayahia's.
+The revision follows the user's 8 October 2026 request to make the portfolio look like the live [Matveyan site](https://matveyan.com/). This supersedes the earlier interpretation of the extracted palette as the page background. `DESIGN.md` retains the original Inspo extraction as reference material.
 
-- **Dominant surface:** `#b85546` across the page. The supplied palette takes precedence over the live reference's black page background.
-- **Accent:** `#4e241e`, used for the primary action and the FFA workflow visual. Avoid using colour to encode hierarchy.
-- **Supporting surfaces:** `#d4a8a4` and `#be8686` on two project illustrations, with dark text. `#a06260` is available for supporting graphic strokes.
-- **Text:** warm white `#fffaf6` on terracotta and dark surfaces; `#361713` on pale surfaces. These additional text tokens allow readable contrast without changing the supplied palette of surfaces.
-- **Typeface:** Inter, weights 300/400/500/600. “Inter 18pt” is the reference's font family/optical naming, not an instruction to make every element 18pt. Body copy is 16px; headings scale responsively.
-- **Hierarchy:** thin large headlines, medium-weight product labels and compact monospaced metadata. Cartograph Mono CF was not supplied; system monospace is the fallback, avoiding a dependency on a paid font file.
-- **Geometry:** square corners, 20px grid gaps and generous 80–150px section spacing. No rounded pills, glossy gradients, decorative shadows or loading screen.
-- **Macrostructure:** an editorial hero and bento project grid, followed by method, background and contact. The FFA project spans both columns; secondary projects sit side by side; DTC spans the row.
-- **Width:** 1120px for the bento composition, narrower measures for reading. This adapts the reference's reported 825px container to the project's two-column content; prose never stretches across the grid.
-- **Media:** the existing Saad portrait is reused. Code-native diagrams explain the projects and are explicitly labelled as illustrations. They are not presented as screenshots of shipped interfaces.
-- **Motion:** short hover transitions only; honour reduced-motion preferences. Native anchors and disclosures keep the page functional without JavaScript.
-- **Content:** preserve the Product Owner positioning, claims and real contact links from the original portfolio. Do not copy Matveyan's identity, fintech claims, client logos or personal assets.
+- **Composition:** full-screen cinematic hero, fixed compact navigation, a thin viewport frame, corner crosshairs, outlined buttons and a small portrait near the bottom edge.
+- **Surfaces:** near-black `#080808`, white type and muted neutral labels. The supplied terracotta/copper colours now belong to the original hero sculpture, rather than every page surface.
+- **Typography:** Inter, 26px hero heading, 30px section headings, 24px project headings and 14px body copy. Light weights, uppercase headings and controlled tracking follow the observed live type scale. Important phrases use weight 600. System monospace replaces the unavailable licensed Cartograph font.
+- **Layout:** centered introduction with an 825px reading width. Selected work alternates image-left and image-right across a 1000px container, with 150px between rows. Extra projects remain in a compact two-column grid. On mobile the rows stack with the visual first.
+- **Hero media:** original procedural WebGL sculpture and an original code-generated SVG fallback. No Matveyan sculpture, video, source code, font files or personal assets are copied into the portfolio.
+- **Motion:** slow sculpture movement, capped at 20 rendered frames per second and 900px maximum canvas dimension. Rendering stops when the hero leaves the viewport or the tab is hidden. Reduced motion produces a still image. No forced loader or scroll interception.
+- **Edge details:** the bottom ticker shows existing portfolio outcomes instead of invented market prices. Cursor coordinates are decorative and hidden from assistive technology. A local copy of the existing Saad portrait removes the visible portrait's Cloudinary dependency; sharing metadata still uses the existing remote image until the public domain is confirmed.
+- **Content:** Saad's Product Owner identity, real contacts, current GitHub project descriptions, prototype labels and upstream attribution are preserved. Project visuals remain explicitly labelled illustrations.
+- **Progressive enhancement:** native anchors, case-study disclosures and the form's HTML action continue to work without JavaScript. Failure or loss of WebGL leaves the static sculpture visible.
 
-Reference verified on 7 October 2026. The original repository was cloned from `main`, commit `5a69054`; this adaptation is independent of the earlier optimisation branch.
+Live layout and typography were inspected in Chrome at 1440px and 390px. The reference site's background video and scene assets did not finish loading in the inspection browser; its frame, typography, spacing and project layout were directly observed. The original hero artwork here is an adaptation, not a claim of an exact asset match.
