@@ -18,8 +18,9 @@ Open `http://localhost:8000/`.
 - `portfolio.html` — identical entry point preserving the original filename.
 - `styles.css` — black viewport frame, full-screen hero, alternating project rows and responsive typography.
 - `script.js` — safe text-only EN/FR translations, mobile navigation and contact form.
-- `hero-scene.js` — original animated WebGL sculpture with reduced-motion and visibility handling.
-- `assets/product-orbit.svg` — original static sculpture fallback.
+- `hero-scene.js` — nine original animated WebGL meshes, perspective lighting, hover rotation, scroll dispersion and a persistent pause control.
+- `motion.js` — project depth/tilt and scroll reveal choreography.
+- `assets/product-orbit.svg` and `assets/product-orbit-mobile.svg` — original static desktop/mobile scene fallbacks.
 - `assets/saad-portrait.webp` — local copy of the existing portrait.
 - `assets/favicon.svg` — local favicon.
 - `assets/leadhunt-login.webp` — actual public LeadHunt sign-in screen, captured 7 October 2026.
@@ -49,7 +50,7 @@ Native anchors, case-study disclosures and the form's HTML action work without J
 - [Matveyan](https://matveyan.com/) — visual inspiration.
 - [Inspo design reference](https://inspomcp.dev/d/matveyan-com/DESIGN.md) — saved in `DESIGN.md`, accessed 7 October 2026.
 
-The 8 October revision follows the live reference: black surfaces, a full-screen cinematic hero, a fine viewport frame, crosshair details, small uppercase headings and alternating project rows. Copper tones colour an original procedural sculpture. Inter is loaded from Google Fonts with system fallbacks. The visible portrait is served locally. See `DESIGN-DECISIONS.md` for the latest direction and inspection limits.
+The 8 October revision follows the live reference: black surfaces, a full-screen cinematic hero, a fine viewport frame, crosshair details, small uppercase headings and alternating project rows. Copper tones colour nine original 3D objects with independent hover rotation, cursor parallax and scroll-driven dispersion. The pause control and reduced-motion support keep the page usable. Inter is loaded from Google Fonts with system fallbacks. The visible portrait is served locally. See `DESIGN-DECISIONS.md` for the latest direction and inspection limits.
 
 ## Publishing
 

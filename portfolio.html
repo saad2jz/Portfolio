@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
   <script src="hero-scene.js" defer></script>
+  <script src="motion.js" defer></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Saad Bayahia","jobTitle":"Product Owner — E-Commerce & B2B Platforms","email":"saad.bayahia@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Paris","addressCountry":"FR"},"sameAs":["https://www.linkedin.com/in/saad-bayahia-2b025916a/","https://github.com/saad2jz"]}</script>
 </head>
 <body>
@@ -42,6 +43,7 @@
         <span aria-hidden="true">/</span>
         <button type="button" data-language="fr" aria-pressed="false">FR</button>
       </div>
+      <button class="motion-toggle" type="button" aria-label="Pause 3D animation" aria-pressed="false" hidden><svg class="pause-symbol" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4v12M14 4v12" stroke="currentColor" stroke-width="2"/></svg><svg class="play-symbol" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 3 10 7-10 7V3Z" fill="currentColor"/></svg></button>
       <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
     </div>
   </header>
@@ -50,8 +52,9 @@
   </nav>
 
   <main id="main" tabindex="-1">
-<section class="hero" id="home" aria-labelledby="hero-title">
-      <div class="hero-art" aria-hidden="true"><img class="hero-art-fallback" src="assets/product-orbit.svg" alt="" width="1000" height="1000" fetchpriority="high"><canvas id="hero-canvas"></canvas></div>
+<div class="hero-stage">
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="hero-art" aria-hidden="true"><picture><source media="(max-width:759px)" srcset="assets/product-orbit-mobile.svg"><img class="hero-art-fallback" src="assets/product-orbit.svg" alt="" width="1440" height="1000" fetchpriority="high"></picture><canvas id="hero-canvas"></canvas></div>
       <div class="hero-grain" aria-hidden="true"></div>
       <div class="hero-reticle" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       <div class="hero-copy">
@@ -63,6 +66,7 @@
       <aside class="hero-profile" aria-label="About Saad Bayahia"><img src="assets/saad-portrait.webp" alt="Saad Bayahia" width="40" height="40" decoding="async"><div><span>Saad Bayahia · Product Owner</span><span data-i18n="availability">Open to Product Owner roles</span></div></aside>
       <div class="hero-bottom"><div class="hero-ticker"><div><span>SHOPIFY</span><strong>20+ <small data-i18n="tickerStores">stores built</small></strong></div><div><span>FFA / B2B</span><strong>−40% <small data-i18n="tickerAdmin">admin overhead</small></strong></div><div><span>OPERATIONS</span><strong>367 <small data-i18n="tickerSkus">SKUs synced</small></strong></div></div><a href="#specialty" class="scroll-link"><span aria-hidden="true">↓</span><span data-i18n="scroll">SCROLL DOWN</span></a><div class="hero-telemetry" aria-hidden="true"><div>CURSOR X: <span id="cursor-x">0</span><br>CURSOR Y: <span id="cursor-y">0</span></div><div>SCROLL: <span id="scroll-position">0</span><br><span data-i18n="location">PARIS, FRANCE</span></div></div></div>
     </section>
+    </div>
     <section class="specialty shell section-space" id="specialty" aria-labelledby="specialty-title"><p class="specialty-tags">E-COMMERCE <span>/</span> B2B <span>/</span> AUTOMATION <span>/</span> PRODUCT</p><h2 id="specialty-title" data-i18n="specialtyTitle">I connect product strategy, engineering and operations to build systems that work for people.</h2><p data-i18n="specialtyIntro">An engineer's mindset. A Product Owner's perspective. Based in Paris and open to product roles in e-commerce, B2B platforms and automation.</p><div class="hero-actions"><a class="button button-dark" href="#work"><span data-i18n="viewWork">Explore selected work</span><span aria-hidden="true">↘</span></a><a class="button" href="https://drive.google.com/file/d/1WMH3Nd09mWtY6JNadYxCYfBGAn_v1Y4y/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><span data-i18n="resume">View my CV</span><span aria-hidden="true">↗</span></a></div></section>
 
     <section class="work shell section-space" id="work" aria-labelledby="work-title">
