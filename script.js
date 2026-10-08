@@ -35,7 +35,7 @@ const french = {
   carProblem: "Acheteur, garagiste et propriétaire attendent des informations différentes sur le même véhicule. Une checklist générique ne couvre pas ces décisions.",
   carDelivery: "Fiches adaptées au persona, diagnostic guidé, photos et signatures, comparaison, budgets et rapports PDF. Un assistant atelier côté serveur accompagne le parcours de diagnostic.",
   dtcTitle: 'Commerce indépendant', dtcIntro: "Création et développement de boutiques Shopify avec responsabilité P&L complète, acquisition multicanale et équipe à distance aux Philippines.",
-  toolsLabel: 'LES OUTILS QUI CONNECTENT',
+  cursorViewImage: 'VOIR L’IMAGE', toolsLabel: 'MES OUTILS CONNECTÉS',
   labEyebrow: 'PLUS / EXPLORATIONS PRODUIT', labTitle: 'Projets personnels & explorations', productNotes: 'Notes sur le produit',
   secoursCaption: 'Écran d’accueil · capture du prototype fournie par Saad.',
   secoursGalleryNote: '6 vues du prototype · sélectionnez une image pour explorer',

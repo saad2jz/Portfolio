@@ -18,6 +18,10 @@ Open `http://localhost:8000/`.
 - `portfolio.html` — identical entry point preserving the original filename.
 - `styles.css` — black viewport frame, full-screen hero, alternating project rows and responsive typography.
 - `refinements.css` — editorial type hierarchy, lighter project framing, personal-project bento, portrait, contact treatment and image-gallery styles.
+- `reference-effects.css` — uniform reference typography/surfaces, eight-brand logo band, grain, crosshair controls, hover zoom/glitch and cursor styles.
+- `reference-effects.js` — word-by-word title reveals, image effects and the shared motion pause, including a non-WebGL fallback.
+- `assets/toolkit/` — eight official tool logos, served locally and displayed in monochrome.
+- `assets/page-grain.svg` — original lightweight grain texture.
 - `script.js` — safe text-only EN/FR translations, mobile navigation and contact form.
 - `hero-scene.js` — nine original animated WebGL meshes, perspective lighting, hover rotation, scroll dispersion and a persistent pause control.
 - `motion.js` — project depth/tilt and scroll reveal choreography.
@@ -58,7 +62,7 @@ Native anchors, case-study disclosures and the form's HTML action work without J
 - [Matveyan](https://matveyan.com/) — visual inspiration.
 - [Inspo design reference](https://inspomcp.dev/d/matveyan-com/DESIGN.md) — saved in `DESIGN.md`, accessed 7 October 2026.
 
-The 8 October revision follows the live reference: black surfaces, a full-screen cinematic hero, a fine viewport frame, crosshair details, small uppercase headings and alternating project rows. Copper tones colour nine original 3D objects with independent hover rotation, cursor parallax and scroll-driven dispersion. The pause control and reduced-motion support keep the page usable. Inter is loaded from Google Fonts with system fallbacks. The visible portrait is served locally. See `DESIGN-DECISIONS.md` for the latest direction and inspection limits.
+The 8 October revision follows the live reference: black surfaces, a full-screen cinematic hero, a fine viewport frame, crosshair details, small uppercase headings and alternating project rows. Copper tones colour nine original 3D objects with independent hover rotation, cursor parallax and scroll-driven dispersion. The shared pause control and reduced-motion support cover grain, glitches, title reveals and 3D motion. Reference-style outward-moving crosshairs, image zoom/desaturation and cursor labels use the portfolio’s own media. An official eight-logo toolkit band replaces the text-only strip. All sections share the same neutral surfaces and type scale. Inter is loaded from Google Fonts with system fallbacks. The visible portrait is served locally. See `DESIGN-DECISIONS.md` for the latest direction and inspection limits.
 
 ## Publishing
 

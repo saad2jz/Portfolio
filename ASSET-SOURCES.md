@@ -1,6 +1,6 @@
 # Project media sources
 
-Retrieved/captured on 8 October 2026. These files identify Saad's own projects and the FFA case study. Logos retain their source colours. No reference-site logos or 3D models were copied.
+Retrieved/captured on 8 October 2026. These files identify Saad's own projects and the FFA case study. Project logos retain their source colours. The requested toolkit band displays vendor logos in monochrome through CSS, while preserving their original shapes. No reference-site logos or 3D models were copied.
 
 | Local asset | Origin | What the image shows |
 |---|---|---|
@@ -35,3 +35,20 @@ Images open at full size through standard local links. Captures preserve the act
 LeadHunt's six `*-thumb.webp` files are 360px-wide preview derivatives. They preserve aspect ratios and use WebP quality 88 to reduce page loading cost. Each thumbnail links to the corresponding full-resolution lossless file; the viewer explicitly loads that original. The seven full-resolution captures were compared pixel by pixel against the supplied PNGs and match exactly.
 
 Six SecoursNow mobile captures were supplied on 8 October 2026; their capture dates are unknown. Full-resolution WebP files retain every source pixel and the original dimensions. Five 220px-wide quality-88 thumbnails are preview derivatives; each opens the corresponding full original. The visible demonstration notices, prototype status and emergency-service information remain part of the actual screenshots. These captures document the prototype interface, not medical validation, deployment or emergency-service integration. No screenshot content was retouched.
+
+## Connected toolkit — official brand assets
+
+Retrieved on 8 October 2026 for the user-requested logo band. Erplain appears once. This is labelled as Saad’s toolkit, rather than a customer or endorsement list. Each logo links to its official vendor site; GitHub links to Saad’s profile.
+
+| Local asset | Official origin | Treatment |
+|---|---|---|
+| `assets/toolkit/shopify.svg` | [Shopify brand assets](https://www.shopify.com/brand-assets), `shopify-logo-monotone-white-7edf88561b256e005e9b9d003c283c39dcbd74ec844dfc9a3912edeec39b4d7e.svg` from its CDN | Official monotone white logo, unchanged. |
+| `assets/toolkit/n8n.svg` | [n8n](https://n8n.io/), inline navigation wordmark | Original path geometry; site-only attributes removed and an explicit white fill supplies the navigation’s CSS colour in a standalone SVG. |
+| `assets/toolkit/mirakl.svg` | [Mirakl logo](https://www.mirakl.com/media/logos/mirakl/mirakl-logo.svg) | Original SVG, unchanged. |
+| `assets/toolkit/hubspot.svg` | [HubSpot](https://www.hubspot.com/), inline data-URI navigation logo | Original SVG decoded without changing its geometry. |
+| `assets/toolkit/erplain.webp` | [Erplain](https://www.erplain.com/en), `6273963f5466bb22c8036e9a_Erplain%20Logo%20Small.png` on its Webflow CDN | Transparent padding trimmed, resized to 420px wide and losslessly encoded as WebP. |
+| `assets/toolkit/github.svg` | [GitHub brand toolkit](https://brand.github.com/foundations/logo), `GitHub_Logos.zip` → `GitHub Logos/SVG/GitHub_Lockup_White.svg` | Official white lockup, unchanged. |
+| `assets/toolkit/colissimo.svg` | [Colissimo navigation logo](https://www.colissimo.entreprise.laposte.fr/themes/custom/pc_theme/colissimo.svg) | Original SVG, unchanged. |
+| `assets/toolkit/pennylane.webp` | [Pennylane white logo](https://www.pennylane.com/_nuxt/logo-white.BdAS5uKh.png) | Transparent padding trimmed, resized to 420px wide and losslessly encoded as WebP. |
+
+The band uses `brightness(0) invert(1)` only for its on-page monochrome presentation. Original shape and aspect ratio are retained; the screenshots elsewhere retain their source pixels. Screenshot hover uses a temporary zoom, desaturation and decorative clipped strips; the image viewer loads the original without those effects. The shared grain in `assets/page-grain.svg` is an original SVG noise filter, not a downloaded Matveyan texture.

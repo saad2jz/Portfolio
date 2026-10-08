@@ -1,0 +1,124 @@
+'use strict';
+
+// Reference behaviours, rebuilt around the portfolio's native links and disclosures.
+(() => {
+  const root = document.documentElement;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  const control = document.querySelector('.motion-toggle');
+  const cursor = document.querySelector('.image-cursor');
+  const active = new Set();
+  const prepared = new WeakMap();
+  const revealed = new WeakSet();
+  const headings = [...document.querySelectorAll('.specialty h2,.section-heading h2,.project h3,.lab-heading h3,.lab-card h4,.approach h3,.about h2,.contact h2')];
+  const stopped = () => reduced.matches || root.classList.contains('motion-paused');
+
+  function corners(element) {
+    element.classList.add('reference-framed');
+    const frame = document.createElement('span');
+    frame.className = 'reference-corners';
+    frame.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 4; i++) frame.append(document.createElement('i'));
+    element.append(frame);
+  }
+  document.querySelectorAll('.button,.case-study > summary,.lab-card details > summary,.background-details > summary,.contact-form-details > summary').forEach(corners);
+  document.querySelectorAll('.media-link').forEach(link => {
+    const image = link.querySelector('img');
+    if (!image) return;
+    const media = image.closest('picture') || image;
+    const surface = document.createElement('span');
+    surface.className = 'media-surface';
+    media.before(surface);
+    surface.append(media);
+    for (let i = 0; i < 2; i++) {
+      const strip = document.createElement('span');
+      strip.className = 'media-glitch';
+      strip.setAttribute('aria-hidden', 'true');
+      surface.append(strip);
+    }
+    corners(link);
+    link.addEventListener('pointerenter', () => {
+      if (!fine.matches || stopped()) return;
+      // The browser-selected source also handles responsive access screenshots.
+      surface.style.setProperty('--glitch-image', `url("${image.currentSrc || image.src}")`);
+      cursor.classList.add('is-visible');
+    });
+    link.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
+  });
+  let pending = false, pointer = {x: -200, y: -200};
+  addEventListener('pointermove', event => {
+    if (!fine.matches || stopped() || !cursor.classList.contains('is-visible')) return;
+    pointer = {x: Math.min(innerWidth - 144, event.clientX + 18), y: Math.min(innerHeight - 36, event.clientY + 18)};
+    if (!pending) {
+      pending = true;
+      requestAnimationFrame(() => { pending = false; cursor.style.transform = `translate3d(${pointer.x}px,${pointer.y}px,0)`; });
+    }
+  }, {passive: true});
+  addEventListener('scroll', () => cursor.classList.remove('is-visible'), {passive: true});
+  addEventListener('blur', () => cursor.classList.remove('is-visible'));
+
+  function prepare(heading) {
+    if (prepared.get(heading) === heading.textContent && heading.querySelector('.motion-word')) return;
+    prepared.set(heading, heading.textContent);
+    revealed.delete(heading);
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const fragment = document.createDocumentFragment();
+      for (const part of node.textContent.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) fragment.append(document.createTextNode(part));
+        else { const word = document.createElement('span'); word.className = 'motion-word'; word.textContent = part; fragment.append(word); }
+      }
+      node.replaceWith(fragment);
+    }
+  }
+  function reveal(heading) {
+    if (stopped() || revealed.has(heading)) return;
+    prepare(heading);
+    revealed.add(heading);
+    heading.querySelectorAll('.motion-word').forEach((word, index) => {
+      const animation = word.animate([{opacity: .2, transform: 'translateY(18px)', filter: 'blur(7px)'}, {opacity: 1, transform: 'translateY(0)', filter: 'blur(0)'}], {duration: 720, delay: Math.min(index * 35, 420), easing: 'cubic-bezier(.16,1,.3,1)'});
+      active.add(animation);
+      animation.finished.then(() => active.delete(animation)).catch(() => active.delete(animation));
+    });
+  }
+  const observer = new IntersectionObserver(entries => { for (const entry of entries) if (entry.isIntersecting) reveal(entry.target); }, {threshold: .2});
+  headings.forEach(heading => observer.observe(heading));
+
+  function syncPause() {
+    root.classList.toggle('motion-paused', reduced.matches || control.getAttribute('aria-pressed') === 'true');
+    if (stopped()) { for (const animation of active) animation.cancel(); active.clear(); cursor.classList.remove('is-visible'); }
+  }
+  // Keep the same pause preference available when WebGL cannot initialise.
+  if (control.hidden) {
+    control.hidden = false;
+    let paused = false;
+    try { paused = localStorage.getItem('portfolio-motion-paused') === 'true'; } catch {}
+    const label = () => {
+      const fr = root.lang === 'fr';
+      control.setAttribute('aria-pressed', String(paused || reduced.matches));
+      control.classList.toggle('is-paused', paused || reduced.matches);
+      control.disabled = reduced.matches;
+      control.setAttribute('aria-label', reduced.matches ? (fr ? 'Animation désactivée : mouvement réduit' : 'Animation disabled: reduced motion') : paused ? (fr ? 'Reprendre les animations' : 'Resume animations') : (fr ? 'Mettre les animations en pause' : 'Pause animations'));
+    };
+    control.addEventListener('click', () => { paused = !paused; try { localStorage.setItem('portfolio-motion-paused', String(paused)); } catch {} label(); });
+    new MutationObserver(label).observe(root, {attributes: true, attributeFilter: ['lang']});
+    reduced.addEventListener('change', label);
+    label();
+  }
+  new MutationObserver(syncPause).observe(control, {attributes: true, attributeFilter: ['aria-pressed']});
+  reduced.addEventListener('change', syncPause);
+  new MutationObserver(() => {
+    for (const animation of active) animation.cancel();
+    active.clear();
+    for (const heading of headings) {
+      revealed.delete(heading);
+      const r = heading.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) reveal(heading);
+    }
+  }).observe(root, {attributes: true, attributeFilter: ['lang']});
+  root.classList.add('effects-ready');
+  syncPause();
+})();

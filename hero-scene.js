@@ -137,9 +137,9 @@
     updateProgress();scroll=targetScroll;paint();
   }
   function label(){
-    const fr=document.documentElement.lang==='fr';control.hidden=sceneLost;control.disabled=reduced.matches;
+    const fr=document.documentElement.lang==='fr';control.hidden=false;control.disabled=reduced.matches;
     const stopped=paused||reduced.matches;control.setAttribute('aria-pressed',String(stopped));
-    control.setAttribute('aria-label',reduced.matches?(fr?'Animation désactivée : mouvement réduit':'Animation disabled: reduced motion'):(stopped?(fr?'Reprendre les animations 3D':'Resume 3D animation'):(fr?'Mettre les animations 3D en pause':'Pause 3D animation')));
+    control.setAttribute('aria-label',reduced.matches?(fr?'Animation désactivée : mouvement réduit':'Animation disabled: reduced motion'):(stopped?(fr?'Reprendre les animations':'Resume animations'):(fr?'Mettre les animations en pause':'Pause animations')));
     control.title=control.getAttribute('aria-label');control.classList.toggle('is-paused',stopped);
   }
   control.addEventListener('click',()=>{paused=!paused;try{localStorage.setItem('portfolio-motion-paused',String(paused));}catch{}label();schedule();});

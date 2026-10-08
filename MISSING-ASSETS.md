@@ -29,7 +29,7 @@ The landing page is implemented and usable. The remaining work is mainly real pr
 - **Portrait source — supplied:** the existing portrait is now local in `assets/saad-portrait.webp` (800 × 1000). A new photo is optional. Sharing metadata retains the original remote portrait until a public URL is confirmed.
 - **Social preview:** a branded 1200 × 630 cover, for example `assets/og-cover.webp`. The current sharing image retains the original portrait URL.
 - **Testimonials:** one or two attributable quotes with permission, name, role and exact wording. None are invented in this adaptation.
-- **Brand assets — partly supplied:** FFA, Cardiag, SecoursNow, Rencontre and Career Ops logos are integrated from official site/repository assets. An approved distinctive LeadHunt logo and any DTC brands you want to name remain optional additions.
+- **Brand assets — partly supplied:** FFA, Cardiag, SecoursNow, Rencontre and Career Ops logos are integrated from official site/repository assets. The eight requested toolkit logos (Shopify, n8n, Mirakl, HubSpot, Erplain, GitHub, Colissimo and Pennylane) are also integrated from official sources. An approved distinctive LeadHunt logo and any DTC brands you want to name remain optional additions.
 - **Cartograph Mono CF:** licensed `.woff2` font files only if you want the exact reference button face. Inter and a system monospace fallback already work; this is optional.
 - **Local Inter:** licensed/subset `.woff2` files if you want to remove Google Fonts. The current page has a standard font fallback.
 - **App store links:** only for products already distributed publicly; otherwise keep prototype/demo wording.

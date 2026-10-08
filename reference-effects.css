@@ -1,0 +1,71 @@
+/* Shared visual language adapted from the live Matveyan reference. */
+:root { --reading-size: 14px; --reading-leading: 1.8; --reference-title: 30px; --reference-project-title: 24px; --surface-soft: #111; }
+.global-grain { position: fixed; z-index: 29; inset: 0; pointer-events: none; background: url('assets/page-grain.svg') repeat; opacity: .045; }
+.effects-ready .global-grain { animation: reference-grain .24s steps(1,end) infinite; }
+@keyframes reference-grain { 0%,100% { background-position: 0 0; } 25% { background-position: -3px 2px; } 50% { background-position: 2px -3px; } 75% { background-position: -2px -2px; } }
+.section-heading h2, .specialty h2, .about h2, .contact h2 { font-size: var(--reference-title); font-weight: 300; line-height: 1.4; letter-spacing: .035em; }
+.project h3, .lab-card h4, .lab-card-secours .brand-heading, .lab-heading h3 { font-size: var(--reference-project-title); font-weight: 300; line-height: 1.4; letter-spacing: .035em; }
+.project-body > p:not(.micro), .section-lead, .specialty > p:not(.specialty-tags), .lab-card > p, .lab-copy > p, .about-copy > p + p, .approach-grid p { font-size: var(--reading-size); line-height: var(--reading-leading); }
+.lab-card-secours .lab-copy > p, .lab-card-career .lab-copy > p { font-size: var(--reading-size); }
+.contact { padding: 40px 0 48px; border: 0; border-top: 1px solid var(--faint-line); background: transparent; }
+.secours-stage, .ffa-workflow { background: #0d0d0d; border-color: var(--faint-line); }
+.lab-card-secours .secours-demo-status { color: var(--muted); font: 11px/1.6 var(--mono); }
+.secours-primary { box-shadow: none; border-color: var(--line); }
+.approach-grid h3, .background-content h3 { font-size: 16px; font-weight: 400; letter-spacing: .025em; }
+.lab-card details > summary, .background-details > summary, .contact-form-details > summary { width: fit-content; min-height: 52px; padding: 16px 20px; gap: 24px; border: 1px solid var(--faint-line); font: 11px/1.4 var(--mono); text-transform: uppercase; }
+.background-details, .contact-form-details { border-top: 0; }
+.case-study > summary, .button { border-color: var(--faint-line); font-size: 11px; padding: 16px 20px; }
+.button:hover, .case-study > summary:hover, .lab-card details > summary:hover, .background-details > summary:hover, .contact-form-details > summary:hover { border-color: var(--ink); background: transparent; }
+.contact-form input, .contact-form textarea { background: #0d0d0d; }
+.contact-arrow { width: 54px; height: 54px; min-width: 54px; }
+
+/* Official tool identities, in the reference's spacious monochrome logo row. */
+.toolkit { position: relative; left: 50%; transform: translateX(-50%); width: min(1320px,calc(100vw - 80px)); margin: -24px 0 112px; padding: 24px 0 30px; border-top: 1px solid var(--faint-line); border-bottom: 1px solid var(--faint-line); }
+.toolkit > p { text-align: center; margin-bottom: 22px; }
+.toolkit-logos { display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); gap: 20px; list-style: none; padding: 0; }
+.toolkit-logos li { min-width: 0; }
+.toolkit-logos a { display: grid; place-items: center; min-height: 64px; padding: 14px 12px; transition: outline-color .2s; outline: 1px solid transparent; }
+.toolkit-logos a:hover { outline-color: var(--line); }
+.toolkit-logos img { width: auto; max-width: 100%; height: auto; max-height: 32px; filter: brightness(0) invert(1); }
+.toolkit-logos img[alt='n8n'] { width: 108px; max-height: 30px; }
+.toolkit-logos img[alt='HubSpot'] { width: 132px; }
+.toolkit-logos img[alt='GitHub'] { width: 128px; }
+.toolkit-logos img[alt='Pennylane'] { width: 140px; }
+.toolkit::before, .toolkit::after { content: '+'; position: absolute; font: 10px/1 var(--mono); color: #a6a19e; left: -3px; }
+.toolkit::before { top: -5px; } .toolkit::after { bottom: -5px; }
+
+/* Fine crosshairs move away from framed controls and images on hover. */
+.reference-framed { position: relative; }
+.reference-corners { pointer-events: none; position: absolute; inset: 0; z-index: 3; }
+.reference-corners i { position: absolute; width: 5px; height: 5px; color: #c9c4c1; background: linear-gradient(currentColor,currentColor) center/1px 5px no-repeat,linear-gradient(currentColor,currentColor) center/5px 1px no-repeat; transition: transform .25s ease; }
+.reference-corners i:nth-child(1) { top: -3px; left: -3px; }
+.reference-corners i:nth-child(2) { top: -3px; right: -3px; }
+.reference-corners i:nth-child(3) { bottom: -3px; left: -3px; }
+.reference-corners i:nth-child(4) { bottom: -3px; right: -3px; }
+.reference-framed:hover > .reference-corners i:nth-child(1) { transform: translate(-5px,-5px); }
+.reference-framed:hover > .reference-corners i:nth-child(2) { transform: translate(5px,-5px); }
+.reference-framed:hover > .reference-corners i:nth-child(3) { transform: translate(-5px,5px); }
+.reference-framed:hover > .reference-corners i:nth-child(4) { transform: translate(5px,5px); }
+.desktop-nav a:hover { outline: 1px solid var(--line); outline-offset: 0; }
+.motion-word { display: inline-block; max-width: 100%; overflow-wrap: anywhere; }
+
+/* Preserve screenshot pixels; zoom/desaturation/glitch affect only presentation. */
+.media-link.reference-framed { overflow: visible; }
+.media-surface { display: block; position: relative; overflow: hidden; }
+.media-surface > img, .media-surface > picture > img { transition: transform 1s ease,filter .6s ease; transform: scale(1); filter: saturate(.5); }
+.media-glitch { position: absolute; inset: 0; background-image: var(--glitch-image); background-size: 100% 100%; pointer-events: none; opacity: 0; }
+@media (hover:hover) and (pointer:fine) {
+  .media-link:hover .media-surface > img, .media-link:hover .media-surface > picture > img { transform: scale(1.055); filter: saturate(1); }
+  .media-link:hover .media-glitch { animation: reference-glitch 2.8s linear infinite; }
+  .media-link:hover .media-glitch + .media-glitch { animation-delay: .1s; mix-blend-mode: screen; }
+}
+@keyframes reference-glitch { 0%,22%,100% { opacity: 0; transform: none; clip-path: inset(0 0 100% 0); } 3%,8% { opacity: .4; transform: translateX(7px); clip-path: inset(18% 0 78% 0); } 10%,14% { opacity: .25; transform: translateX(-5px); clip-path: inset(64% 0 32% 0); } 17%,20% { opacity: .3; transform: translateX(4px); clip-path: inset(42% 0 56% 0); } }
+.image-cursor { position: fixed; z-index: 60; top: 0; left: 0; display: flex; gap: 18px; padding: 6px 9px; background: #ffffff16; border: 1px solid var(--faint-line); backdrop-filter: blur(6px); font: 10px/1.4 var(--mono); pointer-events: none; opacity: 0; transform: translate(-200px,-200px); transition: opacity .15s; }
+.image-cursor.is-visible { opacity: 1; }
+html.motion-paused .global-grain, html.motion-paused .media-glitch { animation-play-state: paused; }
+html.motion-paused .media-glitch { opacity: 0 !important; }
+@media (max-width:1100px) { .toolkit-logos { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px 24px; } .toolkit { width: min(100%,920px); } }
+@media (max-width:760px) { :root { --reference-title: 26px; --reference-project-title: 24px; } .contact { padding: 32px 0 40px; } .toolkit { margin-bottom: 72px; } .toolkit-logos { gap: 18px 12px; } }
+@media (max-width:560px) { .toolkit-logos { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px 24px; } .toolkit-logos a { min-height: 64px; padding: 14px 12px; } .toolkit-logos img { max-height: 30px; max-width: 132px; width: 100%; } .toolkit-logos img[alt='n8n'] { width: 108px; } .toolkit { padding: 24px 0 28px; } .reference-corners i { transition: none; } .dtc-copy { flex-direction: column; align-items: flex-start; gap: 20px; } }
+@media (hover:none), (pointer:coarse) { .image-cursor { display: none; } .media-surface > img, .media-surface > picture > img { filter: none; } }
+@media (prefers-reduced-motion:reduce) { .global-grain { animation: none !important; } .media-glitch { display: none; } .image-cursor { display: none; } .media-surface > img, .media-surface > picture > img { filter: none; transform: none !important; } .reference-corners i { transform: none !important; } }
