@@ -219,8 +219,8 @@ html.gallery-open { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .media-zoom { transition: none; transform: none; } }
 
-/* Supplied LeadHunt product evidence: original proportions, one six-image gallery. */
-.lead-gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:24px}
+/* Supplied LeadHunt product evidence: original proportions, a dedicated gallery. */
+.lead-gallery{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:24px}
 .lead-gallery .lead-thumbnail{min-width:0;margin:0}
 .lead-gallery .media-link{background:#0b101a;min-height:44px;transition:border-color .2s}
 .lead-gallery .media-link:hover{border-color:#8ba6ce}
@@ -256,3 +256,5 @@ html.gallery-open { overflow: hidden; }
 @media (max-width: 1050px) { .lab-card-secours { column-gap: 30px; } .secours-stage-label { position: static; justify-self: start; margin-bottom: 18px; } }
 @media (max-width: 760px) { .lab-card-secours { grid-template-columns: 1fr; gap: 24px; } .lab-card-secours .lab-card-top { margin: 0; } .lab-card-secours .lab-copy { grid-row: 2; } .secours-stage-label { position: absolute; margin: 0; } .secours-capture { width: min(100%, 500px); grid-row: 3; } }
 @media (max-width: 560px) { .secours-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 12px; } .secours-stage { padding: 28px 20px; } .secours-stage-label { position: static; justify-self: start; margin-bottom: 20px; } .lab-card-secours .brand-heading { font-size: 25px; } }
+
+@media (min-width:561px) and (max-width:1050px) { .lead-gallery { grid-template-columns: repeat(3,minmax(0,1fr)); } }
