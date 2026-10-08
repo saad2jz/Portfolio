@@ -2,7 +2,7 @@
 
 Checked locally on 8 October 2026 in Chrome using Playwright after revising the page against the live reference.
 
-- 53 checks passed: 38 portfolio checks and 15 dedicated 3D interaction checks; no JavaScript errors.
+- 62 checks passed: 38 portfolio checks, 15 dedicated 3D interaction checks and nine project-media checks; no JavaScript errors.
 - 12 responsive layouts checked: 320, 390, 560, 768, 1024 and 1440 pixels, in English and French. No horizontal overflow.
 - Four axe-core WCAG 2 A/AA and 2.1 AA audits passed without reported violations: mobile and desktop, in both languages, with all case-study disclosures open. Automated audits do not replace a full manual accessibility review.
 - Keyboard language switching, mobile menu closing with Escape and focus restoration, native deep links and project disclosures checked.
@@ -13,7 +13,8 @@ Checked locally on 8 October 2026 in Chrome using Playwright after revising the 
 - Keyboard pause, clock stopping, preference persistence and resume were verified. Reduced motion removes tilt and the extra sticky scroll stage. Rendering stops outside the hero. Loss of the GPU context restores a successfully loaded static SVG fallback.
 - Desktop and mobile hero, alternating project rows, project lab and contact layouts visually reviewed alongside live-reference captures.
 - JavaScript syntax and Git whitespace checks passed. The two HTML entry points are identical.
+- All project images and official logos load on desktop and mobile. Responsive access captures select the correct source, full-image links return valid local images, and French captions identify provenance. FFA, LeadHunt and the project lab were visually reviewed in the rendered portfolio.
 
-The public LeadHunt sign-in screen was captured and identified accurately. Project diagrams are labelled illustrations. Authenticated product workflows, the CV's access permissions, the final Cardiag demo and existing portfolio outcome claims remain to be confirmed. See `MISSING-ASSETS.md`.
+Public LeadHunt and Career Ops access screens were captured on 8 October 2026 and identified accurately. Five official project logos, FFA product photography and Cardiag presentation artwork are integrated locally. The FFA workflow diagram is labelled as an illustration; promotional artwork is not presented as a UI screenshot. Authenticated product workflows, the CV's access permissions, the final Cardiag demo and existing portfolio outcome claims remain to be confirmed. See `ASSET-SOURCES.md` and `MISSING-ASSETS.md`.
 
 No production deployment has been made.

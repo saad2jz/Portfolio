@@ -23,7 +23,10 @@ Open `http://localhost:8000/`.
 - `assets/product-orbit.svg` and `assets/product-orbit-mobile.svg` — original static desktop/mobile scene fallbacks.
 - `assets/saad-portrait.webp` — local copy of the existing portrait.
 - `assets/favicon.svg` — local favicon.
-- `assets/leadhunt-login.webp` — actual public LeadHunt sign-in screen, captured 7 October 2026.
+- `assets/logos/` — five official site/repository brand assets.
+- `assets/ffa-products.webp` and `assets/cardiag-inspection.webp` — official product photography and presentation artwork.
+- `assets/leadhunt-{desktop,mobile}.webp` and `assets/career-ops-{desktop,mobile}.webp` — actual public access screens, captured 8 October 2026.
+- `ASSET-SOURCES.md` — media provenance and capture limits.
 - `avatar.jpg` — original repository illustration, retained; it is not the portrait used in the landing page.
 - `DESIGN.md` — complete downloaded Inspo reference.
 - `DESIGN-DECISIONS.md` — how the reference was adapted to this content.
@@ -41,7 +44,7 @@ PowerShell: `Copy-Item index.html portfolio.html`.
 
 The page contains FFA, LeadHunt, Cardiag and DTC work, plus four repository-backed explorations: SecoursNow, Rencontre, Career Ops Workspace and Remote Copilot. Project descriptions were checked against the original portfolio and current READMEs. Private source repositories are not exposed as broken public links; Career Ops Workspace credits its open-source upstream.
 
-The workflow drawings are explicit illustrations. A public login screenshot is identified as a login screen. No unauthorised customer data, fabricated shipped-product screenshots or made-up project results are used.
+Selected project rows now use real FFA product photography, a LeadHunt sign-in capture and Cardiag presentation artwork. Five official logos identify their projects; Career Ops includes an actual public access capture. Images can be opened at full size using native links, desktop/mobile access captures are selected responsively, and below-the-fold media is lazy-loaded with explicit dimensions. The FFA workflow drawing remains an explicit illustration inside its case study. Public access screenshots are identified as access screens. No unauthorised customer data, fabricated shipped-product screenshots or made-up project results are used.
 
 Native anchors, case-study disclosures and the form's HTML action work without JavaScript. JavaScript adds saved language choice, mobile menu controls and a submit flow with a 15-second timeout, duplicate-submit prevention and an accessible status. The existing Formspree endpoint and real contact/CV links are retained.
 
