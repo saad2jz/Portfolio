@@ -6,7 +6,7 @@ document.querySelectorAll('[data-i18n]').forEach(element => {
   english[element.dataset.i18n] = Array.from(element.childNodes, node => node.nodeName === 'BR' ? '\n' : node.textContent).join('');
 });
 const french = {
-  skip: 'Aller au contenu', navWork: 'Projets', navApproach: 'Méthode', navAbout: 'À propos', letsTalk: 'Discutons',
+  galleryTitle: 'Images des projets', galleryOriginal: 'Ouvrir l’original', skip: 'Aller au contenu', navWork: 'Projets', navApproach: 'Méthode', navAbout: 'À propos', letsTalk: 'Discutons',
   heroEyebrow: 'PRODUCT OWNER / E-COMMERCE & B2B', location: 'PARIS, FRANCE',
   heroLine1: 'Produit × ingénierie', heroLine2: 'pour les métiers, les équipes', heroLine3: 'et les systèmes connectés',
   heroIntro: "Je transforme des problèmes métier complexes en produits qui fonctionnent. Je relie e-commerce, opérations B2B et équipes.",

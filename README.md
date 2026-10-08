@@ -17,9 +17,11 @@ Open `http://localhost:8000/`.
 - `index.html` — new landing page.
 - `portfolio.html` — identical entry point preserving the original filename.
 - `styles.css` — black viewport frame, full-screen hero, alternating project rows and responsive typography.
+- `refinements.css` — editorial type hierarchy, lighter project framing, personal-project bento, portrait, contact treatment and image-gallery styles.
 - `script.js` — safe text-only EN/FR translations, mobile navigation and contact form.
 - `hero-scene.js` — nine original animated WebGL meshes, perspective lighting, hover rotation, scroll dispersion and a persistent pause control.
 - `motion.js` — project depth/tilt and scroll reveal choreography.
+- `gallery.js` — native dialog image viewer with keyboard navigation, translated controls and focus restoration; original image links remain usable without JavaScript.
 - `assets/product-orbit.svg` and `assets/product-orbit-mobile.svg` — original static desktop/mobile scene fallbacks.
 - `assets/saad-portrait.webp` — local copy of the existing portrait.
 - `assets/favicon.svg` — local favicon.
@@ -44,7 +46,7 @@ PowerShell: `Copy-Item index.html portfolio.html`.
 
 The page contains FFA, LeadHunt, Cardiag and DTC work, plus four repository-backed explorations: SecoursNow, Rencontre, Career Ops Workspace and Remote Copilot. Project descriptions were checked against the original portfolio and current READMEs. Private source repositories are not exposed as broken public links; Career Ops Workspace credits its open-source upstream.
 
-Selected project rows now use real FFA product photography, a LeadHunt sign-in capture and Cardiag presentation artwork. Five official logos identify their projects; Career Ops includes an actual public access capture. Images can be opened at full size using native links, desktop/mobile access captures are selected responsively, and below-the-fold media is lazy-loaded with explicit dimensions. The FFA workflow drawing remains an explicit illustration inside its case study. Public access screenshots are identified as access screens. No unauthorised customer data, fabricated shipped-product screenshots or made-up project results are used.
+Selected project rows use real FFA product photography, a LeadHunt sign-in capture and Cardiag presentation artwork. Five official logos identify their projects; Career Ops includes an actual public access capture. Images open in a native dialog with previous/next controls, arrow-key navigation, Escape closing, focus restoration and an original-file link. Desktop/mobile access captures are selected responsively, and below-the-fold media is lazy-loaded with explicit dimensions. Without JavaScript, the existing file links still open the original images. The FFA workflow drawing remains an explicit illustration inside its case study. Public access screenshots are identified as access screens. No unauthorised customer data, fabricated shipped-product screenshots or made-up project results are used.
 
 Native anchors, case-study disclosures and the form's HTML action work without JavaScript. JavaScript adds saved language choice, mobile menu controls and a submit flow with a 15-second timeout, duplicate-submit prevention and an accessible status. The existing Formspree endpoint and real contact/CV links are retained.
 

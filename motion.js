@@ -29,3 +29,24 @@
   for(const element of document.querySelectorAll('.specialty h2,.section-heading,.project>figure,.lab-heading,.lab-card,.about-grid,.contact-heading'))observer.observe(element);
   reduced.addEventListener('change',()=>{if(reduced.matches){for(const animation of active)animation.cancel();active.clear();surfaces.forEach(clearTilt);}});
 })();
+
+// A single scheduled update keeps the reading ruler in sync with native scrolling.
+(() => {
+  let scheduled = false;
+  const work = document.getElementById('work');
+  const workLink = document.querySelector('.desktop-nav a[href="#work"]');
+  function update() {
+    scheduled = false;
+    const distance = document.documentElement.scrollHeight - innerHeight;
+    document.documentElement.style.setProperty('--reading-progress', String(distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0));
+    const rect = work.getBoundingClientRect();
+    const current = rect.top < innerHeight * .45 && rect.bottom > 120;
+    workLink.classList.toggle('is-current', current);
+    if (current) workLink.setAttribute('aria-current', 'location'); else workLink.removeAttribute('aria-current');
+  }
+  function schedule() { if (!scheduled) { scheduled = true; requestAnimationFrame(update); } }
+  addEventListener('scroll', schedule, {passive: true});
+  addEventListener('resize', schedule, {passive: true});
+  new ResizeObserver(schedule).observe(document.body);
+  update();
+})();

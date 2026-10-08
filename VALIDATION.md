@@ -2,9 +2,9 @@
 
 Checked locally on 8 October 2026 in Chrome using Playwright after revising the page against the live reference.
 
-- 62 checks passed: 38 portfolio checks, 15 dedicated 3D interaction checks and nine project-media checks; no JavaScript errors.
+- 78 checks passed: 38 portfolio checks, 15 dedicated 3D interaction checks, nine project-media checks and 16 gallery/refinement checks; no JavaScript errors.
 - 12 responsive layouts checked: 320, 390, 560, 768, 1024 and 1440 pixels, in English and French. No horizontal overflow.
-- Four axe-core WCAG 2 A/AA and 2.1 AA audits passed without reported violations: mobile and desktop, in both languages, with all case-study disclosures open. Automated audits do not replace a full manual accessibility review.
+- Six axe-core WCAG 2 A/AA and 2.1 AA audits passed without reported violations: four page audits on mobile and desktop, in both languages, with all case-study disclosures open; two gallery audits on desktop in English and mobile in French. Automated audits do not replace a full manual accessibility review.
 - Keyboard language switching, mobile menu closing with Escape and focus restoration, native deep links and project disclosures checked.
 - Contact success and failure paths checked using intercepted requests, without sending a real message. A deployed end-to-end test remains necessary.
 - Native disclosures, page fit and HTML form action checked with JavaScript disabled; reduced-motion preference checked.
@@ -14,6 +14,8 @@ Checked locally on 8 October 2026 in Chrome using Playwright after revising the 
 - Desktop and mobile hero, alternating project rows, project lab and contact layouts visually reviewed alongside live-reference captures.
 - JavaScript syntax and Git whitespace checks passed. The two HTML entry points are identical.
 - All project images and official logos load on desktop and mobile. Responsive access captures select the correct source, full-image links return valid local images, and French captions identify provenance. FFA, LeadHunt and the project lab were visually reviewed in the rendered portfolio.
+- Gallery keyboard opening, modal focus containment, previous/next arrow keys, source captions, mobile image selection, French control labels, Escape, close button, backdrop dismissal and focus restoration were verified. The original image links still open with JavaScript disabled.
+- Reading progress and the active work indicator follow native scrolling. Refined project rows, the bento lab, portrait and contact were visually reviewed. A narrow-phone contact-heading overflow found during testing was corrected; all 12 page layouts pass.
 
 Public LeadHunt and Career Ops access screens were captured on 8 October 2026 and identified accurately. Five official project logos, FFA product photography and Cardiag presentation artwork are integrated locally. The FFA workflow diagram is labelled as an illustration; promotional artwork is not presented as a UI screenshot. Authenticated product workflows, the CV's access permissions, the final Cardiag demo and existing portfolio outcome claims remain to be confirmed. See `ASSET-SOURCES.md` and `MISSING-ASSETS.md`.
 
