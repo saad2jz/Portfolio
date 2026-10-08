@@ -16,7 +16,7 @@ Live layout and typography were inspected in Chrome at 1440px and 390px. The ref
 
 ## Official project media — 8 October 2026
 
-Replace the selected-project concept panels with source-backed visual evidence: FFA product photography, a LeadHunt public sign-in screenshot and repository-supplied Cardiag presentation artwork. Put the FFA workflow diagram inside its disclosure. Preserve the reference's alternating image/text rows, dark framing and existing 3D tilt. Use official FFA, Cardiag, SecoursNow, Rencontre and Career Ops brand assets without recolouring their identities. Career Ops also includes its public access page.
+Replace the selected-project concept panels with source-backed visual evidence: FFA product photography, supplied LeadHunt product screenshots and repository-supplied Cardiag presentation artwork. Put the FFA workflow diagram inside its disclosure. Preserve the reference's alternating image/text rows, dark framing and existing 3D tilt. Use official FFA, Cardiag, SecoursNow, Rencontre and Career Ops brand assets without recolouring their identities. Career Ops also includes its public access page.
 
 All new media is served locally. Explicit image dimensions reserve space, responsive picture sources select mobile access captures, native full-image links support inspection, and lazy loading limits initial work. Captions distinguish product photographs, presentation artwork and access screenshots. No authenticated workflow is implied by a login capture. Source files and capture dates are recorded in `ASSET-SOURCES.md`.
 
@@ -27,3 +27,7 @@ Reduce the selected-work frames to fine image edges, corner markers and source c
 Arrange small explorations into a three-column bento and give the actual Career Ops capture a wider image/text row. Keep its source attribution and private-workspace status. Reuse Saad's real portrait in the about section with a CSS grayscale treatment. Give contact a restrained copper glow and a larger heading; stack its email arrow below the heading on narrow phones to avoid overflow.
 
 A one-pixel reading ruler and current-work indicator follow native scrolling through a scheduled update. Native `dialog` supplies the image gallery's modal semantics, focus trapping and Escape behaviour. Explicit controls support previous/next, arrow keys, backdrop closing, returning focus to the opener, original-file access and French labels. The gallery uses the currently displayed responsive screenshot and retains the source caption. The ordinary image links remain the fallback without JavaScript. Reduced-motion preferences continue to disable nonessential transitions and automatic 3D movement.
+
+## Supplied LeadHunt screens — 8 October 2026
+
+Replace the access-page preview with the supplied AI agent hub and add five compact, labelled product thumbnails: copilot, map, connector setup, campaigns and sending studio. Give these six views their own gallery group; the other project images remain in a separate group. Preserve original capture dimensions and pixels using lossless WebP. The copilot image is a portrait panel capture, not a mobile screen. All product views can be inspected at full size and retain native-file link fallbacks. Captions describe the visible interface, without promoting its internal counters to independently verified portfolio results.

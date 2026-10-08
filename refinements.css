@@ -218,3 +218,14 @@ html.gallery-open { overflow: hidden; }
   .visual-brand span, .official-media .visual-topline { font-size: 9px; }
 }
 @media (prefers-reduced-motion: reduce) { .media-zoom { transition: none; transform: none; } }
+
+/* Supplied LeadHunt product evidence: original proportions, one six-image gallery. */
+.lead-gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:24px}
+.lead-gallery .lead-thumbnail{min-width:0;margin:0}
+.lead-gallery .media-link{background:#0b101a;min-height:44px;transition:border-color .2s}
+.lead-gallery .media-link:hover{border-color:#8ba6ce}
+.lead-gallery img{width:100%;height:auto;aspect-ratio:16/10;object-fit:contain}
+.lead-gallery figcaption{font:10px/1.5 var(--mono);padding:10px 0 0;letter-spacing:0;color:#c2c8d1}
+.lead-gallery-note{font:10px/1.5 var(--mono);color:var(--muted);margin-top:16px}
+.project>.lead-product::after{display:none}
+@media(max-width:560px){.lead-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}.lead-gallery figcaption{font-size:10px}}

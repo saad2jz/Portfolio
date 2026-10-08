@@ -6,7 +6,7 @@ document.querySelectorAll('[data-i18n]').forEach(element => {
   english[element.dataset.i18n] = Array.from(element.childNodes, node => node.nodeName === 'BR' ? '\n' : node.textContent).join('');
 });
 const french = {
-  galleryTitle: 'Images des projets', galleryOriginal: 'Ouvrir l’original', skip: 'Aller au contenu', navWork: 'Projets', navApproach: 'Méthode', navAbout: 'À propos', letsTalk: 'Discutons',
+  leadGalleryNote: '6 vues produit · sélectionnez une image pour explorer', leadInsideTitle: 'Au cœur du produit', leadInsideText: 'Ces six vues produit présentent le hub des agents IA, le copilote contextuel, la carte des prospects, la configuration des connecteurs, les campagnes multi-clients et le studio d’envoi d’emails', leadScreencopilot: "Copilote contextuel", leadScreenmap: "Carte des prospects", leadScreenintegrations: "Configuration des connecteurs", leadScreencampaigns: "Campagnes de prospection", leadScreensending: "Studio d’envoi d’emails", galleryTitle: 'Images des projets', galleryOriginal: 'Ouvrir l’original', skip: 'Aller au contenu', navWork: 'Projets', navApproach: 'Méthode', navAbout: 'À propos', letsTalk: 'Discutons',
   heroEyebrow: 'PRODUCT OWNER / E-COMMERCE & B2B', location: 'PARIS, FRANCE',
   heroLine1: 'Produit × ingénierie', heroLine2: 'pour les métiers, les équipes', heroLine3: 'et les systèmes connectés',
   heroIntro: "Je transforme des problèmes métier complexes en produits qui fonctionnent. Je relie e-commerce, opérations B2B et équipes.",
@@ -25,7 +25,7 @@ const french = {
   ffaProblem: 'Une boutique WordPress vieillissante et des opérations fragmentées : commandes recopiées entre systèmes, étiquettes créées manuellement et factures saisies une à une.',
   ffaRole: 'Discovery produit, ownership de la roadmap et priorisation ; alignement des équipes techniques, des opérations et des partenaires marketplace, de la spécification à la mise en production.',
   ffaDelivery: 'Une refonte Shopify Plus B2B/B2C avec synchronisation Erplain, intégrations Mirakl et workflow n8n reliant commandes, expédition et facturation. Redirections et mappings canoniques préservés pendant la migration.',
-  visitFFA: 'Visiter ffaperitif.com', leadCaption: 'Écran de connexion public · capture du 8 octobre 2026.',
+  visitFFA: 'Visiter ffaperitif.com', leadCaption: 'Hub des agents IA · capture produit fournie par Saad.',
   visitLeadHunt: 'Visiter LeadHunt', leadCapture: "Écran de connexion public, capturé le 7 octobre 2026. Une démo distincte est nécessaire pour le produit authentifié.",
   leadTitle: 'LeadHunt', leadIntro: 'Une plateforme de prospection B2B multitenant reliant découverte de vraies entreprises, contacts vérifiés, pipeline et séquences de prospection.',
   projectDetails: 'Découvrir le projet', leadProblem: 'Données dispersées, qualification répétitive et séquences déconnectées rendent la prospection B2B lente et irrégulière.',

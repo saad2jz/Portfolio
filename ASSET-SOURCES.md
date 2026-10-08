@@ -11,11 +11,18 @@ Retrieved/captured on 8 October 2026. These files identify Saad's own projects a
 | `assets/logos/secoursnow.svg` | Saad's `secoursnow` repository, `apps/mobile/public/icon.svg` | Original application icon, unchanged. |
 | `assets/logos/rencontre.svg` | Saad's `rencontre` repository, `public/favicon.svg` | Original application/favicon mark, unchanged. |
 | `assets/logos/career-ops.svg` | Saad's `career-ops-workspace` repository, `public/favicon.svg` | Original application/favicon mark, unchanged. The project is an adaptation and retains its upstream attribution. |
-| `assets/leadhunt-desktop.webp`, `assets/leadhunt-mobile.webp` | [Public LeadHunt sign-in page](https://www.leadhunt.online/login), captured in Chrome | Public sign-in screen, 1440 × 900 and 390 × 844. No credentials entered and no authenticated data accessed. |
+| `assets/leadhunt-agents.webp` | Screenshot supplied by Saad on 8 October 2026 | Authenticated AI agent hub, 1909 × 943. |
+| `assets/leadhunt-copilot.webp` | Screenshot supplied by Saad on 8 October 2026 | Contextual copilot panel, 547 × 771. This is a portrait panel capture, not a mobile app screenshot. |
+| `assets/leadhunt-map.webp` | Screenshot supplied by Saad on 8 October 2026 | Prospect mapping view, 1918 × 952. |
+| `assets/leadhunt-integrations.webp` | Screenshot supplied by Saad on 8 October 2026 | Connector setup view, 1918 × 949. |
+| `assets/leadhunt-campaigns.webp` | Screenshot supplied by Saad on 8 October 2026 | Prospecting campaigns view, 1918 × 942. |
+| `assets/leadhunt-sending.webp` | Screenshot supplied by Saad on 8 October 2026 | Email sending studio with test entries, 1918 × 936. |
 | `assets/career-ops-desktop.webp`, `assets/career-ops-mobile.webp` | [Career Ops access page](https://career-ops-workspace-nine.vercel.app/), captured in Chrome | Public access page, 1440 × 900 and 390 × 844. The workspace is private; no sign-in performed. |
 
 Repository source discovery used the owner's existing authenticated GitHub session. Only the listed image assets were incorporated into this portfolio; private application code, configuration and credentials were not included.
 
-The LeadHunt repository's generic framework icon was deliberately omitted as a product logo. The actual sign-in capture includes the site's displayed identity. Complete FFA storefront, Cardiag product and SecoursNow demo captures could not be obtained with usable loaded content in this session; no incomplete or blank captures are included. Authenticated product screens and Rencontre profile/directory captures remain in `MISSING-ASSETS.md`.
+The LeadHunt repository's generic framework icon was deliberately omitted as a product logo. The supplied product captures include the site's displayed identity. Their capture dates are unknown; 8 October 2026 is the date of receipt. They are converted losslessly to WebP at original dimensions, with no retouching or altered UI content. Complete FFA storefront, Cardiag product and SecoursNow demo captures could not be obtained with usable loaded content in this session; no incomplete or blank captures are included. Six authenticated LeadHunt views are now supplied. Optional Kanban/contact detail views and the other projects' evidence remain in `MISSING-ASSETS.md`. Screenshots show the interface state, without independently verifying the activity/performance claims displayed inside it.
 
 Images open at full size through standard local links. Captures preserve the actual public interface; WebP encoding changes file format, not the screen's content.
+
+LeadHunt's five `*-thumb.webp` files are 360px-wide preview derivatives. They preserve aspect ratios and use WebP quality 88 to reduce page loading cost. Each thumbnail links to the corresponding full-resolution lossless file; the viewer explicitly loads that original. The six full-resolution captures were compared pixel by pixel against the supplied PNGs and match exactly.

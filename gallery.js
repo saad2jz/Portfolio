@@ -12,6 +12,7 @@
   let position = 0;
   let opener = null;
   let backdropStart = false;
+  let galleryLinks = links;
 
   function updateLabels() {
     const fr = document.documentElement.lang === 'fr';
@@ -26,25 +27,26 @@
   updateLabels();
 
   function show(index) {
-    position = (index + links.length) % links.length;
-    const link = links[position];
+    position = (index + galleryLinks.length) % galleryLinks.length;
+    const link = galleryLinks[position];
     const source = link.querySelector('img');
     // Prefer the currently displayed mobile capture when inspecting it on a phone.
-    image.src = source.currentSrc || source.src;
+    image.src = link.dataset.fullSrc || source.currentSrc || source.src;
     image.alt = source.alt;
     caption.textContent = link.closest('figure').querySelector('figcaption')?.textContent || source.alt;
-    count.textContent = `${position + 1} / ${links.length}`;
+    count.textContent = `${position + 1} / ${galleryLinks.length}`;
     original.href = image.src;
   }
 
-  links.forEach((link, index) => {
+  links.forEach(link => {
     link.setAttribute('aria-haspopup', 'dialog');
     link.setAttribute('aria-controls', dialog.id);
     link.addEventListener('click', event => {
       if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
       opener = link;
-      show(index);
+      galleryLinks = links.filter(item => item.dataset.gallery === link.dataset.gallery);
+      show(galleryLinks.indexOf(link));
       dialog.showModal();
       document.documentElement.classList.add('gallery-open');
       dialog.querySelector('.lightbox-close').focus();
