@@ -6,3 +6,4 @@ import '../project-layout.js';
 import '../reference-effects.js';
 
 import '../depth-effects.js';
+import '../chapter-transitions.js';

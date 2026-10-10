@@ -34,7 +34,7 @@ await fs.rm(dist,{recursive:true,force:true});
 await fs.mkdir(path.join(dist,'assets'),{recursive:true});
 const read=name=>fs.readFile(path.join(root,name),'utf8');
 let html=await read('index.html');
-const cssNames=['fonts.css','styles.css','refinements.css','reference-effects.css','project-reels.css','profile-content.css','deadwater.css','generated-tailwind.css','creator.css','ecosystems.css','extensions.css','personality.css'];
+const cssNames=['fonts.css','styles.css','refinements.css','reference-effects.css','project-reels.css','profile-content.css','deadwater.css','generated-tailwind.css','creator.css','ecosystems.css','extensions.css','personality.css','chapter-transitions.css'];
 let css=(await Promise.all(cssNames.map(read))).join('\n');
 const scripts=['src/main.tsx'];
 const client=await build({entryPoints:[path.join(root,'src/main.tsx')],bundle:true,write:false,format:'iife',platform:'browser',target:'es2020',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},minify:true,legalComments:'none'});
