@@ -92,7 +92,12 @@
     });
   }
   const observer = new IntersectionObserver(entries => { for (const entry of entries) if (entry.isIntersecting) reveal(entry.target); }, {threshold: .2});
-  headings.forEach(heading => observer.observe(heading));
+  // Word masks can change line wrapping. Prepare card titles before measuring
+  // their sticky geometry, rather than changing their height during a handoff.
+  headings.forEach(heading => {
+    if(heading.closest('.creator-project'))prepare(heading);
+    observer.observe(heading);
+  });
   if (signature) observer.observe(signature);
 
   function syncPause() {
@@ -128,6 +133,7 @@
     active.clear();
     for (const heading of headings) {
       revealed.delete(heading);
+      if(heading.closest('.creator-project'))prepare(heading);
       const r = heading.getBoundingClientRect();
       if (r.bottom > 0 && r.top < innerHeight) reveal(heading);
     }

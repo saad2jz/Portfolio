@@ -5,9 +5,10 @@
   const heights=new Map();
   function fit(card,height){
     heights.set(card,height);
-    const top=Number.parseFloat(card.style.getPropertyValue('--stack-rest-top'))||96;
+    const rest=Number.parseFloat(card.style.getPropertyValue('--stack-rest-top'))||96;
+    const top=innerWidth<=900?88+(rest-96)/2:rest;
     card.style.setProperty('--stack-top',`${Math.min(top,innerHeight-height-32)}px`);
-    const value=innerWidth>900?'true':'false';
+    const value='true';
     if(card.dataset.stackFit!==value)card.dataset.stackFit=value;
   }
   const observer=new ResizeObserver(entries=>{
