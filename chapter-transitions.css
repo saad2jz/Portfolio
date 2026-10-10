@@ -10,12 +10,22 @@
 .chapter-stage::after{width:clamp(260px,64vw,920px);height:clamp(120px,27vw,390px);border:1px solid rgba(var(--chapter-rgb),.23);border-radius:50%;box-shadow:0 0 0 24px rgba(var(--chapter-rgb),.025),inset 0 0 0 22px rgba(var(--chapter-rgb),.025);transform:translate(-50%,-50%) rotate(calc(-18deg + var(--chapter-progress)*25deg)) scale(calc(.45 + var(--chapter-progress)*1.8));opacity:calc((1 - var(--chapter-progress))*.7 + .13);mask-image:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent)}
 .chapter-track{position:relative;height:calc(var(--chapter-height,auto) + var(--chapter-travel,0px));margin-bottom:32px}
 .chapter-track>.chapter-stage{position:sticky;top:92px;min-height:calc(100svh - 92px);margin:0!important;justify-content:center;align-content:center;padding-block:38px}
-.chapter-track>.chapter-stage:is(.extension-heading,.creator-work-heading){display:flex;flex-direction:column;align-items:center;gap:0}
+.chapter-track>.chapter-stage:is(.extension-heading,.creator-work-heading,.journey-group-header){display:flex;flex-direction:column;align-items:center;gap:0}
 .chapter-track .chapter-stage::before{opacity:calc(.15 + var(--chapter-progress)*.75);background:radial-gradient(ellipse at center,rgba(var(--chapter-rgb),.25),transparent 66%),repeating-radial-gradient(ellipse at center,transparent 0 67px,rgba(var(--chapter-rgb),.17) 68px 69px,transparent 70px 96px)}
 .chapter-zoom-title{scale:calc(.35 + var(--chapter-progress)*.65);translate:0 calc((1 - var(--chapter-progress))*36px);opacity:clamp(0,calc((var(--chapter-progress) - .12)*1.4),1);transform-origin:50% 50%}
 .chapter-track .chapter-stage>p:not(.creator-eyebrow,.chapter-zoom-title){scale:calc(.75 + var(--chapter-progress)*.25);translate:0 calc((1 - var(--chapter-progress))*28px);opacity:clamp(0,calc((var(--chapter-progress) - .32)*1.8),1)}
 .chapter-track .chapter-stage>.creator-eyebrow{opacity:clamp(0,calc(var(--chapter-progress)*2.5),1)}
 .chapter-stage[data-chapter-active=true] .chapter-zoom-title{will-change:scale,translate}
+/* The last content surface moves forward before the next title grows in.
+   Individual scale composes with Framer's card transform without wrapping a stack. */
+.chapter-exit-surface{--chapter-exit-progress:0;scale:calc(1 + var(--chapter-exit-progress)*.12);opacity:clamp(.65,calc(1.7 - var(--chapter-exit-progress)),1);transform-origin:50% 90%}
+.chapter-exit-surface[data-chapter-exiting=true]{will-change:scale,opacity}
+.chapter-exit-surface:focus-within{scale:1;opacity:1}
+.chapter-departure-art{position:fixed;inset:var(--chapter-header-height,92px) 0 0;z-index:12;display:grid;place-items:center;overflow:clip;pointer-events:none;contain:strict;opacity:var(--chapter-exit-visibility,0);background:radial-gradient(ellipse at center,rgba(var(--chapter-exit-rgb),.18),transparent 70%)}
+.chapter-departure-art[hidden]{display:none}
+.chapter-departure-art i{grid-area:1/1;width:min(58vw,680px);aspect-ratio:1;border:1px solid rgba(var(--chapter-exit-rgb),.5);border-radius:50%;box-shadow:0 0 0 24px rgba(var(--chapter-exit-rgb),.035),inset 0 0 0 24px rgba(var(--chapter-exit-rgb),.035);transform:scale(calc(.65 + var(--chapter-exit-progress)*7)) rotate(calc(-20deg + var(--chapter-exit-progress)*45deg));will-change:transform}
+.chapter-departure-art i:nth-child(2){width:min(40vw,470px);border-color:rgba(var(--chapter-exit-rgb),.35)}
+.chapter-departure-art i:nth-child(3){width:min(22vw,260px);border-color:rgba(var(--chapter-exit-rgb),.25)}
 /* About already shares the header's continuous zoom; its title is not animated twice. */
 .chapter-stage[data-chapter-hero]::before{transform:translate(-50%,-50%) scale(calc(.65 + var(--hero-zoom,1)*1.4))}
 .chapter-stage[data-chapter-hero]::after{transform:translate(-50%,-50%) rotate(-12deg) scale(calc(.45 + var(--hero-zoom,1)*1.8))}
@@ -30,6 +40,10 @@
  .chapter-track>.chapter-stage{top:80px;min-height:calc(100svh - 80px);padding-block:30px}
  .chapter-stage::before{height:420px;width:110vw}
  .chapter-stage::after{width:90vw;height:42vw}
+ .chapter-exit-surface{scale:calc(1 + var(--chapter-exit-progress)*.07)}
+ .chapter-departure-art i{width:80vw}
+ .chapter-departure-art i:nth-child(2){width:55vw}
+ .chapter-departure-art i:nth-child(3){width:30vw}
  :is(#education,#certifications)>.journey-group-header{padding-block:32px;margin-top:26px;gap:18px}
  :is(#education,#certifications)>.journey-group-header>p{font-size:clamp(26px,7vw,40px);overflow-wrap:anywhere}
 }
@@ -38,10 +52,14 @@ html.motion-paused .chapter-track{height:auto}
 html.motion-paused .chapter-track>.chapter-stage{position:relative;top:0;min-height:0}
 html.motion-paused .chapter-track .chapter-stage>p{scale:1;translate:none;opacity:1}
 html.motion-paused .chapter-stage::before,html.motion-paused .chapter-stage::after{transform:translate(-50%,-50%);opacity:.18}
+html.motion-paused .chapter-exit-surface{scale:1;opacity:1;will-change:auto}
+html.motion-paused .chapter-departure-art{display:none}
 @media(prefers-reduced-motion:reduce){
  .chapter-track{height:auto}
  .chapter-track>.chapter-stage{position:relative;top:0;min-height:0}
  .chapter-track .chapter-stage>p{scale:1;translate:none;opacity:1}
  .chapter-zoom-title{scale:1;translate:none;opacity:1;will-change:auto}
  .chapter-stage::before,.chapter-stage::after{transform:translate(-50%,-50%);opacity:.18}
+ .chapter-exit-surface{scale:1;opacity:1;will-change:auto}
+ .chapter-departure-art{display:none}
 }
