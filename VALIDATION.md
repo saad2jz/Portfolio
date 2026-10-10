@@ -232,3 +232,9 @@ The audit also corrects mobile menu focus/closing behavior, gallery arrow placem
 Responsive Chromium checks cover 320×740, 390×844, 667×375, 768×900, 1024×768 and 1440×900 in both languages. Automated axe WCAG A/AA and best-practice checks report zero violations in those tested states. Dedicated checks cover all eleven chapter introductions, reverse scroll, expanding disclosures, sticky handoffs, mobile card readability, pause, reduced motion, no JavaScript, fixed GPU dimensions and context-loss fallback. This is not an accessibility certification or a physical iOS/Safari test. TypeScript and all 32 portable production-build checks pass.
 
 Live-domain inspection additionally exposed fragment positioning before chapter spacer layout and native home navigation targeting the sticky hero's current position. Initial deep links are now restored once after fonts and chapter layout settle; home links explicitly scroll to document position zero. Browser checks confirm aligned direct Skills/Cardiag loads, project focus restoration and a true return to the header.
+
+## Decorative numbering cleanup — 10 October 2026
+
+Removed decorative indices from expertise, skills, projects, workflow illustrations, commerce, career and education, including their directories and section headings. Removed navigation totals to keep labels concise. Updated responsive grids to reclaim the former number columns; stack indices remain internal to the animation. Dates, impact metrics, standards and gallery position counters are preserved.
+
+Validation: TypeScript and all 32 production build checks pass. Browser inspection confirms no removed number nodes remain, single-column project/education introductions, and mobile skill headings aligned with their icons. Desktop FFA and 390 px education/skills screenshots inspected; dates, FFA metrics and the CarDiag gallery counter remain present.
