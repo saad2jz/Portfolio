@@ -1,3 +1,5 @@
+import ecosystemCopy from './src/ecosystem-copy.json';
+
 'use strict';
 
 // English copy lives in the HTML so the landing page also works without JavaScript.
@@ -6,18 +8,28 @@ document.querySelectorAll('[data-i18n]').forEach(element => {
   english[element.dataset.i18n] = Array.from(element.childNodes, node => node.nodeName === 'BR' ? '\n' : node.textContent).join('');
 });
 const french = {
+  projectConcept:'Voir le concept',
+  moreCaptures:'Autres images du projet', liveProject:'Voir le site', projectRepository:'Dépôt GitHub',
+  carWorkshopCaption: "Diagnostic en atelier — illustration de présentation",
+  carBodyworkCaption: "Inspection de carrosserie — illustration de présentation annotée",
+  carArtworkNote: "Visuels de présentation issus du dépôt Cardiag.",
+  reelHint:'DÉFILEZ POUR EXPLORER', careerMobileCaption:'Page d’accès publique sur mobile · espace privé.',
+  ffaInsideTitle: 'À travers l’écosystème commerce', ffaInsideText: 'Ces huit captures fournies montrent la boutique Shopify et son assistant, les opérations ERP et B2B Erplain, la gestion des marketplaces, ainsi que la boîte de réception et une conversation du support IA.',
+  ffaScreendashboard: "Tableau de bord Erplain", ffaScreenb2b: "Commandes B2B Erplain", ffaScreenastore: "Tableau de bord Astore / Mirakl", ffaScreenkvist: "Catalogue marketplace Kvist", ffaScreeninbox: "Boîte de réception du support IA", ffaScreenconversation: "Conversation du support IA",
+  ffaGalleryNote: '8 captures produit fournies · sélectionnez une image pour explorer', ffaScreenstorefront: 'Boutique Shopify & assistant IA', ffaScreenankorstore: 'Page marque Ankorstore',
   leadScreenextension: 'Extension Chrome', leadGalleryNote: '7 vues produit · sélectionnez une image pour explorer', leadInsideTitle: 'Au cœur du produit', leadInsideText: 'Ces sept vues produit présentent le hub des agents IA, le copilote contextuel, la carte des prospects, la configuration des connecteurs, les campagnes multi-clients, le studio d’envoi d’emails et l’extension Chrome sur un profil LinkedIn.', leadScreencopilot: "Copilote contextuel", leadScreenmap: "Carte des prospects", leadScreenintegrations: "Configuration des connecteurs", leadScreencampaigns: "Campagnes de prospection", leadScreensending: "Studio d’envoi d’emails", galleryTitle: 'Images des projets', galleryOriginal: 'Ouvrir l’original', skip: 'Aller au contenu', navWork: 'Projets', navApproach: 'Méthode', navAbout: 'À propos', letsTalk: 'Discutons',
   heroEyebrow: 'PRODUCT OWNER / E-COMMERCE & B2B', location: 'PARIS, FRANCE',
   heroLine1: 'Produit × ingénierie', heroLine2: 'pour les métiers, les équipes', heroLine3: 'et les systèmes connectés',
   heroIntro: "Je transforme des problèmes métier complexes en produits qui fonctionnent. Je relie e-commerce, opérations B2B et équipes.",
   tickerStores: 'boutiques créées', tickerAdmin: 'de charge admin', tickerSkus: 'SKUs synchronisés',
-  specialtyTitle: "Je relie stratégie produit, ingénierie et opérations pour construire des systèmes utiles aux utilisateurs.",
-  specialtyIntro: "La rigueur d’un ingénieur. Le regard d’un Product Owner. Basé à Paris et ouvert aux postes produit en e-commerce, plateformes B2B et automatisation.",
+  specialtyTitle: "Product Owner. Ingénieur. Créateur de systèmes.",
+  specialtyIntro: "Basé à Paris. Disponible pour des postes produit en e-commerce, B2B et automatisation.",
   viewWork: 'Découvrir mes projets', resume: 'Voir mon CV', profileRole: 'Product Owner · Ingénieur', availability: 'Ouvert aux postes de Product Owner',
   heroBottom: 'STRATÉGIE → SYSTÈMES → DELIVERY', scroll: 'DÉFILER',
   proofStores: 'Boutiques Shopify créées et développées', proofAdmin: 'Charge admin B2B chez FFA', proofPartners: 'Intégrations marketplace', proofNote: 'COMPLEXITÉ EN ENTRÉE.\nCLARTÉ EN SORTIE.',
-  workEyebrow: '01 / PROJETS SÉLECTIONNÉS', workTitle: 'Projets produit sélectionnés.\nDe la complexité à la clarté.',
-  workIntro: "Des plateformes, des workflows et des idées où les décisions produit rencontrent l'ingénierie.",
+  indexCommerce: 'Commerce & opérations ↗', indexProspecting: 'Prospection & IA ↗', indexInspection: 'Inspection automobile ↗', indexMutualAid: 'Prototype d’entraide ↗',
+  workEyebrow: '01 / PROJETS SÉLECTIONNÉS', workTitle: 'Projets sélectionnés',
+  workIntro: "Trois projets, du besoin métier au produit en usage.",
   enlargeImage: 'Voir en grand', careerCaption: 'Page d’accès publique · espace privé.', ffaWorkflowCaption: 'Architecture illustrée du workflow de commande FFA.', ffaCaption: 'Photo produit officielle de la boutique FFA.', ffaTitle: 'FFA — Écosystème e-commerce',
   ffaIntro: "Pilotage de la refonte de ffaperitif.com : plateforme Shopify Plus, synchronisation ERP, cinq partenaires marketplace et workflow de fulfillment sans saisie manuelle.",
   ffaResult1: 'de charge administrative', ffaResult2: 'SKUs synchronisés', ffaResult3: 'saisie manuelle sur le flux principal',
@@ -73,6 +85,108 @@ const french = {
   bookCall: 'Réserver un appel de 20 minutes', writeMessage: 'Ou laisser un message ici', formName: 'Votre nom', formEmail: 'Adresse email', formMessage: 'Parlez-moi de votre projet ou de votre offre', formSubmit: 'Envoyer le message', backTop: 'Retour en haut ↑'
 };
 
+// Content adapted from the live portfolio on 8 October 2026.
+Object.assign(french, {
+  "ffaWholesaleText": "Comptes entreprises, tarifs par client, commandes provisoires et paiements différés. Mapping des stocks en temps réel sur 367 références, avec commandes récurrentes et coffrets saisonniers.",
+  "ffaWholesaleTitle": "Grossistes & abonnements",
+  "ffaChannelsText": "AstoreShop (Accor), Nature & Découvertes, Veepee, Ankorstore et Kviste : onboarding catalogue, taxonomie produit, mapping des variantes, règles tarifaires et contrôles qualité propres à chaque canal.",
+  "ffaChannelsTitle": "Cinq marketplaces connectées",
+  "ffaSupportText": "Un chatbot IA adapté d’une application open source s’appuie sur les questions clients et oriente les conversations par intention et criticité. Kwanko complète l’acquisition avec tracking d’affiliation, commissions et activation des éditeurs.",
+  "ffaSupportTitle": "Support client & acquisition",
+  "ffaSecurityText": "Un sélecteur de points relais Google Maps / Places relie le choix au checkout aux étiquettes Colissimo. Le tagging analytics côté serveur, le mapping des champs API et la validation des données fiabilisent les flux entre systèmes.",
+  "ffaSecurityTitle": "Livraison, mesure & sécurité",
+  "ffaScopeTitle": "Les fonctionnalités de la plateforme",
+  "leadArchitectureText": "Le parcours de prospection associe sources publiques d’entreprises, Google Maps, Apollo et extraction LinkedIn via Apify. Le scoring firmographique qualifie la taille de l’entreprise, le secteur et le rôle du décideur avant les séquences Brevo orchestrées par n8n et le suivi des interactions dans HubSpot.",
+  "leadArchitectureTitle": "Le parcours acquisition & CRM",
+  "carInspectionText": "Le portfolio présente une inspection à 33 points répartis en sept sections techniques, un scoring pondéré distinguant risques mécaniques et défauts esthétiques, et des rapports PDF illustrés. La PWA vise les inspections terrain hors ligne ; l’assistant de diagnostic s’appuie sur un service en ligne.",
+  "carInspectionTitle": "Le parcours d’inspection terrain",
+  "dtcOperationsText": "Sourcing et négociation fournisseurs, pilotage des marges et du budget publicitaire, vitrines Liquid sur mesure, tunnels de conversion et optimisation du checkout. L’acquisition combine Google Ads, Meta Ads et SEO avec Semrush.",
+  "dtcTeamText": "Une équipe à distance aux Philippines fonctionne avec des workflows asynchrones, tableaux de bord KPI et production de contenu. Abonnements, commandes récurrentes et coffrets saisonniers soutiennent la fidélisation et le réachat.",
+  "dtcScopeTitle": "Du sourcing au réachat",
+  "ansysType": "B2B / PROPOSITION DE HACKATHON",
+  "ansysTitle": "Ansys — Simulation augmentée par l’IA",
+  "ansysAward": "1er prix · Projet innovant",
+  "ansysIntro": "Une proposition B2B pour les cas d’usage Dassault Aviation : accélérer les itérations de simulation tout en conservant les solveurs physiques certifiés, la validation experte et la maîtrise des données sur site.",
+  "ansysOffers": "AeroSignal AI : intégration électromagnétique des antennes. AeroShape AI : préfiltrage des géométries aérodynamiques. Aero Twin Ops : maintenance et modèles d’ordre réduit. Sovereign Secure AI : déploiement sur site et stratégie commerciale par persona.",
+  "ansysValidation": "Les cas Rafale et Falcon cadrent la proposition. Les prédictions incertaines repassent par les solveurs rigoureux et les experts ; il s’agit d’un concept commercial de hackathon.",
+  "ansysDetailsTitle": "Quatre offres, un principe de validation",
+  "debarraText": "Une place de marché de récupération d’objets et de vide-maison associant calcul des distances Haversine et chat temps réel Socket.IO.",
+  "debarraTitle": "Débarra — Marketplace géolocalisée",
+  "alxText": "Automatisation shell, administration Linux, réseaux, reverse proxies Nginx, conteneurs et workflows de déploiement.",
+  "alxRepo": "Voir le dépôt ALX",
+  "alxTitle": "ALX — Ingénierie système & DevOps",
+  "academicText": "Traçabilité des contrôles automobiles sur Polygon ; application Android de signalement QHSE ; simulation de flux logistiques ; suivi de température ESP32 avec Grafana / Node-RED ; audits de sécurité réseau ; moteur de recommandation par filtrage collaboratif en Python.",
+  "academicTitle": "Prototypes & études académiques",
+  "moreProjectsTitle": "Autres réalisations numériques & ingénierie",
+  "skillsProductText": "Entretiens de discovery, pilotage de roadmap, priorisation RICE / MoSCoW, user stories, critères d’acceptation, rituels agiles et KPI de résultat.",
+  "skillsProductTitle": "Produit & delivery",
+  "skillsCommerceText": "Shopify Plus B2B, thèmes Liquid sur mesure, flux produits Mirakl, mapping des stocks Erplain, logistique Colissimo et facturation Pennylane.",
+  "skillsCommerceTitle": "Commerce & opérations",
+  "skillsCodeText": "n8n, API REST, webhooks, TypeScript, Node.js, Python et Git. Modèles relationnels, requêtes SQL et procédures stockées MySQL / PostgreSQL.",
+  "skillsCodeTitle": "Automatisation & données",
+  "skillsGrowthText": "Workflows HubSpot, Brevo et Sidely ; scoring firmographique, Google / Meta Ads, SEO Semrush et optimisation des médias Cloudinary.",
+  "skillsGrowthTitle": "CRM & acquisition",
+  "skillsQualityText": "AMDEC / FMEA, 8D, RETEX, Lean 5S et DMAIC ; tests fonctionnels et validation des releases. Pratique des référentiels ISO 9001 / 14001 / 27001 / 17025 et IATF 16949.",
+  "skillsQualityTitle": "Qualité & risques",
+  "skillsAIText": "Bases de connaissances issues des questions clients, classification d’intentions, enrichissement et scoring de leads, aide au diagnostic et workflows Claude Code.",
+  "skillsAITitle": "IA appliquée",
+  "skillsTitle": "Compétences & stack technique",
+  "missionFFAText": "Discovery de la plateforme et pilotage du backlog ; delivery transverse de la refonte Shopify Plus, de l’intégration ERP, des marketplaces et de l’automatisation logistique.",
+  "missionFFATitle": "FFA — Pilotage produit",
+  "missionSITText": "Boucles de RETEX et analyse des causes racines pour transformer les irritants opérationnels en exigences d’amélioration ; cartographie des processus et méthodes Lean pour réduire gaspillage et délais.",
+  "missionSITTitle": "SIT Group — Amélioration des processus",
+  "missionWebmediaText": "Analyse des tickets techniques, diagnostic de bugs systémiques, plans de tests fonctionnels et validation des releases, à l’interface entre support client et développement.",
+  "missionWebmediaTitle": "Webmedia Solutions — Qualité logicielle",
+  "missionMascirText": "Cartographie des risques, audits QHSE des sous-traitants, suivi de la sécurité chimique et amélioration des processus interservices.",
+  "missionMascirTitle": "MASCIR — Qualité des dispositifs médicaux",
+  "missionSchaefflerText": "Analyse des anomalies de production par AMDEC et workflows préventifs ; outil d’archivage numérique pour améliorer traçabilité et recherche documentaire.",
+  "missionSchaefflerTitle": "Schaeffler — Qualité automobile",
+  "missionAlliancesText": "Évaluation de la sécurité organisationnelle et technique, analyse d’écarts ISO 27001 et roadmap progressive de remédiation.",
+  "missionAlliancesTitle": "ALLIANCES — Audit du système d’information",
+  "missionTGRText": "Portail interne pour les collaborateurs, plans de tests fonctionnels et environnements de recette, avec procédures stockées SQL pour les traitements backend.",
+  "missionTGRTitle": "TGR — Développement web & QA",
+  "missionsTitle": "Missions clés & premières expériences",
+  "certShopify": "Shopify Partner & Product Certification",
+  "certCisco": "Cisco Networking Academy — Introduction to Cybersecurity",
+  "certISO": "ISO 27001 — Sensibilisation Lead Implementer / Auditor",
+  "certHubspot": "HubSpot Academy — Sales Hub, Inbound Sales & Frictionless Sales",
+  "certLean": "Lean Six Sigma Green Belt — 5S & DMAIC",
+  "certAnthropic": "Anthropic AI Foundations — Claude Code Workflows",
+  "certificationsTitle": "Certifications & formation continue",
+  "languagesTitle": "Langues & mobilité",
+  "languageFrench": "Français",
+  "languageFrenchLevel": "Langue maternelle / bilingue",
+  "languageEnglish": "Anglais",
+  "languageEnglishLevel": "Professionnel · C1 / C2",
+  "languageArabic": "Arabe",
+  "languageArabicLevel": "Langue maternelle / bilingue",
+  "languageSpanish": "Espagnol",
+  "languageSpanishLevel": "Élémentaire · A2",
+  "mobilityText": "Basé à Paris · Hybride, remote & mobilité · Permis B, véhiculé.",
+  "interestFlyingText": "Formation PPL : navigation, météorologie, check-lists et décisions sous contrainte de temps.",
+  "interestFlyingTitle": "Formation de pilote privé",
+  "interestRallyText": "Missions de commissaire de sécurité : communication radio, gestion des incidents et respect des protocoles d’épreuve.",
+  "interestRallyTitle": "Sécurité en rallye",
+  "interestAutoText": "Restauration et préparation de moteurs, des blocs VAG à une Mercedes CL600 V12, avec étude de la télémétrie et de la dynamique du véhicule en simracing.",
+  "interestAutoTitle": "Mécanique automobile & simulation",
+  "interestTravelText": "Voyages en autonomie à travers 36 pays : préparation d’itinéraires, logistique, adaptation et résolution d’imprévus sur le terrain.",
+  "interestTravelTitle": "Expéditions terrestres",
+  "interestsTitle": "Passions & expériences de terrain",
+  "availability": "Disponible immédiatement · Postes produit",
+  "specialtyIntro": "Basé à Paris. Disponible pour des postes produit en e-commerce, B2B et automatisation.",
+  "aboutText": "La qualité automobile chez Schaeffler, les dispositifs médicaux à MASCIR et les audits de sécurité chez ALLIANCES ont forgé mon approche des systèmes, des risques et des causes racines. J’applique aujourd’hui cette discipline à l’e-commerce, aux plateformes B2B et à la delivery transverse.",
+  "educationKedge": "MSc Ingénierie d’Affaires & Master en Développement Commercial · 2026",
+  "educationISEN": "Parcours Génie Informatique · Business & Data Analyst · Blockchain, IA & Data Engineering",
+  "discoverText": "Interviewer les utilisateurs et cartographier les flux réels et les contraintes avant de rédiger une user story. Diagnostiquer la cause racine avant de cadrer une solution.",
+  "prioritiseText": "Prioriser l’impact métier et la valeur utilisateur avec RICE / MoSCoW. Rendre les arbitrages explicites en équilibrant valeur et effort de réalisation.",
+  "deliverText": "Aligner équipes techniques, opérations et partenaires avec des spécifications claires, critères d’acceptation, sprints et rituels agiles.",
+  "measureText": "Définir les KPI de succès dès le cadrage. Suivre adoption et usages, apprendre des releases et intégrer ces preuves à la prochaine décision de roadmap.",
+  "contactAvailability": "Disponible immédiatement pour un CDI produit · Paris, hybride, remote ou mobilité."
+});
+
+Object.assign(english, ecosystemCopy.en);
+Object.assign(french, ecosystemCopy.fr);
+
 let currentLanguage = 'en';
 function writeCopy(element, value) {
   const parts = String(value).split('\n');
@@ -81,10 +195,13 @@ function writeCopy(element, value) {
   element.replaceChildren(fragment);
 }
 function setLanguage(language) {
-  currentLanguage = language === 'fr' ? 'fr' : 'en';
+  const nextLanguage = language === 'fr' ? 'fr' : 'en';
+  const copyChanged = currentLanguage !== nextLanguage;
+  currentLanguage = nextLanguage;
   const copy = currentLanguage === 'fr' ? french : english;
-  document.documentElement.lang = currentLanguage;
-  document.querySelectorAll('[data-i18n]').forEach(element => {
+  if (document.documentElement.lang !== currentLanguage) document.documentElement.lang = currentLanguage;
+  // The initial English document already contains this copy; keep its existing nodes.
+  if (copyChanged) document.querySelectorAll('[data-i18n]').forEach(element => {
     const value = copy[element.dataset.i18n] ?? english[element.dataset.i18n];
     if (value !== undefined) writeCopy(element, value);
   });
@@ -98,7 +215,7 @@ function setLanguage(language) {
   document.querySelector('.desktop-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation principale' : 'Main navigation');
   document.querySelector('.mobile-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation mobile' : 'Mobile navigation');
   document.querySelector('.contact-arrow').setAttribute('aria-label', currentLanguage === 'fr' ? 'Envoyer un email à Saad Bayahia' : 'Email Saad Bayahia');
-  document.querySelector('.wordmark').setAttribute('aria-label', currentLanguage === 'fr' ? 'Saad Bayahia, accueil' : 'Saad Bayahia, home');
+  document.querySelector('.wordmark').setAttribute('aria-label', currentLanguage === 'fr' ? 'S.B — Saad Bayahia, accueil' : 'S.B — Saad Bayahia, home');
   document.querySelector('.hero-profile').setAttribute('aria-label', currentLanguage === 'fr' ? 'À propos de Saad Bayahia' : 'About Saad Bayahia');
   updateMenuLabel();
   updateFormFeedback();

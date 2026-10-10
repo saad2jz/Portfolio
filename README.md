@@ -1,92 +1,106 @@
-# Saad Bayahia — Matveyan-inspired landing page
+# Saad Bayahia — Product Owner & Digital Builder
 
-A separate adaptation cloned from the original [`saad2jz/Portfolio`](https://github.com/saad2jz/Portfolio) `main` branch, commit `5a69054`. The original profile remains Product Owner / E-Commerce & B2B. The visual direction adapts the supplied reference rather than copying Matveyan's identity or project assets.
+Publication: [saadbayahia.com](https://saadbayahia.com/). GitHub Pages builds `main` automatically; see [deployment setup](DEPLOYMENT.md).
 
-## Open locally
+A separate adaptation of [`saad2jz/Portfolio`](https://github.com/saad2jz/Portfolio), initially cloned from `main` at `5a69054`. The 10 October personalisation refines the creator composition around Saad’s product, e-commerce, B2B and engineering profile: local Space Grotesk/DM Sans typography, ivory/teal accents, a colour portrait and real tool logos in WebGL.
 
-The editable source still works without a build. Serve this folder:
+## Run locally
 
-```sh
-python -m http.server 8000
-```
-
-Open `http://localhost:8000/`.
-
-For the optimized production version, use Node.js 20 or later:
+Use Node.js 20.19+ or 22.12+, as required by the installed Vite release.
 
 ```sh
 npm ci
 npm run build
+npm run dev
+```
+
+Vite serves the editable React/TypeScript app at `http://127.0.0.1:4174/`. The initial build generates the HTML entry points and Tailwind stylesheet. For the compiled production preview:
+
+```sh
+npm run build
 npm run preview
 ```
 
-Open `http://127.0.0.1:4175/`. The build creates `dist/` with bundled/minified CSS and JavaScript, fingerprinted assets, and Brotli/gzip copies. The preview serves compressed responses, conditional requests and long-lived asset caching. Publish the contents of `dist/`. No runtime npm dependencies are needed by the website. See `PERFORMANCE.md` for measurements and hosting requirements.
+Open `http://127.0.0.1:4175/`. The production build renders the page’s semantic HTML before hydration, bundles the client, fingerprints assets, and writes Brotli/gzip copies. Native links, disclosures, original-image links and the form’s HTML action remain usable without JavaScript.
 
-## Contents
+## Edit the page
 
-- `index.html` — new landing page.
-- `portfolio.html` — identical entry point preserving the original filename.
-- `styles.css` — black viewport frame, full-screen hero, alternating project rows and responsive typography.
-- `refinements.css` — editorial type hierarchy, lighter project framing, personal-project bento, portrait, contact treatment and image-gallery styles.
-- `reference-effects.css` — uniform reference typography/surfaces, eight-brand logo band, grain, crosshair controls, hover zoom/glitch and cursor styles.
-- `reference-effects.js` — word-by-word title reveals, image effects and the shared motion pause, including a non-WebGL fallback.
-- `assets/toolkit/` — eight official tool logos, served locally and displayed in monochrome.
-- `assets/page-grain.svg` — original lightweight grain texture.
-- `script.js` — safe text-only EN/FR translations, mobile navigation and contact form.
-- `hero-scene.js` — input, scroll, resize and persistent pause controls for the nine-object scene.
-- `hero-worker.js` and `hero-renderer.js` — WebGL rendering and shader compilation in a worker, with the same renderer as a main-thread fallback and static SVGs when WebGL is unavailable.
-- `motion.js` — project depth/tilt and scroll reveal choreography.
-- `gallery.js` — native dialog image viewer with keyboard navigation, translated controls and focus restoration; original image links remain usable without JavaScript.
-- `assets/product-orbit.svg` and `assets/product-orbit-mobile.svg` — original static desktop/mobile scene fallbacks.
-- `assets/saad-portrait.webp` — local copy of the existing portrait.
-- `assets/favicon.svg` — local favicon.
-- `assets/logos/` — five official site/repository brand assets.
-- `assets/ffa-products.webp` and `assets/cardiag-inspection.webp` — official product photography and presentation artwork.
-- `assets/leadhunt-{agents,copilot,map,integrations,campaigns,sending,extension}.webp` — seven product captures supplied by Saad, losslessly encoded at original dimensions.
-- `assets/secoursnow-{home,profile,triage,tutorial,contacts,help}.webp` — six supplied mobile prototype captures, losslessly encoded at original dimensions.
-- LeadHunt and SecoursNow `*-thumb.webp` files — lightweight gallery previews that open the full originals.
-- `assets/career-ops-{desktop,mobile}.webp` — actual public access screens, captured 8 October 2026.
-- `ASSET-SOURCES.md` — media provenance and capture limits.
-- `avatar.jpg` — original repository illustration, retained; it is not the portrait used in the landing page.
-- `DESIGN.md` — complete downloaded Inspo reference.
-- `DESIGN-DECISIONS.md` — how the reference was adapted to this content.
-- `MISSING-ASSETS.md` — prioritised list of evidence, files, links and publication details still needed.
-- `scripts/build.mjs`, `scripts/serve.mjs` — reproducible production build and local compression/cache preview.
-- `PERFORMANCE.md` — measured before/after performance and optimization decisions.
-- `site.config.json` — confirmed public address, `https://saadbayahia.com/`.
-- `assets/og-cover.jpg`, `social-cover.html` — branded 1200×630 social cover and editable source template; the template is not published in `dist/`.
+| Source | Purpose |
+|---|---|
+| `src/App.tsx` | React sections, bilingual new copy, magnetic portrait, ribbons, text reveals and stacking cards |
+| `src/content.json` | Trusted repository-owned HTML for retained case studies, galleries and contact, plus bilingual project index labels |
+| `src/journey.json` | Seven professional experiences, four education paths and six certification/continuing-education records |
+| `project-layout.js` | Shared card-height observer; only cards that fit below navigation retain sticky stacking |
+| `src/ExtensionSections.tsx`, `extensions.css` | Product methodology, international profile and interests, with shared motion preferences |
+| `src/travel.json`, `assets/travel-world.svg` | The 36 owner-listed destinations and a local, pre-rendered world map |
+| `src/main.tsx`, `src/render.tsx` | Browser hydration and build-time rendering |
+| `src/legacy.ts` | Retained navigation, contact, gallery, horizontal-rail and WebGL enhancements |
+| `creator.css` | Base creator composition, dark/light surfaces, spacing, responsive layout and motion fallbacks |
+| `personality.css`, `depth-effects.js` | Current Space Grotesk/DM Sans hierarchy, teal identity, portrait frame, pointer depth and once-only spatial entrances |
+| `tailwind-input.css`, `postcss.config.js` | Tailwind 4 generation |
+| `page-template.html` | Document metadata, stylesheet references and React entry point |
+| `script.js` | Retained EN/FR dictionary, menu and contact-form behavior |
+| `src/ecosystem-copy.json`, `ecosystems.css` | Bilingual integration roles/statuses, contextual brand groups and final shared card/disclosure/Contact styles |
+| `hero-scene.js`, `hero-worker.js`, `hero-renderer.js` | Fifteen coloured WebGL tool medals, local logo atlas and worker/main-thread/static fallbacks |
+| `gallery.js`, `project-reels.js` | Full-image dialog and native horizontal screenshot rails |
+| `styles.css`, `refinements.css`, `reference-effects.css`, `profile-content.css`, `project-reels.css`, `deadwater.css` | Retained component styles, overridden where necessary by `creator.css` |
+| `site.config.json`, `scripts/` | Confirmed domain, reproducible build and compressed local preview |
 
-After editing `index.html`, mirror it to `portfolio.html`:
+`index.html`, `portfolio.html` and `generated-tailwind.css` are generated by the build. Edit their source files rather than copying changes between HTML entry points. `motion.js` and the Humane font belong to earlier revisions and are not active in the current client entry.
+
+The stack uses React 18, TypeScript, Framer Motion 12, Lucide React and Tailwind 4. Space Grotesk (300–700) and DM Sans (100–1000) use local variable WOFF2 files, with Latin/extended Latin coverage and their OFL licences. There is no external font-service request. Earlier Kanit/Inter font files remain archived in source but their faces are no longer included in the compiled CSS.
+
+## Content and interaction
+
+The section order is Hero → project ribbons → About → Expertise → Approach → Projects → Career → International → Beyond work → Contact. The oversized ivory heading introduces Saad as a Product Owner & Digital Builder. The real portrait keeps its colours inside a framed rounded rectangle, with a restrained magnetic response and perspective tilt. The WebGL renderer displays 24 curated software medallions around the header, using one shared mesh and a local 512px-per-tile texture atlas. Larger circles follow independent elliptical, diagonal and figure-eight paths in opposite directions and stop individually on hover; adaptive resolution preserves detail during zoom. During a native sticky scroll chapter, the portrait recedes and fades, the heading clears and the tool scene zooms into view before releasing the next section. Phone zoom is gentler. Navigation and contact actions remain available; pause restores the original portrait, while reduced motion, WebGL failure and no-JavaScript mode use a static single-frame header. Direct project anchors are realigned after the enhanced header establishes its height. Two counter-scrolling ribbons use eight authentic portfolio visuals, with silent duplicates for continuity.
+
+The white expertise section presents five relevant areas: product strategy, commerce/B2B, automation/integrations, applied AI and quality/systems. All twelve portfolio entries share one numbered Projects stack: FFA, LeadHunt, Cardiag, SecoursNow, Rencontre, Career Ops, Remote Copilot, Ansys, independent commerce, Débarra, ALX and academic studies. Each card has the same heading, presentation, action, visual and case-study structure. Real gallery groups remain 9 / 7 / 5 / 6 / 2 images. SecoursNow shows three captures plus a remaining three-image rail; Career Ops shows its two public access captures. Projects without application captures use explicitly labelled HTML/CSS workflow illustrations. Academic studies remain a six-study collection within one numbered entry.
+
+Each project has one contextual monochrome tool row. New LeadHunt providers appear alongside n8n and HubSpot; Cardiag includes vehicle services, app tooling and Gemini. All roles, configuration states and provider prerequisites remain in the project details. Browser SVG filters preserve recognisable marks when source icons include a background; the source assets are unchanged. Media provenance distinguishes real captures, official photographs, promotional illustrations and public access screens. No fictional template projects or unrelated GIF galleries were introduced. Cardiag uses five supplied interface captures and its action opens the real owner-workspace screenshot. Its bilingual case study explains buyer/owner/mechanic journeys, support for beginners, model-specific recurring faults, Gemini diagnosis and detailed inspection PDFs for pre-purchase checks and vehicle traceability. No public demo or sample PDF is invented.
+
+Shared pause, reduced-motion preferences and hidden-tab handling govern the nonessential motion. Stacking becomes normal document flow on phones, when paused, when project details are open or when keyboard focus enters the stack. All actual controls stay reachable. Gallery dialogs support arrows, Escape, original files and focus restoration. Saved EN/FR preference covers both the React sections and retained content.
+
+The Career section follows the same numbered-card format and shared component as Projects. Seven professional experiences and four education paths have their own cards; six certifications/continuing-education records share one collection card. Three counted chapter links separate experience, education and certifications. Compact company/school indexes link directly to all eleven card headings, using the same numbering. Brief introductions explain each entry's focus; native disclosures retain the full missions and qualification titles without repeating the introduction. Existing dates, undated early missions, the ISEN track and ISO 27001 awareness wording remain qualified in both languages.
+
+Three chapters expand the original portfolio content. Approach follows Expertise with four product stages and a scroll-driven progress rail. International follows Career with the four original language levels, working contexts and mobility. Beyond work presents the 36-destination map, pilot training, rally safety, personal mechanics and simracing. About links to these chapters rather than repeating their records. The map is a lazy local SVG, with a native disclosure for the complete destination list; no runtime map library or CDN is required. Orbital decorations pause with the existing control, reduced-motion preference and hidden-tab state. Without JavaScript they stay static.
+
+Each of the twelve projects has one native details control in its introductory action row, beside the existing project link when supplied. Expanded content occupies the row below, before the images; phone buttons share equal columns and stretch to the same height. Career disclosures retain their full-width format. Nineteen redundant internal header buttons are removed; genuine external project destinations remain. Technical case-study subsections and profile interests no longer require nested disclosure openings. Short ALX/academic introductions and the consolidated Remote Copilot note avoid repeating full descriptions. All original gallery groups, missions, qualifications and integration states remain available.
+
+Space Grotesk covers headings and DM Sans covers body text, controls and footer links. Ivory headings, teal accents and a pale neutral Expertise surface replace the earlier copper/purple mix. Contact shares the heading hierarchy, neutral fields and pill actions. The mobile menu stays fixed in the viewport after deep scrolling, and internal destinations use one coordinated header offset.
+
+The header pairs a framed S.B mark with Saad's name and role on desktop. All language/motion/menu controls reserve 44px targets. Portrait and language cards use bounded four-degree pointer tilt; language and interest visuals enter with a restrained perspective movement. Existing heading entrances, ribbons, methodology progress, galleries and stacking remain. The new effects cancel immediately with shared pause, reduced motion, hidden tabs and pointer departure. No-JavaScript/WebGL-loss states show local static tool logos; they never hide the original portrait or substantive content.
+
+A collapsed native directory at the start of Projects links directly to all twelve numbered headings. It works with the keyboard and without JavaScript, and keeps its open state when changing language. The five main navigation links underline the current content group: Approach belongs to Expertise, while International and Beyond work belong to About. End-of-chapter links continue from International to Beyond work and then Contact. New chapter decorations also pause offscreen; phone interest cards give their descriptions the full card width, with a separate illustration band.
+
+The contact form retains its existing Formspree destination, timeout, duplicate-submit prevention and translated feedback. Development checks intercept form requests; no real message was sent. Real CV, LinkedIn, email and telephone links are retained.
+
+## Validation and delivery
 
 ```sh
-cp index.html portfolio.html
+npm run typecheck
+npm run test:build
 ```
 
-PowerShell: `Copy-Item index.html portfolio.html`.
+See `VALIDATION.md` for the current browser checks and `PERFORMANCE.md` for dated Lighthouse measurements. Historical revision results are explicitly separate from the current React build.
 
-## Content and behaviour
+`site.config.json` contains `https://saadbayahia.com/`. The build injects the canonical, social URLs, structured identity, sitemap and robots declaration; `SITE_URL` can override it for another domain/subfolder. Hosting should serve the supplied Brotli/gzip files and immutable fingerprinted-asset cache headers. `_headers` is provided for compatible hosts.
 
-The page contains FFA, LeadHunt, Cardiag and DTC work, plus four repository-backed explorations: SecoursNow, Rencontre, Career Ops Workspace and Remote Copilot. Project descriptions were checked against the original portfolio and current READMEs. Private source repositories are not exposed as broken public links; Career Ops Workspace credits its open-source upstream.
+This revision is a **local preview**, not a deployment. Supplied FFA operational screenshots still await the owner’s publication treatment for visible customer/account fields and internal figures. Do not publish the current captures without resolving that existing choice. `MISSING-ASSETS.md` lists remaining evidence, dates, CV access, final demo and deployment checks. No Higgsfield-hosted site or paid generation was created.
 
-Selected project rows use real FFA product photography, seven supplied LeadHunt product captures and Cardiag presentation artwork. Five official logos identify their projects; Career Ops includes an actual public access capture. LeadHunt has a dedicated seven-image gallery, including its Chrome extension shown on Saad’s LinkedIn profile; SecoursNow has a separate six-image gallery. SecoursNow uses a wider image/text row with portrait mobile screenshots and a visible phase-one demonstration label. Its original warnings remain in the supplied images. Personal projects use a two-column bento with wide SecoursNow and Career Ops rows, stacking on mobile. Images open in a native dialog with previous/next controls, arrow-key navigation, Escape closing, focus restoration and an original-file link. Desktop/mobile access captures are selected responsively, and below-the-fold media is lazy-loaded with explicit dimensions. Without JavaScript, the existing file links still open the original images. The FFA workflow drawing remains an explicit illustration inside its case study. Public access screenshots are identified as access screens. No unauthorised customer data, fabricated shipped-product screenshots or made-up project results are used.
+## References and evidence
 
-Native anchors, case-study disclosures and the form's HTML action work without JavaScript. JavaScript adds saved language choice, mobile menu controls and a submit flow with a 15-second timeout, duplicate-submit prevention and an accessible status. The existing Formspree endpoint and real contact/CV links are retained.
+- The user’s 9 October creator prompt is the current layout, type and motion direction.
+- [Matveyan](https://matveyan.com/) informed the earlier original 3D scene and dark editorial treatment; the raw Inspo extraction remains in `DESIGN.md`.
+- [Archigreen Designs](https://archigreendesigns.com/) informed compact horizontal screenshot navigation.
+- [Deadwater](https://www.deadwater.fr/) informed earlier masked entrances. Its condensed font and redundant project index are superseded by Kanit and the current composition.
+- `DESIGN-DECISIONS.md` records revision decisions; its older entries are historical.
+- `ASSET-SOURCES.md` records local media/font provenance, including the supplied full originals and their delivery derivatives.
+- `CONTENT-SOURCES.md` records imported live-portfolio content, owner-reported outcomes and chronology discrepancies.
 
-Sending temporarily makes the fields read-only so a successful response cannot erase edits made during the request. Errors and timeouts retain the draft and restore editing. Loading/success/error feedback follows the selected language, and editing the next message clears stale feedback. Galleries show translated loading/error status and retain their original-file link when an image fails; keyboard navigation can recover to another image.
+## Repository enrichment — 9 October 2026
 
-## Design references
+Seven other owner repositories supply additional project information. Seventeen new logo assets appear in 23 contextual placements, alongside the eight existing tool wordmarks. LeadHunt includes Hunter, Apollo, LinkedIn and Kaspr; Cardiag includes carVertical, Oscaro, Ovoko, AUTODOC and Stripe. Smaller groups cover actual project tooling. Bilingual copy preserves roles and setup states inside the native case studies, with project types, illustration labels and conversational descriptions translated too. Integration documentation is not presented as proof of live credentials, automatic partner APIs or partnerships. See `CONTENT-SOURCES.md` and `ASSET-SOURCES.md` for snapshot and media provenance.
 
-- [Matveyan](https://matveyan.com/) — visual inspiration.
-- [Inspo design reference](https://inspomcp.dev/d/matveyan-com/DESIGN.md) — saved in `DESIGN.md`, accessed 7 October 2026.
+## Education curricula and institutional marks — 10 October 2026
 
-The 8 October revision follows the live reference: black surfaces, a full-screen cinematic hero, a fine viewport frame, crosshair details, small uppercase headings and alternating project rows. Copper tones colour nine original 3D objects with independent hover rotation, cursor parallax and scroll-driven dispersion. The shared pause control and reduced-motion support cover grain, glitches, title reveals and 3D motion. Reference-style outward-moving crosshairs, image zoom/desaturation and cursor labels use the portfolio’s own media. An official eight-logo toolkit band replaces the text-only strip. All sections share the same neutral surfaces and type scale. Inter is served locally through `fonts.css` and two WOFF2 subsets in `assets/fonts/`, with a Latin preload, font-display swap and system fallbacks. The font's OFL licence is included. The visible portrait is also local. See `DESIGN-DECISIONS.md` for the latest direction and inspection limits.
-
-The five existing career entries are visible directly beside the portrait and biography. Education has its own native disclosure. Timeline entries and headings use the shared scroll entrances. SecoursNow and Career Ops previews also respond to pointer movement in perspective; shared pause and reduced motion disable this depth interaction.
-
-## Publishing
-
-Build and publish the contents of `dist/` together. `site.config.json` contains the user-confirmed `https://saadbayahia.com/`; the build injects its canonical, Open Graph URL, absolute cover URLs, structured identity URL, `sitemap.xml` and robots sitemap declaration. `SITE_URL` can override the address for another domain/subfolder, or be empty for a purely local build. Addresses with credentials, query strings or fragments are rejected before the previous build is changed.
-
-Relative application assets support subfolder hosting as well as domain-root hosting. Configure the host to serve Brotli/gzip responses and cache fingerprinted assets; `_headers` is supplied for hosts that support that convention. Other hosts need equivalent configuration, and may ignore the precompressed files. `npm run test:build` checks root/subfolder metadata, empty/invalid configuration, asset existence and compression using only the included build dependencies. See `MISSING-ASSETS.md` for the remaining project evidence and deployment checks.
-
-This repo adaptation does not create or publish a Higgsfield-hosted site. There is no deployed production version in this change.
+Education now follows the supplied CV: KEDGE, ISEN, Franche-Comté, UIR/Nantes. Each career chapter numbers its cards from 01 using the same array position as its index; chapter totals derive from the content data (six certification records are grouped in one card). Four bilingual cards show precise qualification titles, locations, three subject icons and local institutional logos. Native disclosures contain readable curriculum domains and primary-source links. Dates remain unchanged; ISEN is presented as a track, with certification preparation distinct from awarded credentials. See CONTENT-SOURCES.md and ASSET-SOURCES.md.

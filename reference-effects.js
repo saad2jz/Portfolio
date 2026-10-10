@@ -10,6 +10,7 @@
   const active = new Set();
   const prepared = new WeakMap();
   const revealed = new WeakSet();
+  const signature = document.querySelector('.signature');
   const headings = [...document.querySelectorAll('.specialty h2,.section-heading h2,.project h3,.lab-heading h3,.lab-card h4,.approach h3,.about h2,.experience-panel h3,.background-content h3,.contact h2')];
   const stopped = () => document.hidden || reduced.matches || root.classList.contains('motion-paused');
 
@@ -24,7 +25,7 @@
   const frames = new IntersectionObserver(entries => {
     for (const entry of entries) if (entry.isIntersecting) { corners(entry.target); frames.unobserve(entry.target); }
   }, {rootMargin: '200px'});
-  document.querySelectorAll('.button,.case-study > summary,.lab-card details > summary,.background-details > summary,.contact-form-details > summary').forEach(element=>frames.observe(element));
+  document.querySelectorAll('.button,.reel-step').forEach(element=>frames.observe(element));
   function prepareImage(link) {
     const image = link.querySelector('img');
     if (!image) return;
@@ -33,17 +34,9 @@
     surface.className = 'media-surface';
     media.before(surface);
     surface.append(media);
-    for (let i = 0; i < 2; i++) {
-      const strip = document.createElement('span');
-      strip.className = 'media-glitch';
-      strip.setAttribute('aria-hidden', 'true');
-      surface.append(strip);
-    }
     corners(link);
     link.addEventListener('pointerenter', () => {
       if (!fine.matches || stopped()) return;
-      // The browser-selected source also handles responsive access screenshots.
-      surface.style.setProperty('--glitch-image', `url("${image.currentSrc || image.src}")`);
       cursor.classList.add('is-visible');
     });
     link.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
@@ -55,7 +48,7 @@
   let pending = false, pointer = {x: -200, y: -200};
   addEventListener('pointermove', event => {
     if (!fine.matches || stopped() || !cursor.classList.contains('is-visible')) return;
-    pointer = {x: Math.min(innerWidth - 144, event.clientX + 18), y: Math.min(innerHeight - 36, event.clientY + 18)};
+    pointer = {x: Math.min(innerWidth - 80, event.clientX + 18), y: Math.min(innerHeight - 80, event.clientY + 18)};
     if (!pending) {
       pending = true;
       requestAnimationFrame(() => { pending = false; cursor.style.transform = `translate3d(${pointer.x}px,${pointer.y}px,0)`; });
@@ -76,23 +69,31 @@
       for (const part of node.textContent.split(/(\s+)/)) {
         if (!part) continue;
         if (/^\s+$/.test(part)) fragment.append(document.createTextNode(part));
-        else { const word = document.createElement('span'); word.className = 'motion-word'; word.textContent = part; fragment.append(word); }
+        else { const mask = document.createElement('span'); mask.className = 'motion-mask'; const word = document.createElement('span'); word.className = 'motion-word'; word.textContent = part; mask.append(word); fragment.append(mask); }
       }
       node.replaceWith(fragment);
     }
   }
   function reveal(heading) {
     if (stopped() || revealed.has(heading)) return;
+    if (heading === signature) {
+      revealed.add(heading);
+      const animation = heading.animate([{opacity:.25,transform:'translateY(60px)'},{opacity:1,transform:'translateY(0)'}], {duration:1200,easing:'cubic-bezier(.16,1,.3,1)'});
+      active.add(animation);
+      animation.finished.then(() => active.delete(animation)).catch(() => active.delete(animation));
+      return;
+    }
     prepare(heading);
     revealed.add(heading);
     heading.querySelectorAll('.motion-word').forEach((word, index) => {
-      const animation = word.animate([{opacity: .2, transform: 'translateY(18px)', filter: 'blur(7px)'}, {opacity: 1, transform: 'translateY(0)', filter: 'blur(0)'}], {duration: 720, delay: Math.min(index * 35, 420), easing: 'cubic-bezier(.16,1,.3,1)'});
+      const animation = word.animate([{transform: 'translateY(105%)'}, {transform: 'translateY(0)'}], {duration: 720, delay: Math.min(index * 35, 420), easing: 'cubic-bezier(.16,1,.3,1)',fill:'backwards'});
       active.add(animation);
       animation.finished.then(() => active.delete(animation)).catch(() => active.delete(animation));
     });
   }
   const observer = new IntersectionObserver(entries => { for (const entry of entries) if (entry.isIntersecting) reveal(entry.target); }, {threshold: .2});
   headings.forEach(heading => observer.observe(heading));
+  if (signature) observer.observe(signature);
 
   function syncPause() {
     root.classList.toggle('motion-paused', reduced.matches || control.getAttribute('aria-pressed') === 'true');
@@ -133,4 +134,11 @@
   }).observe(root, {attributes: true, attributeFilter: ['lang']});
   root.classList.add('effects-ready');
   syncPause();
+  // The scroll chapter changes height when enhanced motion starts. Restore the
+  // requested deep link after layout, and focus it so sticky cards cannot cover it.
+  if(location.hash)requestAnimationFrame(()=>{
+    let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}
+    const target=document.getElementById(id);
+    if(target){target.setAttribute('tabindex','-1');target.focus({preventScroll:true});target.scrollIntoView({behavior:'instant',block:'start'});}
+  });
 })();

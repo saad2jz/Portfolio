@@ -1,0 +1,32 @@
+/* Compact horizontal project evidence, within the established Matveyan frame. */
+.project-reel { min-width:0; max-width:100%; }
+.reel-track { display:flex; grid-template-columns:none; align-items:flex-start; gap:20px; margin:0; padding:8px 8px 12px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; scroll-padding-inline:8px; scrollbar-width:thin; scrollbar-color:#555 transparent; overscroll-behavior-x:contain; }
+.reel-track.is-wheeling { scroll-snap-type:none; }
+.reel-track > .reel-slide { flex:0 0 calc(100% - 24px); min-width:0; margin:0; scroll-snap-align:start; }
+.has-project-reel .reel-track .media-link { width:100%; min-height:44px; background:#0d0d0d; border:1px solid var(--faint-line); }
+.has-project-reel .reel-track img, .has-project-reel .reel-track .media-surface > picture > img { display:block; width:100%; height:clamp(180px,26vw,340px); aspect-ratio:auto; object-fit:contain; }
+.has-project-reel .reel-track figcaption { padding:12px 0 0; color:var(--muted); font:10px/1.6 var(--mono); min-height:44px; }
+.reel-track .capture-chrome { height:26px; }
+.reel-track .media-link:has(.capture-chrome) img { height:calc(clamp(180px,26vw,340px) - 26px); }
+.has-project-reel .reel-track .media-zoom { display:none; }
+.reel-track[data-layout='portrait'] > .reel-slide { flex-basis:clamp(145px,20vw,190px); }
+.reel-track[data-layout='portrait'] .secours-stage { display:block; padding:0; border:0; }
+.reel-track[data-layout='portrait'] .secours-stage-label, .reel-track[data-layout='portrait'] .secours-stage-index { display:none; }
+.has-project-reel .reel-track[data-layout='portrait'] .media-link { display:grid; place-items:center; box-shadow:none; }
+.reel-track[data-layout='portrait'] .media-surface { display:grid; place-items:center; width:100%; }
+.has-project-reel .reel-track[data-layout='portrait'] img { height:clamp(250px,23vw,320px); width:auto; max-width:100%; }
+.reel-toolbar { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:8px 8px 12px; }
+.reel-hint { font:10px/1.5 var(--mono); color:var(--muted); letter-spacing:.04em; }
+.reel-controls { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.reel-controls[hidden] { display:none; }
+.reel-count { font:10px/1.5 var(--mono); color:var(--ink); min-width:48px; text-align:right; margin-right:4px; }
+.reel-step { display:grid; place-items:center; height:44px; width:44px; background:transparent; border:1px solid var(--faint-line); font:16px/1 var(--mono); }
+.reel-step:hover:not(:disabled) { border-color:var(--ink); }
+.reel-step:disabled { opacity:.35; cursor:default; }
+.reel-progress { height:1px; background:var(--faint-line); margin:0 8px; overflow:hidden; }
+.reel-progress > span { display:block; height:100%; background:var(--ink); transform:scaleX(var(--reel-progress,0)); transform-origin:left; }
+.has-project-reel > .ffa-gallery-note, .has-project-reel > .lead-gallery-note, .has-project-reel > .secours-gallery-note { margin-top:14px; padding-left:8px; }
+.project > figure.has-project-reel::before, .project > figure.has-project-reel::after { display:none; }
+.has-project-reel { min-width:0; }
+@media (max-width:760px) { .reel-track { gap:16px; } .reel-toolbar { gap:10px; } .reel-hint { max-width:120px; font-size:9px; } }
+@media (prefers-reduced-motion:reduce) { .reel-track { scroll-behavior:auto; } }

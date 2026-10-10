@@ -230,6 +230,13 @@ html.gallery-open { overflow: hidden; }
 .lead-gallery img{width:100%;height:auto;aspect-ratio:16/10;object-fit:contain}
 .lead-gallery figcaption{font:10px/1.5 var(--mono);padding:10px 0 0;letter-spacing:0;color:#c2c8d1}
 .lead-gallery-note{font:10px/1.5 var(--mono);color:var(--muted);margin-top:16px}
+.ffa-gallery { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px 14px; margin-top:24px; }
+.ffa-thumbnail { min-width:0; margin:0; }
+.ffa-gallery .media-link { background:#0d0d0d; min-height:44px; }
+.ffa-gallery img { width:100%; height:auto; aspect-ratio:16/10; object-fit:contain; }
+.official-media .ffa-gallery figcaption { padding:10px 0 0; font:10px/1.6 var(--mono); color:var(--muted); }
+.ffa-gallery-note { font:10px/1.7 var(--mono); color:var(--muted); margin-top:16px; }
+@media(max-width:760px) { .ffa-gallery { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px 14px; } }
 .project>.lead-product::after{display:none}
 @media(max-width:560px){.lead-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}.lead-gallery figcaption{font-size:10px}}
 

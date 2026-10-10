@@ -1,0 +1,38 @@
+/* Imported portfolio content follows the same sharp, monochrome frame. */
+.content-disclosure { margin-top:24px; border-block:1px solid var(--faint-line); min-width:0; }
+.content-disclosure > summary { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:56px; padding:14px 8px; cursor:pointer; font:11px/1.6 var(--mono); list-style:none; }
+.content-disclosure > summary::-webkit-details-marker { display:none; }
+.content-disclosure > summary > [data-i18n] { min-width:0; }
+.content-disclosure > summary:hover { color:var(--ink); }
+.content-disclosure > summary:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+.content-disclosure[open] > summary .summary-icon { transform:rotate(45deg); }
+.content-disclosure-body { padding:20px 8px 26px; min-width:0; }
+.content-disclosure-body > article + article, .content-disclosure-body > p + p { margin-top:24px; }
+.content-card-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px 32px; }
+.content-card-grid > article { min-width:0; }
+.content-disclosure h4 { color:var(--ink); font-size:14px; line-height:1.6; font-weight:500; margin-bottom:10px; letter-spacing:0; }
+.content-disclosure p, .content-disclosure li { color:var(--muted); font-size:14px; line-height:1.8; }
+.content-disclosure .text-link { margin-top:14px; font-size:11px; }
+.content-disclosure .lab-stack { display:block; margin-top:12px; }
+.content-list { list-style:none; }
+.content-list > li { padding:12px 0; border-bottom:1px solid var(--faint-line); }
+.content-list > li:first-child { padding-top:0; }
+.content-list > li:last-child { border:0; padding-bottom:0; }
+.project-dtc .content-disclosure { max-width:850px; }
+.lab-card-ansys { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.25fr); gap:0 48px; }
+.lab-card-ansys .lab-card-top { grid-column:1/-1; margin-bottom:20px; }
+.lab-card-ansys h4 { margin-top:0; }
+.lab-card-ansys > div > p { font-size:14px; color:var(--muted); line-height:1.8; }
+.lab-card-ansys .project-recognition { padding:14px 0; margin-top:18px; border-block:1px solid var(--faint-line); font:11px/1.6 var(--mono); color:var(--ink); }
+.lab-card-ansys .content-disclosure h4 { font-size:14px; }
+.profile-languages { margin-top:32px; }
+.profile-languages > h3 { font-size:18px; font-weight:300; line-height:1.4; letter-spacing:.03em; margin-bottom:20px; }
+.language-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 24px; }
+.language-grid > div { border-top:1px solid var(--faint-line); padding-top:12px; }
+.language-grid dt { color:var(--ink); font-size:14px; font-weight:500; }
+.language-grid dd { color:var(--muted); font-size:12px; line-height:1.6; margin-top:4px; }
+.about-copy .mobility-note { margin-top:20px; font:11px/1.8 var(--mono); }
+.contact-availability { font-size:14px; color:var(--muted); max-width:680px; margin:4px 0 28px; }
+.contact-links { flex-wrap:wrap; row-gap:12px; }
+@media(max-width:760px) { .lab-card-ansys { grid-template-columns:1fr; gap:24px; } .lab-card-ansys .lab-card-top { margin-bottom:0; } .content-card-grid { grid-template-columns:1fr; gap:24px; } .content-disclosure-body { padding-inline:0; } }
+@media(prefers-reduced-motion:reduce) { .content-disclosure > summary, .content-disclosure .summary-icon { transition:none; } }

@@ -1,0 +1,126 @@
+{
+  "columns": 6,
+  "rows": 4,
+  "tools": [
+    {
+      "name": "Shopify",
+      "color": "#719a2b",
+      "kind": "tool"
+    },
+    {
+      "name": "n8n",
+      "color": "#db4969",
+      "kind": "tool"
+    },
+    {
+      "name": "HubSpot",
+      "color": "#f2833a",
+      "kind": "tool"
+    },
+    {
+      "name": "GitHub",
+      "color": "#718099",
+      "kind": "tool"
+    },
+    {
+      "name": "Mirakl",
+      "color": "#448fde",
+      "kind": "tool"
+    },
+    {
+      "name": "Erplain",
+      "color": "#ba814d",
+      "kind": "tool"
+    },
+    {
+      "name": "Pennylane",
+      "color": "#20b98a",
+      "kind": "tool"
+    },
+    {
+      "name": "Gemini",
+      "color": "#7883ee",
+      "kind": "tool"
+    },
+    {
+      "name": "Stripe",
+      "color": "#9268df",
+      "kind": "tool"
+    },
+    {
+      "name": "Cloudflare",
+      "color": "#e99b31",
+      "kind": "tool"
+    },
+    {
+      "name": "Cisco",
+      "color": "#41bbde",
+      "kind": "tool"
+    },
+    {
+      "name": "AWS",
+      "color": "#f9a028",
+      "kind": "tool"
+    },
+    {
+      "name": "SAP",
+      "color": "#439bd6",
+      "kind": "tool"
+    },
+    {
+      "name": "Google Ads",
+      "color": "#5c9ae5",
+      "kind": "tool"
+    },
+    {
+      "name": "Meta Ads",
+      "color": "#4586ee",
+      "kind": "tool"
+    },
+    {
+      "name": "Semrush",
+      "color": "#ff8351",
+      "kind": "tool"
+    },
+    {
+      "name": "Trello",
+      "color": "#5089e5",
+      "kind": "tool"
+    },
+    {
+      "name": "Microsoft Office",
+      "color": "#ef643c",
+      "kind": "tool"
+    },
+    {
+      "name": "Python",
+      "color": "#6eadd9",
+      "kind": "tool"
+    },
+    {
+      "name": "MySQL",
+      "color": "#64a2b4",
+      "kind": "tool"
+    },
+    {
+      "name": "Brevo",
+      "color": "#52bd89",
+      "kind": "tool"
+    },
+    {
+      "name": "JavaScript",
+      "color": "#d6c955",
+      "kind": "tool"
+    },
+    {
+      "name": "Apify",
+      "color": "#f29b52",
+      "kind": "tool"
+    },
+    {
+      "name": "Power BI",
+      "color": "#ddba39",
+      "kind": "tool"
+    }
+  ]
+}

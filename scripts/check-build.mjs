@@ -19,6 +19,12 @@ async function verify(url){
   const missing=[];
   for(const asset of new Set([...Object.values(manifest.assets),manifest.css,manifest.js,...(html.match(/assets\/[a-zA-Z0-9_./-]+\.(?:svg|webp|avif|woff2|jpg|js|css)/g)||[])]))try{await fs.access(path.join(root,'dist',asset));}catch{missing.push(asset);}
   check('Every referenced gallery, preview, font and bundle exists',missing.length===0);
+  const scriptSources=[...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/g)].map(m=>m[1]);
+  const stylesheets=[...html.matchAll(/<link\b[^>]*\brel="stylesheet"[^>]*\bhref="([^"]+)"[^>]*>/g)].map(m=>m[1]);
+  check('Production requests only the compiled script and stylesheet',scriptSources.length===1&&scriptSources[0]===manifest.js&&stylesheets.length===1&&stylesheets[0]===manifest.css);
+  const stale=[];
+  for(const file of [...scriptSources,...stylesheets])try{await fs.access(path.join(root,'dist',file));}catch{stale.push(file);}
+  check('Every HTML script and stylesheet request has a delivered file',stale.length===0);
   const cover=manifest.assets['assets/og-cover.jpg'];
   if(base){
     check('Canonical and Open Graph URLs match',html.includes(`rel="canonical" href="${base}"`)&&html.includes(`property="og:url" content="${base}"`));

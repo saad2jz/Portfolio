@@ -1,0 +1,170 @@
+[
+  {
+    "en": "Europe",
+    "fr": "Europe",
+    "countries": [
+      {
+        "en": "Spain",
+        "fr": "Espagne"
+      },
+      {
+        "en": "Portugal",
+        "fr": "Portugal"
+      },
+      {
+        "en": "France",
+        "fr": "France"
+      },
+      {
+        "en": "Germany",
+        "fr": "Allemagne"
+      },
+      {
+        "en": "Netherlands",
+        "fr": "Pays-Bas"
+      },
+      {
+        "en": "Belgium",
+        "fr": "Belgique"
+      },
+      {
+        "en": "Switzerland",
+        "fr": "Suisse"
+      },
+      {
+        "en": "Italy",
+        "fr": "Italie"
+      },
+      {
+        "en": "Austria",
+        "fr": "Autriche"
+      },
+      {
+        "en": "Czech Republic",
+        "fr": "Rép. tchèque"
+      },
+      {
+        "en": "Poland",
+        "fr": "Pologne"
+      },
+      {
+        "en": "Slovakia",
+        "fr": "Slovaquie"
+      },
+      {
+        "en": "Hungary",
+        "fr": "Hongrie"
+      },
+      {
+        "en": "Slovenia",
+        "fr": "Slovénie"
+      },
+      {
+        "en": "Croatia",
+        "fr": "Croatie"
+      },
+      {
+        "en": "Bosnia & Herz.",
+        "fr": "Bosnie-Herzégovine"
+      },
+      {
+        "en": "Montenegro",
+        "fr": "Monténégro"
+      },
+      {
+        "en": "Serbia",
+        "fr": "Serbie"
+      },
+      {
+        "en": "North Macedonia",
+        "fr": "Macédoine du Nord"
+      },
+      {
+        "en": "Albania",
+        "fr": "Albanie"
+      },
+      {
+        "en": "Greece",
+        "fr": "Grèce"
+      },
+      {
+        "en": "Turkey",
+        "fr": "Turquie"
+      },
+      {
+        "en": "Bulgaria",
+        "fr": "Bulgarie"
+      },
+      {
+        "en": "Romania",
+        "fr": "Roumanie"
+      },
+      {
+        "en": "Moldova",
+        "fr": "Moldavie"
+      },
+      {
+        "en": "Estonia",
+        "fr": "Estonie"
+      },
+      {
+        "en": "Latvia",
+        "fr": "Lettonie"
+      },
+      {
+        "en": "Lithuania",
+        "fr": "Lituanie"
+      }
+    ]
+  },
+  {
+    "en": "North Africa",
+    "fr": "Afrique du Nord",
+    "countries": [
+      {
+        "en": "Morocco",
+        "fr": "Maroc"
+      },
+      {
+        "en": "Algeria",
+        "fr": "Algérie"
+      },
+      {
+        "en": "Tunisia",
+        "fr": "Tunisie"
+      }
+    ]
+  },
+  {
+    "en": "Caucasus",
+    "fr": "Caucase",
+    "countries": [
+      {
+        "en": "Azerbaijan",
+        "fr": "Azerbaïdjan"
+      },
+      {
+        "en": "Georgia",
+        "fr": "Géorgie"
+      }
+    ]
+  },
+  {
+    "en": "Southeast Asia",
+    "fr": "Asie du Sud-Est",
+    "countries": [
+      {
+        "en": "Malaysia",
+        "fr": "Malaisie"
+      },
+      {
+        "en": "Indonesia",
+        "fr": "Indonésie"
+      },
+      {
+        "en": "Philippines",
+        "fr": "Philippines"
+      }
+    ]
+  }
+]

@@ -47,9 +47,9 @@
   function update() {
     scheduled = false;
     const distance = document.documentElement.scrollHeight - innerHeight;
-    document.documentElement.style.setProperty('--reading-progress', String(distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0));
     const rect = work.getBoundingClientRect();
     const current = rect.top < innerHeight * .45 && rect.bottom > 120;
+    document.documentElement.style.setProperty('--reading-progress', String(distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0));
     workLink.classList.toggle('is-current', current);
     if (current) workLink.setAttribute('aria-current', 'location'); else workLink.removeAttribute('aria-current');
   }
@@ -57,5 +57,5 @@
   addEventListener('scroll', schedule, {passive: true});
   addEventListener('resize', schedule, {passive: true});
   new ResizeObserver(schedule).observe(document.body);
-  update();
+  // The observer's initial delivery schedules the ruler after the first layout.
 })();
