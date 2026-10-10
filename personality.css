@@ -87,6 +87,22 @@ html.effects-ready .creator-hero-stage.scene-static>.creator-hero{position:relat
 @media(max-width:760px){.hero-tool-fallback img{width:86px;height:86px;padding:20px}.hero-tool-fallback img:nth-child(1){left:4%;top:27%}.hero-tool-fallback img:nth-child(2){left:74%;top:30%}.hero-tool-fallback img:nth-child(3){left:9%;top:57%}.hero-tool-fallback img:nth-child(4){left:72%;top:62%}.hero-tool-fallback img:nth-child(5){left:6%;top:76%}.hero-tool-fallback img:nth-child(6){left:68%;top:79%}}
 @media(prefers-reduced-motion:reduce){.creator-hero-stage .portrait-scroll-zoom,.creator-hero-stage .hero-scene-zoom{transform:none}.creator-hero-stage .portrait-scroll-zoom,.creator-hero-stage .hero-role,.creator-hero-stage .hero-shade{opacity:1}}
 
+/* The real About heading grows through the toolkit zoom, then continues in normal flow. */
+.creator-intro{position:relative}
+.about-title-reveal{transform-origin:50% 50%}
+@media(prefers-reduced-motion:no-preference){
+ html.effects-ready .creator-intro:not(:has(.scene-static))>.creator-about{margin-top:-100svh;z-index:4;isolation:isolate}
+ html.effects-ready .creator-intro:not(:has(.scene-static))>.creator-about::before{content:'';position:absolute;inset:0 calc(50% - 50vw);z-index:-1;background:linear-gradient(#0c0c0c00,#0c0c0c 180px);opacity:clamp(0,calc((var(--hero-zoom,0) - .25)*1.6),1);pointer-events:none}
+ html.effects-ready .creator-intro:not(:has(.scene-static)) .about-title-reveal{opacity:clamp(0,calc((var(--hero-zoom,0) - .35)*2.5),1);transform:scale(clamp(.35,calc(.35 + (var(--hero-zoom,0) - .35)),1))}
+ html.effects-ready .creator-intro:not(:has(.scene-static)) .about-content{opacity:clamp(0,calc((var(--hero-zoom,0) - .68)*4),1)}
+ html.effects-ready .creator-intro:not(:has(.scene-static)) .creator-hero{opacity:clamp(0,calc((.96 - var(--hero-zoom,0))*2),1)}
+ html.effects-ready .creator-intro:not(:has(.scene-static)) .creator-hero-bottom{opacity:clamp(0,calc(1.5 - var(--hero-zoom,0)*2.5),1)}
+ html.effects-ready .creator-intro:not(:has(.scene-static)) .about-orbit{opacity:calc(clamp(0,calc((var(--hero-zoom,0) - .65)*3),1)*.75)}
+}
+html.motion-paused .creator-intro :is(.creator-hero,.creator-hero-bottom,.about-title-reveal,.about-content),.creator-about:focus-within :is(.about-title-reveal,.about-content){opacity:1!important}
+html.motion-paused .creator-intro .about-title-reveal,.creator-about:focus-within .about-title-reveal{transform:none!important}
+html.motion-paused .creator-intro>.creator-about::before,.creator-about:focus-within::before{opacity:1!important;background:#0c0c0c!important}
+
 /* Education uses the same project cards and monochrome logo row. */
 .creator-project.project:not([data-stack-fit=true]){position:relative;top:0!important;transform:none!important}
 .creator-project .project-description{display:block}
