@@ -20,7 +20,7 @@ import {restoreReadingPosition} from './src/scroll-position';
   ['contact','#contact-title','.contact-heading','mint']
  ];
  const exits={
-  expertise:['#showcase','.marquee-viewport:last-child','mint'],
+  expertise:['#about','.about-content','mint'],
   skills:['#services','.services-list','forest'],
   approach:['#skills','.skill-card:last-of-type','blue'],
   projects:['#method','.method-steps','violet'],
