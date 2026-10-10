@@ -186,3 +186,12 @@ html.motion-paused .creator-intro>.creator-about::before,.creator-about:focus-wi
 @media(max-width:900px){.skills-grid{grid-template-columns:1fr}.skill-card{padding:30px}.skill-card h3{font-size:32px}.skill-summary{max-width:52ch}.skills-introduction{grid-template-columns:1fr;gap:20px}.skills-introduction>p:last-child{max-width:60ch}.skills-index{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.skills-section{margin-top:-36px;padding-top:75px;padding-bottom:65px;border-radius:36px 36px 0 0}.skills-introduction{margin-top:24px}.skills-introduction>p:last-child{font-size:15px}.skills-grid{gap:18px}.skill-card{padding:24px;border-radius:28px;scroll-margin-top:12px}.skill-card-top{margin-bottom:22px}.skill-number{font-size:52px}.skill-card h3{font-size:29px}.skill-summary{font-size:16px}.skill-capabilities{font-size:14px;gap:12px}.skills-index{gap:0 18px;margin-bottom:28px}.skills-index a{font-size:12px;gap:8px;min-height:60px}.skills-index svg{width:14px}.skill-tools{gap:16px 22px}.skill-tools li{font-size:12px}.skill-tool-wordmark{width:55px}.skills-section+.method-section{padding-top:65px}.services-stack-link{font-size:15px}}
 @media(max-width:380px){.skill-card{padding:22px 20px}.skill-card h3{font-size:27px}.skills-index{grid-template-columns:1fr}.skills-index a{font-size:14px;min-height:48px}.skill-tools{gap:15px 18px}}
+/* Independent commerce has its own chapter outside the numbered projects. */
+.creator-entrepreneurship{margin-top:0;padding-top:80px;border-top:1px solid var(--faint-line);border-radius:0}
+.creator-entrepreneurship .creator-section-title{font-size:clamp(32px,8.6vw,120px);overflow-wrap:anywhere}
+.creator-entrepreneurship .creator-project{position:relative;top:auto;transform:none!important;z-index:auto;margin-bottom:0}
+.creator-entrepreneurship .creator-project-intro{grid-template-columns:minmax(0,1fr)}
+.creator-entrepreneurship .project-copy h3{display:block;text-wrap:balance}
+.creator-entrepreneurship .project-context{grid-column:1/-1}
+.creator-entrepreneurship .chapter-next{margin-top:28px}
+@media(max-width:760px){.creator-entrepreneurship{padding-top:60px}.creator-entrepreneurship .creator-project-intro{grid-template-columns:minmax(0,1fr)}}
