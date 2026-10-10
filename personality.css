@@ -103,6 +103,16 @@ html.motion-paused .creator-intro :is(.creator-hero,.creator-hero-bottom,.about-
 html.motion-paused .creator-intro .about-title-reveal,.creator-about:focus-within .about-title-reveal{transform:none!important}
 html.motion-paused .creator-intro>.creator-about::before,.creator-about:focus-within::before{opacity:1!important;background:#0c0c0c!important}
 
+/* Keep the mobile document inside the viewport while image rails scroll locally.
+   Root clipping also covers browsers that do not support overflow:clip. */
+@media(max-width:900px){
+ html{overflow-x:hidden;overscroll-behavior-x:none}
+ body,#root,.creator-page{width:100%;max-width:100%;min-width:0}
+ .marquee-viewport{overscroll-behavior-x:contain}
+ .project-reel,.reel-track{width:100%;max-width:100%;min-width:0}
+ @supports(overflow:clip){html,body{overflow-x:clip}}
+}
+
 /* Education uses the same project cards and monochrome logo row. */
 .creator-project.project:not([data-stack-fit=true]){position:relative;top:0!important;transform:none!important}
 .creator-project .project-description{display:block}
