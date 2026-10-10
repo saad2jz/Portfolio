@@ -86,7 +86,7 @@ export async function createRenderer(canvas,config,onLost=()=>{}) {
     const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
     const positions=[],occupied=[];
     toolkit.tools.forEach((_,i)=>{
-      const radius=(mobile?.031:.044)+random()*(mobile?.011:.020);
+      const radius=(mobile?.043:.064)+random()*(mobile?.015:.029);
       // Leave room for the entire orbit, including the larger medallion rim.
       const motion={x:(mobile?.025:.035)+random()*.025,y:.035+random()*.030,speed:.18+random()*.14,direction:i%2?-1:1,phase:random()*Math.PI*2,path:i%3};
       const marginX=radius/aspect+motion.x+.018,minY=.14+radius+motion.y,maxY=.94-radius-motion.y;
