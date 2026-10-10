@@ -8,7 +8,7 @@ type Copy = {en:string; fr:string};
 const text = (copy:Copy, fr:boolean) => fr ? copy.fr : copy.en;
 
 // Keep semantic, visible HTML before hydration; play entrances only once in view.
-function Reveal({children,stopped,className='',delay=0}:{children:ReactNode;stopped:boolean;className?:string;delay?:number}) {
+export function Reveal({children,stopped,className='',delay=0}:{children:ReactNode;stopped:boolean;className?:string;delay?:number}) {
  const ref=useRef<HTMLDivElement>(null),seen=useRef(false),visible=useInView(ref,{once:true,margin:'-30px'}),controls=useAnimationControls();
  useEffect(()=>{if(stopped){controls.stop();controls.set({opacity:1,y:0});if(visible)seen.current=true;}else if(visible&&!seen.current){seen.current=true;controls.start({opacity:[.75,1],y:[24,0],transition:{duration:.65,delay,ease:[.16,1,.3,1]}});}return()=>controls.stop();},[visible,stopped,controls,delay]);
  return <m.div ref={ref} initial={false} animate={controls} className={className}>{children}</m.div>;
