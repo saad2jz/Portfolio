@@ -11,7 +11,7 @@
   const prepared = new WeakMap();
   const revealed = new WeakSet();
   const signature = document.querySelector('.signature');
-  const headings = [...document.querySelectorAll('.specialty h2,.section-heading h2,.project h3,.lab-heading h3,.lab-card h4,.approach h3,.about h2,.experience-panel h3,.background-content h3,.contact h2')];
+  const headings = [...document.querySelectorAll('.specialty h2,.section-heading h2,.project h3:not([data-react-heading]),.lab-heading h3,.lab-card h4,.approach h3,.about h2,.experience-panel h3,.background-content h3,.contact h2')];
   const stopped = () => document.hidden || reduced.matches || root.classList.contains('motion-paused');
 
   function corners(element) {
