@@ -254,3 +254,9 @@ TypeScript and all 32 production-build checks pass. CUA Chromium checks: 375 × 
 ## Remove project preview ribbon — 10 October 2026
 
 Removed the two-row project preview marquee and its introductory label from the React composition and pre-rendered documents. Expertise now follows About directly, with the exit-zoom source reconnected to About content. The nine detailed project cards remain. TypeScript and the production build pass; 16 unused ribbon image variants are no longer emitted. Desktop and 375 × 812 CUA inspection confirms the preview section/tiles are absent, the next chapter reveals fully, no horizontal overflow, and no JavaScript errors.
+
+## Tighter section spacing — 10 October 2026
+
+Chapter introductions now use content-driven minimum heights of 56svh (desktop, bounded 240–520 px) / 50svh (phone, bounded 200–400 px), with shorter sticky travel. Reduced excess section padding, title-to-content margins, inter-card spacing and journey group gaps; retained text sizes and touch targets. Paused/reduced-motion flow remains unpinned.
+
+TypeScript and production build pass. At the default 1265 × 720 desktop viewport the document shrinks from 37830 to 31947 px (15.6%); chapter tracks shrink from 948 to 576 px. CUA inspected desktop Expertise, 375 × 812 Education, 320 × 740 long certification heading, and 844 × 390 Skills. No horizontal overflow or runtime errors. Exit zoom precedes title growth and reverses with scroll. Motion pause returns relative positioning / 0 minimum height. Mobile reload preserves 29598.67 px before and after. Screenshots confirm content remains readable and following content appears sooner.

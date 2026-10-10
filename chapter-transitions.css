@@ -8,8 +8,8 @@
 .chapter-stage::before,.chapter-stage::after{content:'';position:absolute;pointer-events:none;z-index:-1;left:50%;top:50%;transform-origin:center}
 .chapter-stage::before{width:min(110vw,1500px);height:clamp(300px,72svh,680px);background:radial-gradient(ellipse at center,rgba(var(--chapter-rgb),.16),transparent 63%),repeating-radial-gradient(ellipse at center,transparent 0 67px,rgba(var(--chapter-rgb),.1) 68px 69px,transparent 70px 96px);mask-image:radial-gradient(ellipse at center,#000 10%,transparent 68%);transform:translate(-50%,-50%) scale(calc(.65 + var(--chapter-progress)*1.4));opacity:calc(.35 + var(--chapter-progress)*.5)}
 .chapter-stage::after{width:clamp(260px,64vw,920px);height:clamp(120px,27vw,390px);border:1px solid rgba(var(--chapter-rgb),.23);border-radius:50%;box-shadow:0 0 0 24px rgba(var(--chapter-rgb),.025),inset 0 0 0 22px rgba(var(--chapter-rgb),.025);transform:translate(-50%,-50%) rotate(calc(-18deg + var(--chapter-progress)*25deg)) scale(calc(.45 + var(--chapter-progress)*1.8));opacity:calc((1 - var(--chapter-progress))*.7 + .13);mask-image:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent)}
-.chapter-track{position:relative;height:calc(var(--chapter-height,auto) + var(--chapter-travel,0px));margin-bottom:32px}
-.chapter-track>.chapter-stage{position:sticky;top:92px;min-height:calc(100svh - 92px);margin:0!important;justify-content:center;align-content:center;padding-block:38px}
+.chapter-track{position:relative;height:calc(var(--chapter-height,auto) + var(--chapter-travel,0px));margin-bottom:20px}
+.chapter-track>.chapter-stage{position:sticky;top:92px;min-height:clamp(240px,56svh,520px);margin:0!important;justify-content:center;align-content:center;padding-block:28px}
 .chapter-track>.chapter-stage:is(.extension-heading,.creator-work-heading,.journey-group-header){display:flex;flex-direction:column;align-items:center;gap:0}
 .chapter-track .chapter-stage::before{opacity:calc(.15 + var(--chapter-progress)*.75);background:radial-gradient(ellipse at center,rgba(var(--chapter-rgb),.25),transparent 66%),repeating-radial-gradient(ellipse at center,transparent 0 67px,rgba(var(--chapter-rgb),.17) 68px 69px,transparent 70px 96px)}
 .chapter-zoom-title{scale:calc(.35 + var(--chapter-progress)*.65);translate:0 calc((1 - var(--chapter-progress))*36px);opacity:clamp(0,calc((var(--chapter-progress) - .12)*1.4),1);transform-origin:50% 50%}
@@ -36,8 +36,36 @@
 /* The last halo must end inside Contact, rather than extending the document
    and moving the final zoom's scroll endpoint as it expands. */
 .creator-page .contact{overflow:clip}
+/* Keep the chapter rhythm without full-screen empty title interludes.
+   Heights remain content-driven for wrapped titles and enlarged text. */
+.creator-page .creator-about{min-height:0;padding-block:96px 72px}
+.creator-page .animated-profile-text{margin-top:36px}
+.creator-page .profile-facts{margin-block:32px 36px}
+.creator-page .profile-chapters{margin-top:28px;padding-top:18px}
+.creator-page .creator-services{padding-block:64px 88px}
+.creator-page .services-list{margin-top:28px}
+.creator-page .creator-projects{padding-block:64px 48px}
+.creator-page .skills-section{padding-block:64px 72px}
+.creator-page .extended-section{padding-block:56px}
+.creator-page .creator-journey{padding-top:48px}
+.creator-page .creator-project.project{margin-bottom:40px}
+.creator-page .entrepreneurship-card{margin-bottom:0}
+.creator-page .journey-group{margin-bottom:48px}
+.creator-page .journey-group-header{margin-bottom:24px}
+.creator-page .contact{margin-top:16px;padding-block:40px}
 @media(max-width:760px){
- .chapter-track>.chapter-stage{top:80px;min-height:calc(100svh - 80px);padding-block:30px}
+ .chapter-track>.chapter-stage{top:80px;min-height:clamp(200px,50svh,400px);padding-block:24px}
+ .creator-page .creator-about{padding-block:64px 48px}
+ .creator-page .creator-services{padding-block:40px 64px}
+ .creator-page .creator-projects{padding-block:40px 32px}
+ .creator-page .skills-section{padding-block:40px 48px}
+ .creator-page .extended-section{padding-block:36px}
+ .creator-page .creator-project.project{margin-bottom:28px}
+ .creator-page .entrepreneurship-card{margin-bottom:0}
+ .creator-page .journey-group{margin-bottom:32px}
+ .creator-page .animated-profile-text{margin-top:28px}
+ .creator-page .profile-facts{margin-block:28px}
+ .creator-page .contact{padding-block:28px}
  .chapter-stage::before{height:420px;width:110vw}
  .chapter-stage::after{width:90vw;height:42vw}
  .chapter-exit-surface{scale:calc(1 + var(--chapter-exit-progress)*.07)}

@@ -64,7 +64,7 @@ import {restoreReadingPosition} from './src/scroll-position';
   // Read geometry as a batch; changing custom properties follows the reads.
   const geometry=scenes.map(scene=>({scene,height:scene.stage.offsetHeight}));
   for(const {scene,height} of geometry){
-   scene.travel=scene.hero||paused()?0:Math.min(320,viewport*.45);
+   scene.travel=scene.hero||paused()?0:innerWidth<=760?Math.min(160,viewport*.2):Math.min(190,viewport*.24);
    if(scene.track){scene.track.style.setProperty('--chapter-height',`${height}px`);scene.track.style.setProperty('--chapter-travel',`${scene.travel}px`);}
   }
   departure.style.setProperty('--chapter-header-height',`${headerHeight}px`);
