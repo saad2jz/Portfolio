@@ -9,7 +9,10 @@
   const cursorX=document.getElementById('cursor-x'),cursorY=document.getElementById('cursor-y'),scrollPosition=document.getElementById('scroll-position');
   let paused=false;try{paused=localStorage.getItem('portfolio-motion-paused')==='true';}catch{}
   // ResizeObserver supplies exact layout dimensions before the deferred renderer starts.
-  const model={width:1,height:1,dpr:devicePixelRatio||1,renderScale:1,lowPower:navigator.connection?.saveData===true||(navigator.deviceMemory&&navigator.deviceMemory<=4),paused,reduced:reduced.matches,hidden:document.hidden,visible:true,scroll:0,logoAtlasURL:new URL(art.dataset.logoAtlas,document.baseURI).href};
+  const creator=hero.classList.contains('creator-hero');
+  // Allocate for the peak CSS zoom once, instead of resizing GPU buffers while scrolling.
+  const peakScale=()=>creator?(innerWidth<=760?1.5:1.75):1;
+  const model={width:1,height:1,dpr:devicePixelRatio||1,renderScale:peakScale(),lowPower:navigator.connection?.saveData===true||(navigator.deviceMemory&&navigator.deviceMemory<=4),paused,reduced:reduced.matches,hidden:document.hidden,visible:true,scroll:0,logoAtlasURL:new URL(art.dataset.logoAtlas,document.baseURI).href};
   let resolveDimensions;
   const dimensionsReady=new Promise(resolve=>{resolveDimensions=resolve;});
   let renderer=null,worker=null,ready=false,lost=false,scheduled=0,sequence=0,lastPointer=null;
@@ -21,15 +24,16 @@
     scheduled=0;if(lost)return;
     // Measure only on input/scroll/resize, never in the renderer's animation loop.
     // Canvas-local coordinates remain correct through the sticky CSS zoom.
-    const bounds=canvas.getBoundingClientRect();
-    const scale=Math.max(1,Math.ceil((bounds.width/Math.max(1,model.width)-.001)*4)/4),qualityChanged=scale!==model.renderScale;
+    if(!model.visible&&ready)return;
+    const bounds=(!creator||model.pointerActive)?canvas.getBoundingClientRect():null;
+    const scale=creator?peakScale():Math.max(1,Math.ceil((bounds.width/Math.max(1,model.width)-.001)*4)/4),qualityChanged=scale!==model.renderScale;
     model.renderScale=scale;
     if(lastPointer&&model.pointerActive){model.pointerX=(lastPointer.x-bounds.left)*model.width/Math.max(1,bounds.width);model.pointerY=(lastPointer.y-bounds.top)*model.height/Math.max(1,bounds.height);}
     send({type:qualityChanged?'resize':'update',model:{...model}});
     if(model.visible&&!document.hidden){if('pointerX' in model){cursorX.textContent=String(Math.round(model.pointerX));cursorY.textContent=String(Math.round(model.pointerY));}scrollPosition.textContent=String(Math.round(scrollY));}
   }
   function schedule(){if(!scheduled)scheduled=requestAnimationFrame(flush);}
-  function progress(){const bounds=stage.getBoundingClientRect();// The React hero owns scroll zoom; keep the legacy camera path for other compositions.
+  function progress(){if(creator){if(model.pointerActive&&model.visible&&!paused&&!reduced.matches)schedule();return;}const bounds=stage.getBoundingClientRect();// Only an active pointer needs new canvas-local coordinates during the React zoom.
     const next=reduced.matches||lost||hero.classList.contains('creator-hero')?0:Math.max(0,Math.min(1,-bounds.top/Math.max(1,bounds.height-model.height)));if(next!==model.scroll)stage.style.setProperty('--scene-progress',String(next));model.scroll=next;schedule();}
   function label(){const fr=root.lang==='fr',stopped=paused||reduced.matches;control.disabled=reduced.matches;control.setAttribute('aria-pressed',String(stopped));control.classList.toggle('is-paused',stopped);control.setAttribute('aria-label',reduced.matches?(fr?'Animation désactivée : mouvement réduit':'Animation disabled: reduced motion'):stopped?(fr?'Reprendre les animations':'Resume animations'):(fr?'Mettre les animations en pause':'Pause animations'));control.title=control.getAttribute('aria-label');}
   function finish(){delete control.dataset.scenePending;control.hidden=false;label();document.dispatchEvent(new Event('hero-scene-ready'));}
@@ -50,7 +54,7 @@
   document.addEventListener('visibilitychange',()=>{model.hidden=document.hidden;send({type:'update',model:{...model}});});
   reduced.addEventListener('change',()=>{model.reduced=reduced.matches;progress();label();send({type:'update',model:{...model}});});
   new IntersectionObserver(entries=>{model.visible=entries[0].isIntersecting;send({type:'update',model:{...model}});schedule();},{threshold:.01}).observe(hero);
-  new ResizeObserver(([entry])=>{model.width=entry.contentRect.width;model.height=entry.contentRect.height;model.dpr=devicePixelRatio||1;resolveDimensions();progress();send({type:'resize',model:{...model}});}).observe(hero);
+  new ResizeObserver(([entry])=>{model.width=entry.contentRect.width;model.height=entry.contentRect.height;model.dpr=devicePixelRatio||1;if(creator)model.renderScale=peakScale();resolveDimensions();progress();send({type:'resize',model:{...model}});}).observe(hero);
   addEventListener('pagehide',()=>{model.hidden=true;send({type:'update',model:{...model}});});
   addEventListener('pageshow',()=>{model.hidden=document.hidden;schedule();});
   requestAnimationFrame(()=>requestAnimationFrame(async()=>{

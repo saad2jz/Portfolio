@@ -187,6 +187,7 @@ Object.assign(french, {
 
 Object.assign(english, ecosystemCopy.en);
 Object.assign(french, ecosystemCopy.fr);
+french.formRequired = 'Tous les champs sont obligatoires. Votre email sert uniquement à vous répondre.';
 
 let currentLanguage = 'en';
 function writeCopy(element, value) {
@@ -216,10 +217,10 @@ function setLanguage(language) {
   document.querySelector('.desktop-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation principale' : 'Main navigation');
   document.querySelector('.mobile-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation mobile' : 'Mobile navigation');
   document.querySelector('.contact-arrow').setAttribute('aria-label', currentLanguage === 'fr' ? 'Envoyer un email à Saad Bayahia' : 'Email Saad Bayahia');
-  document.querySelector('.wordmark').setAttribute('aria-label', currentLanguage === 'fr' ? 'S.B — Saad Bayahia, accueil' : 'S.B — Saad Bayahia, home');
-  document.querySelector('.hero-profile').setAttribute('aria-label', currentLanguage === 'fr' ? 'À propos de Saad Bayahia' : 'About Saad Bayahia');
+  document.querySelector('.creator-scroll').setAttribute('aria-label', currentLanguage === 'fr' ? 'Découvrir le portfolio' : 'Explore the portfolio');
   updateMenuLabel();
   updateFormFeedback();
+  form.querySelectorAll('[aria-invalid="true"]').forEach(field => validateField(field));
   try { localStorage.setItem('portfolio-language', currentLanguage); } catch {}
 }
 document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.language)));
@@ -236,6 +237,17 @@ function closeMenu(restoreFocus = false) {
   updateMenuLabel();
   if (restoreFocus) menuButton.focus();
 }
+menuButton.addEventListener('keydown', event => {
+  if (event.key !== 'ArrowDown') return;
+  event.preventDefault();
+  mobileNavigation.hidden = false;
+  menuButton.setAttribute('aria-expanded', 'true');
+  updateMenuLabel();
+  mobileNavigation.querySelector('a')?.focus();
+});
+document.addEventListener('focusin', event => {
+  if (!mobileNavigation.hidden && !mobileNavigation.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+});
 menuButton.addEventListener('click', () => {
   const open = menuButton.getAttribute('aria-expanded') !== 'true';
   mobileNavigation.hidden = !open;
@@ -251,31 +263,61 @@ document.addEventListener('click', event => {
     if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
   } else if (!mobileNavigation.hidden && !mobileNavigation.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
 });
-window.matchMedia('(min-width:761px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+window.matchMedia('(min-width:761px)').addEventListener('change', event => { if (event.matches) closeMenu(mobileNavigation.contains(document.activeElement)); });
 
 const form = document.querySelector('.contact-form');
 const formButton = form.querySelector('button[type="submit"]');
 const formButtonLabel = formButton.querySelector('[data-i18n="formSubmit"]');
 const formStatus = form.querySelector('.form-status');
 let formState = 'idle';
-form.addEventListener('input', () => { if (formState !== 'sending') { formState = 'idle'; updateFormFeedback(); } });
+// Native required/type validation remains available when JavaScript is disabled.
+form.noValidate = true;
+function validateField(field) {
+  const fr = currentLanguage === 'fr';
+  const missing = !field.value.trim();
+  const invalid = missing || !field.validity.valid;
+  const message = missing ? (fr ? 'Veuillez renseigner ce champ.' : 'Please complete this field.')
+    : field.type === 'email' ? (fr ? 'Saisissez une adresse email valide, par exemple nom@entreprise.fr.' : 'Enter a valid email address, for example name@company.com.')
+    : (fr ? 'Veuillez vérifier ce champ.' : 'Please check this field.');
+  const error = document.getElementById(field.id + '-error');
+  error.hidden = !invalid;
+  error.textContent = invalid ? message : '';
+  if (invalid) field.setAttribute('aria-invalid', 'true');
+  else field.removeAttribute('aria-invalid');
+  return !invalid;
+}
+form.addEventListener('input', event => {
+  if (formState === 'sending') return;
+  if (event.target.hasAttribute('aria-invalid')) validateField(event.target);
+  formState = 'idle'; updateFormFeedback();
+});
+form.addEventListener('focusout', event => {
+  if (event.target.matches('input,textarea') && event.target.value) validateField(event.target);
+});
 function updateFormFeedback() {
   const fr = currentLanguage === 'fr';
   const messages = fr ? {
+    invalid: 'Vérifiez les champs indiqués avant l’envoi.',
     sending: 'Envoi en cours…',
     success: 'Message envoyé. Merci, je vous réponds rapidement.',
     error: 'Envoi impossible. Réessayez ou contactez-moi directement par email.'
   } : {
+    invalid: 'Check the highlighted fields before sending.',
     sending: 'Sending…',
     success: "Message sent. Thank you — I'll get back to you shortly.",
     error: 'Could not send. Please retry or email me directly.'
   };
   formButtonLabel.textContent = formState === 'sending' ? messages.sending : fr ? french.formSubmit : english.formSubmit;
   formStatus.textContent = messages[formState] || '';
+  form.dataset.state = formState;
 }
 form.addEventListener('submit', async event => {
   event.preventDefault();
-  if (formState === 'sending' || !form.reportValidity()) return;
+  if (formState === 'sending') return;
+  const invalid = [...form.querySelectorAll('input,textarea')].filter(field => !validateField(field));
+  if (invalid.length) {
+    formState = 'invalid'; updateFormFeedback(); invalid[0].focus(); return;
+  }
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
   const data = new FormData(form);

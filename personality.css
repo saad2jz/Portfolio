@@ -1,4 +1,12 @@
 /* Saad's product/engineering identity. Local fonts, quiet teal, real tool marks. */
+/* Feedback stays beside its field and remains readable in the dark theme. */
+.contact-form .form-guidance{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.contact-form .field-error{font-size:14px;color:#ffb6b6;line-height:1.5;margin:-14px 0 24px}
+.contact-form [aria-invalid=true]{border-color:#ffb6b6}
+.contact-form[data-state=invalid] .form-status,.contact-form[data-state=error] .form-status{color:#ffb6b6}
+.contact-form .form-status{font-size:14px;line-height:1.6}
+.mobile-nav{max-height:calc(100dvh - 100px);overflow-y:auto;overscroll-behavior-y:contain;scroll-padding-block:12px}
+@media(max-width:760px){.lightbox-image-wrap{padding-bottom:72px}.lightbox-step{bottom:12px}}
 @font-face{font-family:'Space Grotesk';src:url('assets/fonts/space-grotesk-latin.woff2') format('woff2');font-weight:300 700;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Space Grotesk';src:url('assets/fonts/space-grotesk-latin-ext.woff2') format('woff2');font-weight:300 700;font-style:normal;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'DM Sans';src:url('assets/fonts/dm-sans-latin.woff2') format('woff2');font-weight:100 1000;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -73,10 +81,6 @@ html.motion-paused .creator-hero-stage .portrait-scroll-zoom,html.effects-suspen
 html.motion-paused .creator-hero-stage .hero-scene-zoom,html.effects-suspended .creator-hero-stage .hero-scene-zoom{transform:none}
 html.motion-paused .creator-hero-stage .hero-role,html.motion-paused .creator-hero-stage .hero-shade,html.effects-suspended .creator-hero-stage .hero-role,html.effects-suspended .creator-hero-stage .hero-shade{opacity:1}
 html.motion-paused .hero-title-layer,html.effects-suspended .hero-title-layer{opacity:1}
-html.effects-ready .creator-hero-stage.scene-static{height:var(--hero-frame);min-height:0}
-html.effects-ready .creator-hero-stage.scene-static>.creator-hero{position:relative;top:auto;height:var(--hero-frame);min-height:0}
-.creator-hero-stage.scene-static .portrait-scroll-zoom,.creator-hero-stage.scene-static .hero-scene-zoom{transform:none}
-.creator-hero-stage.scene-static :is(.portrait-scroll-zoom,.hero-title-layer,.hero-role,.hero-shade){opacity:1}
 .hero-tool-fallback img{width:148px;height:148px;padding:32px}
 .hero-tool-fallback img:nth-child(1){left:9%;top:23%}
 .hero-tool-fallback img:nth-child(2){left:74%;top:25%}
@@ -91,17 +95,17 @@ html.effects-ready .creator-hero-stage.scene-static>.creator-hero{position:relat
 .creator-intro{position:relative}
 .about-title-reveal{transform-origin:50% 50%}
 @media(prefers-reduced-motion:no-preference){
- html.effects-ready .creator-intro:not(:has(.scene-static))>.creator-about{margin-top:-100svh;z-index:4;isolation:isolate}
- html.effects-ready .creator-intro:not(:has(.scene-static))>.creator-about::before{content:'';position:absolute;inset:0 calc(50% - 50vw);z-index:-1;background:linear-gradient(#0c0c0c00,#0c0c0c 180px);opacity:clamp(0,calc((var(--hero-zoom,0) - .25)*1.6),1);pointer-events:none}
- html.effects-ready .creator-intro:not(:has(.scene-static)) .about-title-reveal{opacity:clamp(0,calc((var(--hero-zoom,0) - .35)*2.5),1);transform:scale(clamp(.35,calc(.35 + (var(--hero-zoom,0) - .35)),1))}
- html.effects-ready .creator-intro:not(:has(.scene-static)) .about-content{opacity:clamp(0,calc((var(--hero-zoom,0) - .68)*4),1)}
- html.effects-ready .creator-intro:not(:has(.scene-static)) .creator-hero{opacity:clamp(0,calc((.96 - var(--hero-zoom,0))*2),1)}
- html.effects-ready .creator-intro:not(:has(.scene-static)) .creator-hero-bottom{opacity:clamp(0,calc(1.5 - var(--hero-zoom,0)*2.5),1)}
- html.effects-ready .creator-intro:not(:has(.scene-static)) .about-orbit{opacity:calc(clamp(0,calc((var(--hero-zoom,0) - .65)*3),1)*.75)}
+ html.effects-ready .creator-intro>.creator-about{margin-top:-100svh;z-index:4;isolation:isolate}
+ html.effects-ready .creator-intro>.creator-about::before{content:'';position:absolute;inset:0 calc(50% - 50vw);z-index:-1;background:linear-gradient(#0c0c0c00,#0c0c0c 180px);opacity:clamp(0,calc((var(--hero-zoom,0) - .25)*1.6),1);pointer-events:none}
+ html.effects-ready .creator-intro .about-title-reveal{opacity:clamp(0,calc((var(--hero-zoom,0) - .35)*2.5),1);transform:scale(clamp(.35,calc(.35 + (var(--hero-zoom,0) - .35)),1))}
+ html.effects-ready .creator-intro .about-content{opacity:clamp(0,calc((var(--hero-zoom,0) - .68)*4),1)}
+ html.effects-ready .creator-intro .creator-hero{opacity:clamp(0,calc((.96 - var(--hero-zoom,0))*2),1)}
+ html.effects-ready .creator-intro .creator-hero-bottom{opacity:clamp(0,calc(1.5 - var(--hero-zoom,0)*2.5),1)}
+ html.effects-ready .creator-intro .about-orbit{opacity:calc(clamp(0,calc((var(--hero-zoom,0) - .65)*3),1)*.75)}
 }
-html.motion-paused .creator-intro :is(.creator-hero,.creator-hero-bottom,.about-title-reveal,.about-content),.creator-about:focus-within :is(.about-title-reveal,.about-content){opacity:1!important}
-html.motion-paused .creator-intro .about-title-reveal,.creator-about:focus-within .about-title-reveal{transform:none!important}
-html.motion-paused .creator-intro>.creator-about::before,.creator-about:focus-within::before{opacity:1!important;background:#0c0c0c!important}
+html.motion-paused .creator-intro :is(.creator-hero,.creator-hero-bottom,.about-title-reveal,.about-content),.creator-about:has(:focus-visible) :is(.about-title-reveal,.about-content){opacity:1!important}
+html.motion-paused .creator-intro .about-title-reveal,.creator-about:has(:focus-visible) .about-title-reveal{transform:none!important}
+html.motion-paused .creator-intro>.creator-about::before,.creator-about:has(:focus-visible)::before{opacity:1!important;background:#0c0c0c!important}
 
 /* Keep the mobile document inside the viewport while image rails scroll locally.
    Root clipping also covers browsers that do not support overflow:clip. */
@@ -207,3 +211,9 @@ html.motion-paused .creator-intro>.creator-about::before,.creator-about:focus-wi
 .creator-entrepreneurship .commerce-operations-note{margin:32px 0 0;padding-top:24px;border-top:1px solid var(--faint-line);color:var(--muted);font-size:14px;line-height:1.7;max-width:80ch}
 @media(max-width:760px){.commerce-topics{grid-template-columns:minmax(0,1fr);gap:28px}.creator-entrepreneurship .commerce-topic p{font-size:15px}.creator-entrepreneurship .commerce-platforms{font-size:13px}.creator-entrepreneurship .project-actions{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:760px){.creator-entrepreneurship{padding-top:60px}.creator-entrepreneurship .creator-project-intro{grid-template-columns:minmax(0,1fr)}}
+
+/* A WebGL fallback still supports the CSS scroll transition. A deliberate pause
+   restores a normal document, including the About section below the portrait. */
+html.motion-paused .creator-intro>.creator-hero-stage{height:var(--hero-frame);min-height:0}
+html.motion-paused .creator-intro>.creator-hero-stage>.creator-hero{position:relative;top:auto;height:var(--hero-frame)}
+html.motion-paused .creator-intro>.creator-about{margin-top:0}
