@@ -140,11 +140,5 @@
   }).observe(root, {attributes: true, attributeFilter: ['lang']});
   root.classList.add('effects-ready');
   syncPause();
-  // The scroll chapter changes height when enhanced motion starts. Restore the
-  // requested deep link after layout, and focus it so sticky cards cannot cover it.
-  if(location.hash)requestAnimationFrame(()=>{
-    let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}
-    const target=document.getElementById(id);
-    if(target){target.setAttribute('tabindex','-1');target.focus({preventScroll:true});target.scrollIntoView({behavior:'instant',block:'start'});}
-  });
+  // Chapter transitions restore deep links after their final layout is measured.
 })();

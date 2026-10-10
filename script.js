@@ -261,6 +261,12 @@ document.addEventListener('click', event => {
     closeMenu();
     const target = document.getElementById(anchor.getAttribute('href').slice(1));
     if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+    // A sticky hero's current rectangle is not the start of the document.
+    if (target?.id === 'home') {
+      event.preventDefault();
+      if (location.hash !== '#home') history.pushState(null, '', '#home');
+      scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+    }
   } else if (!mobileNavigation.hidden && !mobileNavigation.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
 });
 window.matchMedia('(min-width:761px)').addEventListener('change', event => { if (event.matches) closeMenu(mobileNavigation.contains(document.activeElement)); });

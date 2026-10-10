@@ -71,4 +71,16 @@
  document.fonts?.ready.then(invalidate);
  addEventListener('pageshow',invalidate);
  invalidate();
+ // Native fragment positioning happens before the enhanced chapter spacers exist.
+ // Restore it once after fonts and committed layout, without overriding a new click.
+ const initialFragment=location.hash;
+ if(initialFragment)(document.fonts?.ready||Promise.resolve()).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  if(location.hash!==initialFragment)return;
+  let id;try{id=decodeURIComponent(initialFragment.slice(1));}catch{return;}
+  const target=document.getElementById(id);if(!target)return;
+  measure();target.setAttribute('tabindex','-1');target.focus({preventScroll:true});
+  if(id==='home')scrollTo({top:0,behavior:'instant'});
+  else target.scrollIntoView({behavior:'instant',block:'start'});
+  schedule();
+ })));
 })();
