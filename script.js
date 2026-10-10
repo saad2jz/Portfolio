@@ -46,7 +46,7 @@ const french = {
   carIntro: "Une plateforme d'évaluation de véhicules avec des parcours distincts pour acheteurs, garagistes, vendeurs et propriétaires, des contrôles techniques au rapport structuré.",
   carProblem: "Acheteur, garagiste et propriétaire attendent des informations différentes sur le même véhicule. Une checklist générique ne couvre pas ces décisions.",
   carDelivery: "Fiches adaptées au persona, diagnostic guidé, photos et signatures, comparaison, budgets et rapports PDF. Un assistant atelier côté serveur accompagne le parcours de diagnostic.",
-  dtcTitle: 'Commerce indépendant', dtcIntro: "Création et développement de boutiques Shopify avec responsabilité P&L complète, acquisition multicanale et équipe à distance aux Philippines.",
+  dtcTitle: 'Commerce indépendant', dtcIntro: "Création de marques e-commerce et pilotage de toute l’activité : identité, boutiques, négociation fournisseurs, acquisition et ventes internationales.",
   cursorViewImage: 'VOIR L’IMAGE', toolsLabel: 'MES OUTILS CONNECTÉS',
   labEyebrow: 'PLUS / EXPLORATIONS PRODUIT', labTitle: 'Projets personnels & explorations', productNotes: 'Notes sur le produit',
   secoursCaption: 'Écran d’accueil · capture du prototype fournie par Saad.',

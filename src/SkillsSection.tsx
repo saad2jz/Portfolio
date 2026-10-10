@@ -24,9 +24,9 @@ const domains=[
  {
   id:'commerce',icon:ShoppingBag,label:copy('Commerce','Commerce'),title:copy('Commerce & operations','Commerce & opérations'),
   summary:copy('Connect the storefront to the systems that keep the business running.','Connecter la boutique aux systèmes qui font fonctionner l’activité.'),
-  capabilities:[copy('Shopify Plus, B2B journeys and custom Liquid development.','Shopify Plus, parcours B2B et développements Liquid sur mesure.'),copy('Marketplace catalogues and feeds; ERP stock and order synchronisation.','Catalogues et flux marketplace ; synchronisation ERP des stocks et commandes.'),copy('Logistics, fulfilment and invoicing integrations.','Intégrations logistiques, expéditions et facturation.')],
+  capabilities:[copy('Shopify / Shopify Plus, WordPress / WooCommerce, B2B journeys and custom Liquid development.','Shopify / Shopify Plus, WordPress / WooCommerce, parcours B2B et développements Liquid sur mesure.'),copy('Marketplace catalogues and feeds; ERP stock and order synchronisation.','Catalogues et flux marketplace ; synchronisation ERP des stocks et commandes.'),copy('Logistics, fulfilment and invoicing integrations.','Intégrations logistiques, expéditions et facturation.')],
   tools:[{name:'Shopify',src:'assets/toolkit/shopify.svg',wide:true},{name:'Mirakl',src:'assets/toolkit/mirakl.svg',wide:true},{name:'Erplain',src:'assets/toolkit/erplain.webp',wide:true},{name:'Colissimo',src:'assets/toolkit/colissimo.svg',wide:true},{name:'Pennylane',src:'assets/toolkit/pennylane.webp',wide:true}],
-  methods:['Shopify Plus','Liquid','ERP'],proof:copy('FFA · connected commerce','FFA · commerce connecté'),href:'#ffa-title'
+  methods:['WooCommerce','Liquid','ERP'],proof:copy('FFA · connected commerce','FFA · commerce connecté'),href:'#ffa-title'
  },
  {
   id:'development',icon:Code2,label:copy('Development','Développement'),title:copy('Development & data','Développement & data'),
