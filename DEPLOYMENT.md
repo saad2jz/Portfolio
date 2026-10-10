@@ -4,7 +4,7 @@ The portfolio is built from `main` in `saad2jz/Portfolio` by `.github/workflows/
 
 ## Repository settings
 
-In **Settings → Pages**, select **GitHub Actions** as the source, set the custom domain to `saadbayahia.com`, and enable **Enforce HTTPS** once the certificate is available. `site.config.json` holds the matching canonical address. GitHub Actions publishing does not require a `CNAME` file; the custom domain is configured in the repository settings.
+In **Settings → Pages**, select **GitHub Actions** as the source, set the custom domain to `www.saadbayahia.com`, and enable **Enforce HTTPS** once the certificate is available. `site.config.json` holds the matching canonical address. GitHub Actions publishing does not require a `CNAME` file; the custom domain is configured in the repository settings. Both hostnames remain valid: the apex redirects to the primary www address.
 
 The domain's existing DNS records already point to GitHub Pages:
 

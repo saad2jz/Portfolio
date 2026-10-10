@@ -1,6 +1,6 @@
 # Saad Bayahia — Product Owner & Digital Builder
 
-Publication: [saadbayahia.com](https://saadbayahia.com/). GitHub Pages builds `main` automatically; see [deployment setup](DEPLOYMENT.md).
+Publication: [www.saadbayahia.com](https://www.saadbayahia.com/). GitHub Pages builds `main` automatically; see [deployment setup](DEPLOYMENT.md).
 
 A separate adaptation of [`saad2jz/Portfolio`](https://github.com/saad2jz/Portfolio), initially cloned from `main` at `5a69054`. The 10 October personalisation refines the creator composition around Saad’s product, e-commerce, B2B and engineering profile: local Space Grotesk/DM Sans typography, ivory/teal accents, a colour portrait and real tool logos in WebGL.
 
