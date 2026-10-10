@@ -207,8 +207,8 @@ function setLanguage(language) {
   });
   document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === currentLanguage)));
   const description = currentLanguage === 'fr'
-    ? 'Saad Bayahia, Product Owner à Paris. Discovery produit, Shopify Plus, plateformes B2B et automatisation : des problèmes complexes aux résultats mesurables.'
-    : 'Saad Bayahia, Product Owner in Paris. Product discovery, Shopify Plus, B2B platforms and automation — from complex problems to measurable outcomes.';
+    ? 'Saad Bayahia, Product Owner, Business Engineer et Quality Engineer à Paris. Prospection B2B, vente complexe, négociation, produits numériques et amélioration continue.'
+    : 'Saad Bayahia, Product Owner, Business Engineer and Quality Engineer in Paris. B2B prospecting, complex sales, negotiation, digital products and continuous improvement.';
   for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) document.querySelector(selector).content = description;
   const coverAlt = currentLanguage === 'fr' ? 'Saad Bayahia — Product Owner, E-Commerce & B2B. Portfolio à Paris.' : 'Saad Bayahia — Product Owner, E-Commerce & B2B. Portfolio in Paris.';
   for (const selector of ['meta[property="og:image:alt"]', 'meta[name="twitter:image:alt"]']) document.querySelector(selector).content = coverAlt;
