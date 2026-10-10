@@ -1,4 +1,5 @@
 import ecosystemCopy from './src/ecosystem-copy.json';
+import {navigateToFragment} from './src/scroll-position';
 
 'use strict';
 
@@ -259,14 +260,12 @@ document.addEventListener('click', event => {
   const anchor = event.target.closest('a[href^="#"]');
   if (anchor) {
     closeMenu();
-    const target = document.getElementById(anchor.getAttribute('href').slice(1));
-    if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
-    // A sticky hero's current rectangle is not the start of the document.
-    if (target?.id === 'home') {
-      event.preventDefault();
-      if (location.hash !== '#home') history.pushState(null, '', '#home');
-      scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
-    }
+    if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||anchor.target||anchor.hasAttribute('download'))return;
+    let target;try{target=document.getElementById(decodeURIComponent(anchor.getAttribute('href').slice(1)));}catch{return;}
+    if(!target)return;
+    event.preventDefault();
+    if(location.hash!==anchor.hash)history.pushState(null,'',anchor.hash);
+    navigateToFragment(target,matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('motion-paused')?'instant':'smooth');
   } else if (!mobileNavigation.hidden && !mobileNavigation.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
 });
 window.matchMedia('(min-width:761px)').addEventListener('change', event => { if (event.matches) closeMenu(mobileNavigation.contains(document.activeElement)); });

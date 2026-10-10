@@ -13,6 +13,23 @@ export function flowTop(element:HTMLElement){
  return top;
 }
 
+// Resolve sticky cards against their flow markers, rather than the pile's
+// current screen position. Chapter links finish the introduction's zoom.
+export function navigateToFragment(target:HTMLElement,behavior:ScrollBehavior='instant'){
+ const card=target.closest<HTMLElement>('.creator-project.project');
+ const marker=card?.previousElementSibling as HTMLElement|null;
+ const stage=target.closest<HTMLElement>('.chapter-stage')||target.querySelector<HTMLElement>('.chapter-stage');
+ const track=stage?.parentElement?.classList.contains('chapter-track')?stage.parentElement:null;
+ const header=document.querySelector('header')?.offsetHeight||80;
+ const top=target.id==='home'||target.id==='main'?0:marker?.classList.contains('project-marker')?flowTop(marker)-header-16:track?flowTop(track)-header+parseFloat(track.style.getPropertyValue('--chapter-travel')||'0'):flowTop(target)-header-16;
+ target.setAttribute('tabindex','-1');target.focus({preventScroll:true});
+ scrollTo({top:Math.max(0,top),behavior});
+}
+
+function fragmentTarget(hash:string){
+ try{return document.getElementById(decodeURIComponent(hash.slice(1)));}catch{return null;}
+}
+
 function anchors(){
  const hero=document.querySelector<HTMLElement>('.creator-hero-stage');
  const result=hero?[{element:hero,kind:'hero',id:'home'}]:[];
@@ -79,6 +96,21 @@ export function restoreReadingPosition(measure:()=>void){
  addEventListener('pagehide',remember);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)remember();});
 
+ // Same-document fragment scrolling also uses sticky rectangles. On history
+ // navigation, keep the saved reading position; for a new hash use flow geometry.
+ addEventListener('hashchange',()=>{
+  if(!ready)return;
+  measure();
+  const position=history.state?.[key] as Position|undefined;
+  if(position?.version===1&&position.hash===location.hash&&Number.isFinite(position.offset)&&Number.isFinite(position.y)){
+   const anchor=anchors().find(item=>item.kind===position.kind&&item.id===position.id);
+   scrollTo({top:anchor?flowTop(anchor.element)+position.offset:position.y,behavior:'instant'});
+  }else{
+   const target=fragmentTarget(location.hash);
+   if(target)navigateToFragment(target);
+  }
+ });
+
  // Fonts, translation, chapter spacers and card pin points must settle before
  // restoring. A bounded stability check avoids arbitrary delayed scroll jumps.
  Promise.all([document.fonts?.ready,document.readyState==='complete'?Promise.resolve():new Promise<void>(resolve=>addEventListener('load',()=>resolve(),{once:true}))]).then(()=>{
@@ -94,18 +126,8 @@ export function restoreReadingPosition(measure:()=>void){
      const anchor=anchors().find(item=>item.kind===saved.kind&&item.id===saved.id);
      scrollTo({top:anchor?flowTop(anchor.element)+saved.offset:saved.y,behavior:'instant'});
     }else if(initialHash){
-     let id='';try{id=decodeURIComponent(initialHash.slice(1));}catch{/* Ignore malformed fragments. */}
-     const target=document.getElementById(id);
-     if(target){
-      const card=target.closest<HTMLElement>('.creator-project.project');
-      const marker=card?.previousElementSibling as HTMLElement|null;
-      const stage=target.closest<HTMLElement>('.chapter-stage')||target.querySelector<HTMLElement>('.chapter-stage');
-      const track=stage?.parentElement?.classList.contains('chapter-track')?stage.parentElement:null;
-      const header=document.querySelector('header')?.offsetHeight||80;
-      const top=id==='home'||id==='main'?0:marker?.classList.contains('project-marker')?flowTop(marker)-header-16:track?flowTop(track)-header+parseFloat(track.style.getPropertyValue('--chapter-travel')||'0'):flowTop(target)-header-16;
-      scrollTo({top,behavior:'instant'});
-      target.setAttribute('tabindex','-1');target.focus({preventScroll:true});
-     }
+     const target=fragmentTarget(initialHash);
+     if(target)navigateToFragment(target);
     }
    }
    finish();measure();dispatchEvent(new Event('scroll'));
