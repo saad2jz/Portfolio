@@ -5,7 +5,6 @@
   const root=document.documentElement;
   const edge=8; // Ignore the gutter and subpixel visual overflow at either end.
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  const fine=matchMedia('(hover: hover) and (pointer: fine)');
   const stopped=()=>reduced.matches||root.classList.contains('motion-paused');
   const measurements=new WeakMap();
   // Reading slide offsets would force layout of otherwise skipped projects.
@@ -19,7 +18,7 @@
     const previous=reel.querySelector('[data-direction="previous"]');
     const next=reel.querySelector('[data-direction="next"]');
     const count=reel.querySelector('.reel-count');
-    let offsets=[],max=0,index=0,pending=false,wheelTimer=0,keyFocus=false;
+    let offsets=[],max=0,index=0,pending=false,keyFocus=false;
     previous.disabled=true;
     count.textContent=`01 / ${String(slides.length).padStart(2,'0')}`;
     reel.querySelector('.reel-controls').hidden=false;
@@ -41,7 +40,6 @@
     }
     function schedule() { if(!pending){pending=true;requestAnimationFrame(update);} }
     function go(target,instant=false) {
-      clearTimeout(wheelTimer);track.classList.remove('is-wheeling');
       track.scrollTo({left:offsets[Math.max(0,Math.min(slides.length-1,target))]||0,behavior:instant||stopped()?'instant':'smooth'});
     }
     function step(direction) {
@@ -81,18 +79,10 @@
       const left=track.scrollLeft;
       if(offsets[target]<left||offsets[target]>left+track.clientWidth-slide.offsetWidth)go(target,true);
     });
-    track.addEventListener('wheel',event=>{
-      if(!fine.matches||stopped()||event.ctrlKey||event.metaKey||event.altKey||Math.abs(event.deltaX)>=Math.abs(event.deltaY))return;
-      const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?track.clientHeight:1);
-      const left=track.scrollLeft;
-      // Release vertical scrolling naturally at either end; never intercept the page.
-      if(!max||delta<0&&left<=edge||delta>0&&left>=max-edge)return;
-      event.preventDefault();track.classList.add('is-wheeling');
-      track.scrollLeft=Math.max(0,Math.min(max,left+delta));
-      clearTimeout(wheelTimer);wheelTimer=setTimeout(()=>track.classList.remove('is-wheeling'),180);
-    },{passive:false});
+    // Vertical wheel/touch scrolling belongs to the page. Horizontal gestures,
+    // arrow keys and the gallery buttons retain native local scrolling.
     labels();
     new MutationObserver(labels).observe(root,{attributes:true,attributeFilter:['lang']});
-    new MutationObserver(()=>{if(stopped()){clearTimeout(wheelTimer);track.classList.remove('is-wheeling');track.scrollTo({left:track.scrollLeft,behavior:'instant'});}}).observe(root,{attributes:true,attributeFilter:['class']});
+    new MutationObserver(()=>{if(stopped())track.scrollTo({left:track.scrollLeft,behavior:'instant'});}).observe(root,{attributes:true,attributeFilter:['class']});
   }
 })();

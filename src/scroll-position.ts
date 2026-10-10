@@ -31,6 +31,18 @@ function anchors(){
 
 export function restoreReadingPosition(measure:()=>void){
  let cancelled=false,ready=false;
+ let geometryDirty=true,header=80,cachedAnchors:{kind:string;id:string;top:number}[]=[];
+ const invalidate=()=>{geometryDirty=true;};
+ const geometry=new ResizeObserver(invalidate);
+ const main=document.querySelector('main');if(main)geometry.observe(main);
+ addEventListener('resize',invalidate,{passive:true});
+ document.addEventListener('toggle',invalidate,true);
+ new MutationObserver(invalidate).observe(document.documentElement,{attributes:true,attributeFilter:['lang','class']});
+ function cacheGeometry(){
+  header=document.querySelector('header')?.offsetHeight||80;
+  cachedAnchors=anchors().map(item=>({kind:item.kind,id:item.id,top:flowTop(item.element)}));
+  geometryDirty=false;
+ }
  const initialHash=location.hash;
  const cancel=()=>{cancelled=true;};
  const inputs=['pointerdown','touchstart','wheel','keydown'] as const;
@@ -38,27 +50,30 @@ export function restoreReadingPosition(measure:()=>void){
  addEventListener('hashchange',cancel,{once:true});
  function finish(){
   ready=true;history.scrollRestoration='auto';
+  cacheGeometry();
   inputs.forEach(type=>removeEventListener(type,cancel,true));
   removeEventListener('hashchange',cancel);
  }
  function remember(){
   if(!ready)return;
-  const y=scrollY,limit=y+(document.querySelector('header')?.offsetHeight||80);
+  if(geometryDirty)cacheGeometry();
+  const y=scrollY,limit=y+header;
   let anchor:{kind:string;id:string;top:number}|undefined;
-  for(const item of anchors()){
-   const top=flowTop(item.element);
-   if(top<=limit&&(!anchor||top>anchor.top))anchor={kind:item.kind,id:item.id,top};
+  for(const item of cachedAnchors){
+   if(item.top<=limit&&(!anchor||item.top>anchor.top))anchor=item;
   }
   const position:Position={version:1,hash:location.hash,kind:anchor?.kind||'hero',id:anchor?.id||'home',offset:y-(anchor?.top||0),y};
   try{history.replaceState({...history.state,[key]:position},'');}catch{/* Reading still works if the browser disallows history writes. */}
  }
  // Some mobile browsers discard history changes made during pagehide. Save
  // during reading too, at most twice a second plus the end of each gesture.
- let saveTimer=0,lastSave=0;
+ let saveTimer=0,checkpoint=0,lastSave=0;
  addEventListener('scroll',()=>{
   clearTimeout(saveTimer);
   const now=performance.now();
-  if(now-lastSave>500){remember();lastSave=now;}
+  // History writes run after the input event, without walking the layout tree
+  // during every gesture. Cached semantic anchors still survive mobile reloads.
+  if(now-lastSave>500&&!checkpoint){checkpoint=window.setTimeout(()=>{checkpoint=0;remember();lastSave=performance.now();},0);}
   saveTimer=window.setTimeout(remember,120);
  },{passive:true});
  addEventListener('pagehide',remember);

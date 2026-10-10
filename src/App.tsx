@@ -33,7 +33,19 @@ function Header(){
 }
 function Magnet({children}:{children:ReactNode}){
  const ref=useRef<HTMLDivElement>(null),{stopped}=useContext(Preferences),mx=useMotionValue(0),my=useMotionValue(0),x=useSpring(mx,{stiffness:90,damping:24}),y=useSpring(my,{stiffness:90,damping:24});
- useEffect(()=>{if(stopped){mx.set(0);my.set(0);return;}if(!matchMedia('(hover:hover) and (pointer:fine)').matches)return;let bounds:DOMRect|null=null;const measure=()=>{bounds=ref.current?.getBoundingClientRect()||null;};const move=(e:PointerEvent)=>{if(!bounds)return;const dx=e.clientX-(bounds.left+bounds.width/2),dy=e.clientY-(bounds.top+bounds.height/2);const active=Math.abs(dx)<bounds.width/2+150&&Math.abs(dy)<bounds.height/2+150;mx.set(active?Math.max(-24,Math.min(24,dx/12)):0);my.set(active?Math.max(-18,Math.min(18,dy/12)):0);};const reset=()=>{mx.set(0);my.set(0);};measure();window.addEventListener('pointermove',move,{passive:true});window.addEventListener('scroll',measure,{passive:true});window.addEventListener('resize',measure);window.addEventListener('blur',reset);return()=>{window.removeEventListener('pointermove',move);window.removeEventListener('scroll',measure);window.removeEventListener('resize',measure);window.removeEventListener('blur',reset);reset();};},[stopped]);
+ useEffect(()=>{
+  if(stopped){mx.set(0);my.set(0);return;}
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  let bounds:DOMRect|null=null,near=false,frame=0;
+  const reset=()=>{mx.set(0);my.set(0);};
+  const measure=()=>{frame=0;bounds=near?ref.current?.getBoundingClientRect()||null:null;};
+  const schedule=()=>{if(near&&!frame)frame=requestAnimationFrame(measure);};
+  const observer=new IntersectionObserver(entries=>{near=entries[0].isIntersecting;if(near)schedule();else{bounds=null;reset();}},{rootMargin:'150px'});
+  if(ref.current)observer.observe(ref.current);
+  const move=(e:PointerEvent)=>{if(!bounds)return;const dx=e.clientX-(bounds.left+bounds.width/2),dy=e.clientY-(bounds.top+bounds.height/2);const active=Math.abs(dx)<bounds.width/2+150&&Math.abs(dy)<bounds.height/2+150;mx.set(active?Math.max(-24,Math.min(24,dx/12)):0);my.set(active?Math.max(-18,Math.min(18,dy/12)):0);};
+  window.addEventListener('pointermove',move,{passive:true});window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);window.addEventListener('blur',reset);
+  return()=>{observer.disconnect();cancelAnimationFrame(frame);window.removeEventListener('pointermove',move);window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.removeEventListener('blur',reset);reset();};
+ },[stopped]);
  return <m.div ref={ref} className="portrait-magnet" style={{x:stopped?0:x,y:stopped?0:y}}>{children}</m.div>;
 }
 function HeroSection(){
@@ -52,7 +64,7 @@ const services=[
  ['Applied AI & tools','IA appliquée & outils','Prospecting assistants, customer-support knowledge bases and purpose-built web tools. Practical AI anchored in real workflows.','Assistants de prospection, bases de connaissances du support client et outils web métier. Une IA ancrée dans les usages concrets.'],
  ['Quality engineering','Ingénierie qualité','Risk analysis, FMEA, root-cause investigation and corrective actions. 8D, PDCA and lessons learned support continuous improvement, informed by ISO 9001 and IATF 16949 frameworks.','Analyse des risques, AMDEC, recherche des causes racines et actions correctives. 8D, PDCA et RETEX soutiennent l’amélioration continue, avec la pratique des référentiels ISO 9001 et IATF 16949.']
 ];
-function ServicesSection(){return <section id="services" className="creator-services" aria-labelledby="services-title"><p className="creator-eyebrow text-center"><T en="HOW I CAN CONTRIBUTE" fr="CE QUE JE PEUX APPORTER"/></p><FadeIn><h2 id="services-title" className="creator-section-title"><T en="Expertise" fr="Expertises"/></h2></FadeIn><div className="services-list">{services.map(([en,fr,description,descriptionFr],i)=><FadeIn key={en} delay={i*.08}><article className="service-item"><div><h3><T en={en} fr={fr}/></h3><p><T en={description} fr={descriptionFr}/></p></div><ArrowUpRight className="service-arrow" size={28} aria-hidden="true"/></article></FadeIn>)}<a className="services-stack-link" href="#skills"><T en="Explore my skills & technical stack" fr="Découvrir mes compétences & ma stack technique"/><ArrowUpRight size={20} aria-hidden="true"/></a></div></section>;}
+function ServicesSection(){return <section id="services" className="creator-services" aria-labelledby="services-title"><div className="services-heading"><p className="creator-eyebrow text-center"><T en="HOW I CAN CONTRIBUTE" fr="CE QUE JE PEUX APPORTER"/></p><FadeIn><h2 id="services-title" className="creator-section-title"><T en="Expertise" fr="Expertises"/></h2></FadeIn></div><div className="services-list">{services.map(([en,fr,description,descriptionFr],i)=><FadeIn key={en} delay={i*.08}><article className="service-item"><div><h3><T en={en} fr={fr}/></h3><p><T en={description} fr={descriptionFr}/></p></div><ArrowUpRight className="service-arrow" size={28} aria-hidden="true"/></article></FadeIn>)}<a className="services-stack-link" href="#skills"><T en="Explore my skills & technical stack" fr="Découvrir mes compétences & ma stack technique"/><ArrowUpRight size={20} aria-hidden="true"/></a></div></section>;}
 function ProjectCard({project,index,total=content.projects.length,career=false}:{project:{id:string;html:string};index:number;total?:number;career?:boolean}){
  const {stopped,compact}=useContext(Preferences);
  return <StackCard id={project.id} index={index} total={total} stopped={stopped} compact={compact} className={'project-'+project.id+(career?' journey-card':'')}><Native html={project.html}/></StackCard>;

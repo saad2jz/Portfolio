@@ -1,4 +1,5 @@
 import {restoreReadingPosition} from './src/scroll-position';
+import {createCardStacks} from './project-layout';
 
 // Finish the current chapter with a zoom, then grow the next chapter's title.
 // Never transform an ancestor of the sticky card stacks.
@@ -7,7 +8,7 @@ import {restoreReadingPosition} from './src/scroll-position';
  const root=document.documentElement,reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const definitions=[
   ['about','#about-title','.about-title-reveal','mint',true],
-  ['expertise','#services-title',null,'forest'],
+  ['expertise','#services-title','.services-heading','forest'],
   ['skills','#skills-title','.extension-heading','blue'],
   ['approach','#method-title','.extension-heading','violet'],
   ['projects','#work-title','.creator-work-heading','mint'],
@@ -41,63 +42,87 @@ import {restoreReadingPosition} from './src/scroll-position';
   if(hero)stage.dataset.chapterHero='true';else title.classList.add('chapter-zoom-title');
   // Pin only the chapter introduction, never an ancestor of the long card stacks.
   let track=null;
-  if(!hero){track=document.createElement('div');track.className='chapter-track';stage.before(track);track.append(stage);}
+  if(!hero){
+   track=document.createElement('div');track.className='chapter-track';stage.before(track);track.append(stage);
+   const backdrop=document.createElement('div');backdrop.className='chapter-backdrop';backdrop.setAttribute('aria-hidden','true');stage.prepend(backdrop);
+  }
   const exit=exits[name],source=exit&&document.querySelector(exit[0]),surface=source?.querySelector(exit[1]);
   if(surface){
    surface.classList.add('chapter-exit-surface');
    stage.dataset.chapterFrom=source.id;
   }
-  return [{title,stage,track,surface,exitColor:exit&&colors[exit[2]],top:0,travel:0,previous:-1,previousExit:-1,hero:!!hero}];
+  const host=stage.closest('main > section, main > div > section');
+  return [{title,stage,track,surface,host,exitColor:exit&&colors[exit[2]],top:0,travel:0,previous:-1,previousLock:NaN,previousExit:-1,hero:!!hero}];
  });
+ const hosts=[...new Set(scenes.map(scene=>scene.host).filter(Boolean))];
  // One viewport-sized, clipped layer carries the outgoing palette across the
  // boundary. Vector rings stay sharp and add no height or pointer/focus target.
  const departure=document.createElement('div');departure.className='chapter-departure-art';departure.setAttribute('aria-hidden','true');departure.hidden=true;
  for(let i=0;i<3;i++)departure.append(document.createElement('i'));
  document.body.append(departure);
+ // svh keeps sticky geometry stable when a phone's browser bars open/close.
+ const viewportProbe=document.createElement('div');viewportProbe.className='motion-viewport-probe';viewportProbe.setAttribute('aria-hidden','true');document.body.append(viewportProbe);
  let frame=0,dirty=true,viewport=innerHeight,maxScroll=0,headerHeight=92;
+ const stacks=createCardStacks(invalidate);
  const paused=()=>reduced.matches||root.classList.contains('motion-paused');
  const clamp=n=>Math.max(0,Math.min(1,n));
  const ease=n=>n*n*(3-2*n);
  function layoutTop(element){let top=0;for(let node=element;node;node=node.offsetParent)top+=node.offsetTop;return top;}
  function measure(){
-  viewport=innerHeight;headerHeight=document.querySelector('header').offsetHeight;
+  viewport=viewportProbe.offsetHeight||innerHeight;headerHeight=document.querySelector('header').offsetHeight;
   // Read geometry as a batch; changing custom properties follows the reads.
   const geometry=scenes.map(scene=>({scene,height:scene.stage.offsetHeight}));
   for(const {scene,height} of geometry){
    scene.travel=scene.hero||paused()?0:innerWidth<=760?Math.min(160,viewport*.2):Math.min(190,viewport*.24);
+   scene.stage.style.setProperty('--chapter-header-height',`${headerHeight}px`);
    if(scene.track){scene.track.style.setProperty('--chapter-height',`${height}px`);scene.track.style.setProperty('--chapter-travel',`${scene.travel}px`);}
   }
   departure.style.setProperty('--chapter-header-height',`${headerHeight}px`);
   maxScroll=Math.max(0,document.documentElement.scrollHeight-viewport);
   for(const scene of scenes)scene.top=layoutTop(scene.track||scene.title);
+  stacks.measure(viewport,headerHeight,innerWidth);
   dirty=false;
  }
  function paint(){
   frame=0;if(document.hidden)return;
   if(dirty)measure();
-  const y=scrollY,stop=paused();let activeExit=null;
+  const y=scrollY,stop=paused(),activeHosts=new Set();let activeExit=null;
+  stacks.paint(y,stop,innerWidth);
   for(const scene of scenes){
    // The outgoing zoom starts only when the end of the previous chapter is
-   // entering the viewport. Cross-fade the latter half into the title reveal.
+   // entering the viewport. Cross-fade into the pinned title reveal.
    const exitStart=scene.top-headerHeight-viewport*.9,exitEnd=scene.top-headerHeight-viewport*.08;
    const exitRaw=stop?0:clamp((y-exitStart)/Math.max(1,exitEnd-exitStart)),exitProgress=ease(exitRaw);
    if(scene.surface&&!stop&&exitRaw>0&&exitRaw<1)activeExit={scene,progress:exitProgress,visibility:ease(clamp(exitRaw/.28))*(1-ease(clamp((exitRaw-.52)/.48)))};
+   if(scene.surface){
+    const exiting=!stop&&exitRaw>0&&exitRaw<1?'true':'false';
+    if(scene.surface.dataset.chapterExiting!==exiting)scene.surface.dataset.chapterExiting=exiting;
+   }
    if(scene.surface&&Math.abs(exitProgress-scene.previousExit)>=.0005){
     scene.previousExit=exitProgress;
     scene.surface.style.setProperty('--chapter-exit-progress',exitProgress.toFixed(4));
-    scene.surface.dataset.chapterExiting=!stop&&exitRaw>0&&exitRaw<1?'true':'false';
     scene.stage.style.setProperty('--chapter-exit-progress',exitProgress.toFixed(4));
     const visibility=ease(clamp(exitRaw/.28))*(1-ease(clamp((exitRaw-.52)/.48)));
     scene.stage.style.setProperty('--chapter-exit-visibility',visibility.toFixed(4));
    }
-   const start=scene.hero?scene.top-viewport*.88:scene.surface?exitStart+(exitEnd-exitStart)*.55:scene.top-headerHeight-viewport*.35,end=Math.min(maxScroll,scene.hero?scene.top-viewport*.27:scene.top-headerHeight+scene.travel);
+   const start=scene.hero?scene.top-viewport*.88:scene.surface?exitStart+(exitEnd-exitStart)*.2:scene.top-headerHeight-viewport*.65,end=Math.min(maxScroll,scene.hero?scene.top-viewport*.27:scene.top-headerHeight+scene.travel*.4);
    const raw=stop?1:clamp((y-start)/Math.max(1,end-start));
    // Smoothstep stays attached to the scroll position in both directions.
    const progress=ease(raw);
+   if(!stop&&!scene.hero&&raw>0&&raw<1&&scene.host)activeHosts.add(scene.host);
+   // Cancel the title's vertical approach. While it grows, its centre stays
+   // in the same place; at the sticky pin point the compensation reaches zero.
+   const lock=!stop&&!scene.hero&&raw>0?Math.min(0,headerHeight-(scene.top-y)):0;
+   if(lock!==scene.previousLock){scene.previousLock=lock;scene.stage.style.setProperty('--chapter-lock-y',`${lock.toFixed(2)}px`);}
+   const active=!stop&&raw>0&&raw<1?'true':'false';
+   if(scene.stage.dataset.chapterActive!==active)scene.stage.dataset.chapterActive=active;
    if(Math.abs(progress-scene.previous)<.0005)continue;
    scene.previous=progress;
    scene.stage.style.setProperty('--chapter-progress',progress.toFixed(4));
-   scene.stage.dataset.chapterActive=!stop&&raw>0&&raw<1?'true':'false';
+  }
+  for(const host of hosts){
+   const active=activeHosts.has(host)?'true':'false';
+   if(host.dataset.chapterArriving!==active)host.dataset.chapterArriving=active;
   }
   departure.hidden=!activeExit;
   if(activeExit){
