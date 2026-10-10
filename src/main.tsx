@@ -1,4 +1,5 @@
 import React from 'react';
+import './scroll-position';
 import {hydrateRoot} from 'react-dom/client';
 import {App} from './App';
 
