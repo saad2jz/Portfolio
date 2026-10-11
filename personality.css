@@ -88,7 +88,10 @@ html.motion-paused .hero-title-layer,html.effects-suspended .hero-title-layer{op
 .hero-tool-fallback img:nth-child(4){left:83%;top:62%}
 .hero-tool-fallback img:nth-child(5){left:5%;top:65%}
 .hero-tool-fallback img:nth-child(6){left:57%;top:44%}
+.hero-tool-fallback img:nth-child(7){left:44%;top:24%}
+.hero-tool-fallback img:nth-child(8){left:62%;top:70%}
 @media(max-width:760px){.hero-tool-fallback img{width:86px;height:86px;padding:20px}.hero-tool-fallback img:nth-child(1){left:4%;top:27%}.hero-tool-fallback img:nth-child(2){left:74%;top:30%}.hero-tool-fallback img:nth-child(3){left:9%;top:57%}.hero-tool-fallback img:nth-child(4){left:72%;top:62%}.hero-tool-fallback img:nth-child(5){left:6%;top:76%}.hero-tool-fallback img:nth-child(6){left:68%;top:79%}}
+@media(max-width:760px){.hero-tool-fallback img:nth-child(7){left:39%;top:26%}.hero-tool-fallback img:nth-child(8){left:39%;top:75%}}
 @media(prefers-reduced-motion:reduce){.creator-hero-stage .portrait-scroll-zoom,.creator-hero-stage .hero-scene-zoom{transform:none}.creator-hero-stage .portrait-scroll-zoom,.creator-hero-stage .hero-role,.creator-hero-stage .hero-shade{opacity:1}}
 
 /* The real About heading grows through the toolkit zoom, then continues in normal flow. */

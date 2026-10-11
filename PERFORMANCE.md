@@ -1,5 +1,13 @@
 # Performance
 
+## Toolkit and scroll response — 11 October 2026
+
+The header atlas serves 32 tools at 512px per cell with one shared bevelled mesh. Its 4096×2048 texture occupies 32 MiB before GPU overhead (8 MiB after the low-power 2048×1024 downsample), with a 302,036-byte lossless delivery file. The renderer binds shared vertex attributes once per frame instead of repeating the same bindings for every medallion. Its normal animation target is 60Hz, including narrow screens; low-power/save-data configurations retain 30Hz and smaller texture/framebuffer budgets. These are scheduling targets, not measured device frame rates.
+
+Native document scrolling remains in charge of wheel and touch input. Header zoom uses a short damped spring; chapter zoom and card scale share a cached-geometry RAF controller with a short exponential tail (52ms time constant, 22ms for coarse pointers). Layout changes, large jumps, pause and reduced motion settle immediately. Reversing direction still finishes the tail even when crossing a fully settled scene boundary. No idle page-wide RAF loop or wheel interception is introduced. Registered, non-inheriting exit progress avoids invalidating every descendant of a large outgoing card; departure rings use their own property. Shadows are lighter and compositor hints are limited to active transition elements.
+
+Browser checks covered desktop, 375px and 320px viewports: header/chapter zoom in both directions, new tool rendering, no document horizontal overflow, Cardiag's full-height card handoff, saved reading position after reload, animation pause/resume and no console errors. No new Lighthouse or physical-phone frame-rate result is claimed for this revision.
+
 ## Current personal identity revision — 10 October 2026
 
 The current build measures 145,604 bytes minified CSS, 470,752 bytes minified client JavaScript and 151 unique fingerprinted assets. `brotliTextBytes` is 252,902 bytes across build text files, not a single-page transfer figure. These figures include the enriched education cards and curated 24-tool header and supersede earlier sizes; no fresh Lighthouse or real-user performance result is claimed.

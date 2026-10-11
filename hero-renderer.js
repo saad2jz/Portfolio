@@ -127,6 +127,11 @@ export async function createRenderer(canvas,config,onLost=()=>{}) {
     const camera=10-scroll*2.5;
     gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     gl.uniformMatrix4fv(uniforms.Projection,false,projection);gl.uniform1f(uniforms.Camera,camera);
+    // Every medallion shares this mesh: bind its attributes once per frame.
+    const mesh=meshes[0];gl.bindBuffer(gl.ARRAY_BUFFER,mesh.buffer);
+    gl.enableVertexAttribArray(attributes.Position);gl.vertexAttribPointer(attributes.Position,3,gl.FLOAT,false,28,0);
+    gl.enableVertexAttribArray(attributes.Normal);gl.vertexAttribPointer(attributes.Normal,3,gl.FLOAT,false,28,12);
+    gl.enableVertexAttribArray(attributes.Detail);gl.vertexAttribPointer(attributes.Detail,1,gl.FLOAT,false,28,24);
     objects.forEach((object,i)=>{
       if(mobile&&i>=mobileLayout.length)return;
       const [x,y,z,radius,motion]=positions[i],depth=camera-z,size=radius*2*depth/f;
@@ -141,10 +146,6 @@ export async function createRenderer(canvas,config,onLost=()=>{}) {
       center.set(object.pose.center);
       gl.uniformMatrix3fv(uniforms.Rotation,false,rotation(...object.pose.angles));gl.uniform3fv(uniforms.Center,center);gl.uniform1f(uniforms.Scale,object.pose.size);
       gl.uniform3fv(uniforms.Tint,tints[i]);gl.uniform1f(uniforms.LogoIndex,i);gl.uniform1f(uniforms.LogoReady,logosReady?1:0);
-      const mesh=meshes[0];gl.bindBuffer(gl.ARRAY_BUFFER,mesh.buffer);
-      gl.enableVertexAttribArray(attributes.Position);gl.vertexAttribPointer(attributes.Position,3,gl.FLOAT,false,28,0);
-      gl.enableVertexAttribArray(attributes.Normal);gl.vertexAttribPointer(attributes.Normal,3,gl.FLOAT,false,28,12);
-      gl.enableVertexAttribArray(attributes.Detail);gl.vertexAttribPointer(attributes.Detail,1,gl.FLOAT,false,28,24);
       gl.drawArrays(gl.TRIANGLES,0,mesh.count);
       const actualDepth=camera-center[2];
       object.screenX=width/2+(center[0]/actualDepth)*f*height/2;
@@ -154,7 +155,7 @@ export async function createRenderer(canvas,config,onLost=()=>{}) {
   }
   function animate(stamp){
     frame=0;if(!visible||hidden||paused||reduced||sceneLost){last=0;return;}
-    const interval=width<760 || lowPower ? 1000/30 : 1000/60;
+    const interval=lowPower ? 1000/30 : 1000/60;
     if(last && stamp-last<interval-.8){frame=requestAnimationFrame(animate);return;}
     const dt=last?Math.min((stamp-last)/1000,.1):0;last=stamp;
     clock+=dt;const ease=1-Math.exp(-dt*6);

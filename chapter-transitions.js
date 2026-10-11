@@ -62,7 +62,8 @@ import {createCardStacks} from './project-layout';
  document.body.append(departure);
  // svh keeps sticky geometry stable when a phone's browser bars open/close.
  const viewportProbe=document.createElement('div');viewportProbe.className='motion-viewport-probe';viewportProbe.setAttribute('aria-hidden','true');document.body.append(viewportProbe);
- let frame=0,dirty=true,viewport=innerHeight,maxScroll=0,headerHeight=92;
+ let frame=0,dirty=true,viewport=innerHeight,maxScroll=0,headerHeight=92,motionY=scrollY,lastStamp=0;
+ const coarse=matchMedia('(pointer:coarse)');
  const stacks=createCardStacks(invalidate);
  const paused=()=>reduced.matches||root.classList.contains('motion-paused');
  const clamp=n=>Math.max(0,Math.min(1,n));
@@ -83,11 +84,18 @@ import {createCardStacks} from './project-layout';
   stacks.measure(viewport,headerHeight,innerWidth);
   dirty=false;
  }
- function paint(){
+ function paint(stamp){
   frame=0;if(document.hidden)return;
-  if(dirty)measure();
-  const y=scrollY,stop=paused(),activeHosts=new Set();let activeExit=null;
-  stacks.paint(y,stop,innerWidth);
+  const changed=dirty;if(changed)measure();
+  const actualY=scrollY,stop=paused(),activeHosts=new Set();let activeExit=null;
+  // Native scroll owns the page. Only the visual progress is damped: wheel
+  // notches become a continuous zoom, while touch keeps a shorter response.
+  // Geometry changes, anchors and large jumps settle immediately.
+  const delta=actualY-motionY,dt=lastStamp?Math.min(64,stamp-lastStamp):16.67;
+  lastStamp=stamp;
+  if(stop||changed||Math.abs(delta)>viewport*.75||Math.abs(delta)<.15)motionY=actualY;
+  else motionY+=delta*(1-Math.exp(-dt/(coarse.matches?22:52)));
+  const y=motionY;stacks.paint(y,stop,innerWidth);
   for(const scene of scenes){
    // The outgoing zoom starts only when the end of the previous chapter is
    // entering the viewport. Cross-fade into the pinned title reveal.
@@ -112,7 +120,7 @@ import {createCardStacks} from './project-layout';
    if(!stop&&!scene.hero&&raw>0&&raw<1&&scene.host)activeHosts.add(scene.host);
    // Cancel the title's vertical approach. While it grows, its centre stays
    // in the same place; at the sticky pin point the compensation reaches zero.
-   const lock=!stop&&!scene.hero&&raw>0?Math.min(0,headerHeight-(scene.top-y)):0;
+   const lock=!stop&&!scene.hero&&raw>0?Math.min(0,headerHeight-(scene.top-actualY)):0;
    if(lock!==scene.previousLock){scene.previousLock=lock;scene.stage.style.setProperty('--chapter-lock-y',`${lock.toFixed(2)}px`);}
    const active=!stop&&raw>0&&raw<1?'true':'false';
    if(scene.stage.dataset.chapterActive!==active)scene.stage.dataset.chapterActive=active;
@@ -128,15 +136,19 @@ import {createCardStacks} from './project-layout';
   if(activeExit){
    departure.dataset.chapterFrom=activeExit.scene.stage.dataset.chapterFrom;
    departure.style.setProperty('--chapter-exit-rgb',activeExit.scene.exitColor);
-   departure.style.setProperty('--chapter-exit-progress',activeExit.progress.toFixed(4));
+   departure.style.setProperty('--departure-progress',activeExit.progress.toFixed(4));
    departure.style.setProperty('--chapter-exit-visibility',activeExit.visibility.toFixed(4));
   }
+  // Continue only the short easing tail, never an idle whole-page loop.
+  // Finish even when a reversal enters a scene from its fully settled side.
+  if(!stop&&Math.abs(actualY-motionY)>=.15)schedule();
+  else {motionY=actualY;lastStamp=0;}
  }
  function schedule(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
  function invalidate(){dirty=true;schedule();}
  addEventListener('scroll',schedule,{passive:true});addEventListener('resize',invalidate,{passive:true});
  document.addEventListener('toggle',invalidate,true);
- document.addEventListener('visibilitychange',schedule);
+ document.addEventListener('visibilitychange',()=>{motionY=scrollY;lastStamp=0;schedule();});
  reduced.addEventListener('change',invalidate);
  new MutationObserver(invalidate).observe(root,{attributes:true,attributeFilter:['lang','class']});
  const resize=new ResizeObserver(invalidate);

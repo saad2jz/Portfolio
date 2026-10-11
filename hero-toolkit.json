@@ -1,5 +1,5 @@
 {
-  "columns": 6,
+  "columns": 8,
   "rows": 4,
   "tools": [
     {
@@ -120,6 +120,46 @@
     {
       "name": "Power BI",
       "color": "#ddba39",
+      "kind": "tool"
+    },
+    {
+      "name": "Amazon",
+      "color": "#ff9900",
+      "kind": "tool"
+    },
+    {
+      "name": "eBay",
+      "color": "#55a5df",
+      "kind": "tool"
+    },
+    {
+      "name": "WordPress",
+      "color": "#218cb8",
+      "kind": "tool"
+    },
+    {
+      "name": "Vercel",
+      "color": "#87929f",
+      "kind": "tool"
+    },
+    {
+      "name": "Render",
+      "color": "#46c4a5",
+      "kind": "tool"
+    },
+    {
+      "name": "WooCommerce",
+      "color": "#9658bc",
+      "kind": "tool"
+    },
+    {
+      "name": "TypeScript",
+      "color": "#3178c6",
+      "kind": "tool"
+    },
+    {
+      "name": "PostgreSQL",
+      "color": "#547fac",
       "kind": "tool"
     }
   ]

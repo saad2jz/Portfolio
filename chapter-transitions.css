@@ -1,5 +1,7 @@
 /* Like the header: pin a scene, enlarge its backdrop, then reveal its content.
    Card stacks and their ancestors keep their native layout and sticky geometry. */
+/* Exit progress belongs to one surface, not its hundreds of descendants. */
+@property --chapter-exit-progress{syntax:'<number>';inherits:false;initial-value:0}
 .chapter-stage{position:relative;isolation:isolate;--chapter-progress:1;--chapter-rgb:139,197,178}
 .chapter-stage[data-chapter-tone=forest]{--chapter-rgb:55,105,77}
 .chapter-stage[data-chapter-tone=blue]{--chapter-rgb:119,166,208}
@@ -22,6 +24,8 @@
 .chapter-track .chapter-stage>p:not(.creator-eyebrow,.chapter-zoom-title),.chapter-track .chapter-stage>.skills-introduction{scale:calc(.78 + var(--chapter-progress)*.22);opacity:clamp(0,calc((var(--chapter-progress) - .4)*1.8),1)}
 .chapter-track .chapter-stage>.creator-eyebrow{opacity:clamp(0,calc(var(--chapter-progress)*2.5),1)}
 .chapter-stage[data-chapter-active=true] .chapter-zoom-title{will-change:scale,translate}
+.chapter-stage[data-chapter-active=true]::before,.chapter-stage[data-chapter-active=true]::after{will-change:transform,opacity}
+.chapter-stage[data-chapter-active=true]>.chapter-backdrop{will-change:opacity}
 /* The last content surface moves forward before the next title grows in.
    Individual scale composes with Framer's card transform without wrapping a stack. */
 .chapter-exit-surface{--chapter-exit-progress:0;scale:calc(1 + var(--chapter-exit-progress)*.16);opacity:clamp(.2,calc(1.5 - var(--chapter-exit-progress)*1.3),1);transform-origin:50% 90%}
@@ -31,7 +35,7 @@
 .creator-page .creator-project.project.chapter-exit-surface:is(:focus-within,:has(details[open])){scale:1;opacity:1}
 .chapter-departure-art{position:fixed;inset:var(--chapter-header-height,92px) 0 0;z-index:12;display:grid;place-items:center;overflow:clip;pointer-events:none;contain:strict;opacity:var(--chapter-exit-visibility,0);background:radial-gradient(ellipse at center,rgba(var(--chapter-exit-rgb),.18),transparent 70%)}
 .chapter-departure-art[hidden]{display:none}
-.chapter-departure-art i{grid-area:1/1;width:min(58vw,680px);aspect-ratio:1;border:1px solid rgba(var(--chapter-exit-rgb),.5);border-radius:50%;box-shadow:0 0 0 24px rgba(var(--chapter-exit-rgb),.035),inset 0 0 0 24px rgba(var(--chapter-exit-rgb),.035);transform:scale(calc(.65 + var(--chapter-exit-progress)*7)) rotate(calc(-20deg + var(--chapter-exit-progress)*45deg));will-change:transform}
+.chapter-departure-art i{grid-area:1/1;width:min(58vw,680px);aspect-ratio:1;border:1px solid rgba(var(--chapter-exit-rgb),.5);border-radius:50%;box-shadow:0 0 0 24px rgba(var(--chapter-exit-rgb),.035),inset 0 0 0 24px rgba(var(--chapter-exit-rgb),.035);transform:scale(calc(.65 + var(--departure-progress,0)*7)) rotate(calc(-20deg + var(--departure-progress,0)*45deg));will-change:transform}
 .chapter-departure-art i:nth-child(2){width:min(40vw,470px);border-color:rgba(var(--chapter-exit-rgb),.35)}
 .chapter-departure-art i:nth-child(3){width:min(22vw,260px);border-color:rgba(var(--chapter-exit-rgb),.25)}
 /* About already shares the header's continuous zoom; its title is not animated twice. */
@@ -53,6 +57,7 @@
 .creator-page :is(.project-stack,.creator-project-intro,.project-context,.case-content,.skill-card-content,.skill-toolkit,.journey-group,.extension-heading){min-width:0;max-width:100%}
 .creator-project.project{transform-origin:var(--stack-origin,50% 0%)}
 .creator-project[data-stack-animating=true]{will-change:transform}
+.creator-page .creator-project.project{box-shadow:0 -6px 24px #0005}
 .creator-project.project:has(details[open]){scale:1;opacity:1}
 .creator-page :is(.project-description,.case-content p,.skill-summary,.skill-capabilities,.journey-summary){overflow-wrap:anywhere}
 /* Keep the chapter rhythm without full-screen empty title interludes.

@@ -1,5 +1,11 @@
 # Adaptation decisions
 
+## Expanded toolkit and continuous motion — 11 October 2026
+
+Amazon, eBay, WordPress, Vercel and Render join the header constellation, alongside WooCommerce, TypeScript and PostgreSQL from the commerce/development profile. The current 32-tool registry uses an 8×4 atlas. FFA/Cardiag identities remain in their project content. Independent floating trajectories and hover freeze remain; the static fallback carries the requested vendor marks too.
+
+Scroll owns document position while a short visual easing tail joins wheel increments into a continuous zoom and card handoff. Touch has a shorter response. Reverse motion, anchors, reload restoration, keyboard navigation and the shared pause/reduced-motion controls keep the existing semantics. The easing controller stops once settled; no scroll interception or forced chapter advancement is added.
+
 ## Immersive toolkit chapter — 10 October 2026
 
 The requested scroll sequence supersedes the earlier simultaneous portrait/background zoom. A native sticky hero reserves 110svh of scroll travel: the portrait recedes and fades first, then the title clears while the background grows up to 1.7× on desktop and 1.5× on phones. The scene releases into the screenshot ribbons through ordinary page scrolling; no wheel interception or forced advancement is used. Contact and navigation remain available. Pause restores portrait/title/scale without moving the document; reduced motion, missing WebGL and no JavaScript omit the transition spacer.

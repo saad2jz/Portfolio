@@ -1,5 +1,22 @@
 # Project media sources
 
+## Commerce and deployment toolkit — 11 October 2026
+
+The header now contains 32 tools. Eight additional SVG marks retain the source geometry from Simple Icons, with a pale fill for the dark static fallback:
+
+| Local file in `assets/hero-tools/` | Pinned source |
+|---|---|
+| `amazon.svg` | [Simple Icons 11.15.0](https://raw.githubusercontent.com/simple-icons/simple-icons/11.15.0/icons/amazon.svg) |
+| `ebay.svg` | [Simple Icons 11.15.0](https://raw.githubusercontent.com/simple-icons/simple-icons/11.15.0/icons/ebay.svg) |
+| `wordpress.svg` | [Simple Icons 16.1.0](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/wordpress.svg) |
+| `vercel.svg` | [Simple Icons 16.1.0](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/vercel.svg) |
+| `render.svg` | [Simple Icons 16.1.0](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/render.svg) |
+| `woocommerce.svg` | [Simple Icons 16.1.0](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/woocommerce.svg) |
+| `typescript.svg` | [Simple Icons 16.1.0](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/typescript.svg) |
+| `postgresql.svg` | [Simple Icons 16.1.0](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/postgresql.svg) |
+
+The lossless atlas is now 4096×2048 (302,036 bytes): 8×4 padded 512px cells. The previous 24 full-resolution cells are preserved. The additional tooling matches the owner's commerce/development profile; its presence does not assert vendor certification or partnership. The reproducible parent-workspace script is `work/expand-header-tools.cjs`. The static fallback also includes the five explicitly requested marks.
+
 ## Expanded header toolkit — 10 October 2026
 
 The current header uses 24 software tools selected for the owner's product, commerce, automation and data profile. `assets/tool-medallions.png` contains 512px cells on a 3072×2048 texture (218,603 bytes). FFA/Cardiag, supplier/provider marks, standards and method badges are removed from the header selection; project and education content remain unchanged. Power BI reuses the sourced school-module mark in `assets/logos/powerbi.svg`; Stripe is rasterized from the [Simple Icons 16.1.0 geometry](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/stripe.svg) in `assets/hero-tools/stripe.svg`. Existing full-resolution tool cells are preserved, and new marks have transparent padding. Registry order and tints live in `hero-toolkit.json`. The parent-workspace asset script is `work/curate-header-tools.cjs`; its original atlas/registry backups stay in `work/`.
