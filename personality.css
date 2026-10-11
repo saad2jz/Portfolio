@@ -72,7 +72,7 @@ html.motion-paused .depth-surface,html.effects-suspended .depth-surface{transfor
 .creator-hero-stage .hero-role{opacity:clamp(0,calc(1.5 - var(--hero-zoom,0)*2.5),1)}
 .hero-title-layer{position:relative;z-index:3;opacity:clamp(0,calc(1.6 - var(--hero-zoom,0)*2.5),1);pointer-events:none}
 @media(prefers-reduced-motion:no-preference){
- html.effects-ready .creator-hero-stage,html.effects-ready .creator-hero-stage:not(.scene-static){height:calc(var(--hero-frame) + 110svh);min-height:0}
+ html.effects-ready .creator-hero-stage,html.effects-ready .creator-hero-stage:not(.scene-static){height:calc(var(--hero-frame) + 140svh);min-height:0}
  html.effects-ready .creator-hero-stage>.creator-hero,html.effects-ready .creator-hero-stage:not(.scene-static)>.creator-hero{position:sticky;top:min(0px,calc(100svh - var(--hero-frame)));height:var(--hero-frame);min-height:0}
 }
 @media(max-height:850px) and (min-width:901px){.creator-hero-stage{--hero-frame:max(100svh,790px)}}

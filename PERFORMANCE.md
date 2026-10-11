@@ -1,5 +1,11 @@
 # Performance
 
+## Slower scroll preference — 11 October 2026
+
+The owner's explicit request to reduce speed supersedes the earlier native-wheel-only decision. Fine-pointer vertical wheel travel is multiplied by 0.65 and eased with a 90ms exponential response. One browser gesture that previously travelled 360px now settles at 234px; reversing it returns to zero. The controller keeps native document positioning and yields to nested scroll areas, editable controls, horizontal gestures, modifier/browser zoom, keyboard, touch, anchor clicks, pause and reduced motion. It cancels pending travel on navigation/input/visibility changes and stops its RAF when settled. Pause was verified to restore the original 360px movement for the same gesture.
+
+Header zoom travel increases from 110svh to 140svh; chapter introduction travel caps increase from 190/160px to 240/200px (desktop/phone), with a later title completion point. The visual tail uses 70/32ms time constants. Touch input remains native while the longer zoom ranges make transitions more gradual. No physical-device timing claim is made.
+
 ## Toolkit and scroll response — 11 October 2026
 
 The header atlas serves 32 tools at 512px per cell with one shared bevelled mesh. Its 4096×2048 texture occupies 32 MiB before GPU overhead (8 MiB after the low-power 2048×1024 downsample), with a 302,036-byte lossless delivery file. The renderer binds shared vertex attributes once per frame instead of repeating the same bindings for every medallion. Its normal animation target is 60Hz, including narrow screens; low-power/save-data configurations retain 30Hz and smaller texture/framebuffer budgets. These are scheduling targets, not measured device frame rates.

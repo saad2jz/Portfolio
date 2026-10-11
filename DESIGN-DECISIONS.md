@@ -1,5 +1,9 @@
 # Adaptation decisions
 
+## Slower reading pace — 11 October 2026
+
+Following the owner's request to slow the scroll, vertical wheel distance is reduced by 35% with a short easing tail. This explicitly supersedes the previous native-wheel-only constraint. Native document coordinates, keyboard/touch navigation, nested scrollers, browser zoom and shared motion preferences remain intact. Slightly longer header and chapter zoom ranges slow the visual progression on phones too, without adding full-screen empty title panels.
+
 ## Expanded toolkit and continuous motion — 11 October 2026
 
 Amazon, eBay, WordPress, Vercel and Render join the header constellation, alongside WooCommerce, TypeScript and PostgreSQL from the commerce/development profile. The current 32-tool registry uses an 8×4 atlas. FFA/Cardiag identities remain in their project content. Independent floating trajectories and hover freeze remain; the static fallback carries the requested vendor marks too.

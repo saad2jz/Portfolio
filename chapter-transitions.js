@@ -74,7 +74,7 @@ import {createCardStacks} from './project-layout';
   // Read geometry as a batch; changing custom properties follows the reads.
   const geometry=scenes.map(scene=>({scene,height:scene.stage.offsetHeight}));
   for(const {scene,height} of geometry){
-   scene.travel=scene.hero||paused()?0:innerWidth<=760?Math.min(160,viewport*.2):Math.min(190,viewport*.24);
+   scene.travel=scene.hero||paused()?0:innerWidth<=760?Math.min(200,viewport*.25):Math.min(240,viewport*.3);
    scene.stage.style.setProperty('--chapter-header-height',`${headerHeight}px`);
    if(scene.track){scene.track.style.setProperty('--chapter-height',`${height}px`);scene.track.style.setProperty('--chapter-travel',`${scene.travel}px`);}
   }
@@ -94,7 +94,7 @@ import {createCardStacks} from './project-layout';
   const delta=actualY-motionY,dt=lastStamp?Math.min(64,stamp-lastStamp):16.67;
   lastStamp=stamp;
   if(stop||changed||Math.abs(delta)>viewport*.75||Math.abs(delta)<.15)motionY=actualY;
-  else motionY+=delta*(1-Math.exp(-dt/(coarse.matches?22:52)));
+  else motionY+=delta*(1-Math.exp(-dt/(coarse.matches?32:70)));
   const y=motionY;stacks.paint(y,stop,innerWidth);
   for(const scene of scenes){
    // The outgoing zoom starts only when the end of the previous chapter is
@@ -113,7 +113,7 @@ import {createCardStacks} from './project-layout';
     const visibility=ease(clamp(exitRaw/.28))*(1-ease(clamp((exitRaw-.52)/.48)));
     scene.stage.style.setProperty('--chapter-exit-visibility',visibility.toFixed(4));
    }
-   const start=scene.hero?scene.top-viewport*.88:scene.surface?exitStart+(exitEnd-exitStart)*.2:scene.top-headerHeight-viewport*.65,end=Math.min(maxScroll,scene.hero?scene.top-viewport*.27:scene.top-headerHeight+scene.travel*.4);
+   const start=scene.hero?scene.top-viewport*.88:scene.surface?exitStart+(exitEnd-exitStart)*.2:scene.top-headerHeight-viewport*.65,end=Math.min(maxScroll,scene.hero?scene.top-viewport*.27:scene.top-headerHeight+scene.travel*.6);
    const raw=stop?1:clamp((y-start)/Math.max(1,end-start));
    // Smoothstep stays attached to the scroll position in both directions.
    const progress=ease(raw);
