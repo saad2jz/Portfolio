@@ -1,0 +1,20 @@
+/* Same compact monochrome language for tools, methods and study frameworks. */
+.context-toolkit{min-width:0;max-width:100%;margin:18px 0 24px;padding-top:18px;border-top:1px solid var(--faint-line)}
+.context-toolkit-label{font:500 10px/1.5 var(--font);text-transform:uppercase;letter-spacing:.11em;color:var(--muted);margin:0 0 14px}
+.context-toolkit-items{list-style:none;display:flex;flex-wrap:wrap;gap:14px 24px;margin:0;padding:0;max-width:100%}
+.context-toolkit-items li{display:flex;align-items:center;gap:9px;min-width:0;max-width:100%;font:400 13px/1.5 var(--font);color:var(--ink)}
+.context-toolkit-items li>svg{flex:0 0 24px;color:var(--accent)}
+.context-toolkit-items li>img{width:28px;height:28px;flex:0 0 28px;object-fit:contain;filter:brightness(0) invert(.8)}
+.context-toolkit-items li>.context-tool-wordmark{width:80px;flex-basis:80px}
+.context-toolkit-items li>span{overflow-wrap:anywhere}
+.creator-page .service-item .context-toolkit{margin-bottom:0}
+.creator-page .creator-services .context-toolkit-items li{color:#283d34}
+.creator-page .creator-services .context-toolkit-items li>img{filter:brightness(0) opacity(.72)}
+.creator-page .creator-services .context-toolkit-items li>svg{color:#496b5a}
+.creator-page .method-steps .context-toolkit{margin-bottom:0}
+.creator-page .skill-methods li{display:inline-flex;align-items:center;gap:7px}
+.skill-methods li>svg{width:17px;height:17px;flex:0 0 17px;color:var(--accent)}
+.skill-standards{margin-top:20px}
+.skill-framework-note{font:400 12px/1.6 var(--font);color:var(--muted);margin-top:12px}
+.skill-framework-note a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){.context-toolkit{margin:16px 0 20px;padding-top:16px}.context-toolkit-items{gap:12px 18px}.context-toolkit-items li{font-size:12px}.context-toolkit-items li>.context-tool-wordmark{width:70px;flex-basis:70px}.context-toolkit-label{font-size:9px}.creator-page .creator-work-heading>p:not(.creator-eyebrow){max-width:48ch}}

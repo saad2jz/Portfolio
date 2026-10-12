@@ -235,3 +235,14 @@ Five institutional marks use the same local, lazy-loaded, dimensioned monochrome
 AWS reuses `assets/hero-tools/amazonaws.svg` with its existing provenance. Ten subject pictograms are original inline SVG line illustrations (strategy, sales, projects, data, quality, networks and code). They label curriculum domains rather than imply vendor certification. Vendor/institution marks provide attribution, not an affiliation or endorsement claim.
 
 Career harmonisation reuses the supplied FFA/Cardiag images in project titles and the FFA experience. The 21 experience pictograms and three neutral certification symbols are repository-authored SVG line illustrations. Shopify, Cisco and HubSpot certification rows reuse the existing sourced marks; the other subjects do not receive fabricated vendor logos or award seals. No new remote media source is introduced.
+
+## Contextual tool rows — 12 October 2026
+
+Existing vendor and institution assets are reused. Four additional local SVG marks use unchanged geometry from the pinned [Simple Icons 16.1.0 catalogue](https://github.com/simple-icons/simple-icons/tree/16.1.0/icons):
+
+- `assets/tools/nodedotjs.svg`: [Node.js](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/nodedotjs.svg)
+- `assets/tools/nextdotjs.svg`: [Next.js](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/nextdotjs.svg)
+- `assets/tools/nestjs.svg`: [NestJS](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/nestjs.svg)
+- `assets/tools/tiktok.svg`: [TikTok](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/tiktok.svg)
+
+Methods, standards and risk/quality practices use installed Lucide React pictograms beside readable names. These are navigation/subject illustrations, not ISO/IATF logos, certification seals or issuer endorsements. Images are local, dimensioned, lazy-loaded and fingerprinted for production.

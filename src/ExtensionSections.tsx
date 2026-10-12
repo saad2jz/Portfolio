@@ -1,3 +1,4 @@
+import {ToolkitRow} from './ContextToolkit';
 import React, {useEffect, useRef, type ReactNode} from 'react';
 import {m, useAnimationControls, useInView, useScroll, useTransform} from 'framer-motion';
 import {ArrowUpRight, Compass, Flag, Plane, Settings2, Gauge, MapPin} from 'lucide-react';
@@ -30,7 +31,7 @@ export function MethodSection({fr,stopped}:Preferences) {
     <div className="method-orbit" aria-hidden="true"><m.div className="method-orbit-rings" style={{rotate:stopped?0:rotation}}><i/><i/><i/></m.div><small>{fr?'UNE BOUCLE, PAS UNE LIGNE':'A LOOP, NOT A LINE'}</small></div>
     <p className="method-note">{fr?'L’ingénierie qualité m’a appris à chercher la cause racine, documenter les décisions et valider sur des faits. J’applique cette rigueur au produit.':'Quality engineering taught me to investigate root causes, document decisions and validate with evidence. I bring that discipline to product work.'}</p>
    </div>
-   <div className="method-steps-track"><m.span className="method-progress" aria-hidden="true" style={{scaleY:stopped?1:scrollYProgress}}/><ol className="method-steps">{phases.map((phase,i)=><li key={phase.name.en}><Reveal stopped={stopped} delay={i*.04}><div className="method-step-heading"><p className="creator-eyebrow">{text(phase.name,fr)}</p></div><h3>{text(phase.title,fr)}</h3><p className="method-description">{text(phase.body,fr)}</p><p className="method-output">{text(phase.output,fr)}</p></Reveal></li>)}</ol></div>
+   <div className="method-steps-track"><m.span className="method-progress" aria-hidden="true" style={{scaleY:stopped?1:scrollYProgress}}/><ol className="method-steps">{phases.map((phase,i)=><li key={phase.name.en}><Reveal stopped={stopped} delay={i*.04}><div className="method-step-heading"><p className="creator-eyebrow">{text(phase.name,fr)}</p></div><h3>{text(phase.title,fr)}</h3><p className="method-description">{text(phase.body,fr)}</p><p className="method-output">{text(phase.output,fr)}</p><ToolkitRow items={[["discovery","fmea"],["rice","b2b"],["project","agile"],["pdca","kpi"]][i]} fr={fr} label={false}/></Reveal></li>)}</ol></div>
   </div>
   <a className="extension-link" href="#work">{fr?'Voir cette méthode à l’œuvre':'See the approach in practice'}<ArrowUpRight size={18} aria-hidden="true"/></a>
  </section>;
