@@ -264,3 +264,7 @@ TypeScript and production build pass. At the default 1265 × 720 desktop viewpor
 ## Quality methods and contextual tool rows — 12 October 2026
 
 TypeScript typecheck and all 32 existing production-build checks pass. All declared contextual logo paths resolve locally; production asset references are fingerprinted by the build. Browser review at desktop width 1280 and mobile width 375 confirms 32 shared tool rows, readable wrapping with zero overflowing rows, and no horizontal document overflow. SIT responsibilities and toolkit labels switch EN/FR; native details work by keyboard and remain intact across language changes. Reviewed mobile ISEN marks and all eight commerce logo images load. The FFA image gallery opens via keyboard and closes through its native close control. Pause/resume remains available. No browser console errors were captured in the local check. No employment dates or new personal certification awards are introduced.
+
+## Refresh-origin fix — 12 October 2026
+
+TypeScript passes. Browser regression: desktop direct SIT link opens at scrollY 22472; reload clears the stale fragment and returns to scrollX/Y 0 while retaining the query. After wheel scrolling to 468 with no fragment, another reload returns to 0. At mobile 375×812, the direct UIR/Nantes education link opens at scrollY 36856, then reload returns to 0 with the hero at viewport top and no fragment. The mobile header/portrait was visually reviewed. Temporary viewport settings were reset.

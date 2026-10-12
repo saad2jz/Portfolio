@@ -221,3 +221,7 @@ Use the owner’s CV order rather than an inferred chronology where dates are ab
 ## Quality methods and contextual tool rows — 12 October 2026
 
 Use one wrapping monochrome tool-row component across expertise, approach, projects, commerce, career and education. Real vendor marks identify documented software; line pictograms identify practices and frameworks. Keep the existing full-card reading and native disclosures. Methods stay visible before the detailed responsibilities; English and French labels switch together. The quality skill card separates capabilities, improvement methods and standards to avoid repeating the full standards list in body copy. Rows wrap within the card on phones; no new animation controller or scroll interception is introduced.
+
+## Refresh starts at the header — 12 October 2026
+
+Explicit reloads now disable native scroll restoration during startup, discard only the previous portfolio reading checkpoint and remove the stale fragment with replaceState. The path, query and unrelated history state remain. The page scrolls to the origin immediately and once after fonts/layout have settled; user input cancels the later adjustment. Initial deep links and previous/next history navigation retain their existing behaviour. No additional scrolling listener or animation is introduced.

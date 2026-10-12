@@ -1,11 +1,18 @@
-// Keep a reading position in the current history entry, rather than treating
-// its (possibly old) fragment as a new navigation every time the page reloads.
+// History navigation retains the reading position. An explicit refresh starts
+// at the hero instead, including when the previous URL contained a fragment.
 type Position = {version:1;hash:string;kind:string;id:string;offset:number;y:number};
 const key='portfolioReadingPosition';
 const navigation=performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming|undefined;
+const reloading=navigation?.type==='reload';
 const saved=history.state?.[key] as Position|undefined;
-const restoring=(navigation?.type==='reload'||navigation?.type==='back_forward')&&saved?.version===1&&saved.hash===location.hash&&Number.isFinite(saved.y)&&Number.isFinite(saved.offset);
-if(restoring)history.scrollRestoration='manual';
+const restoring=navigation?.type==='back_forward'&&saved?.version===1&&saved.hash===location.hash&&Number.isFinite(saved.y)&&Number.isFinite(saved.offset);
+if(reloading||restoring)history.scrollRestoration='manual';
+if(reloading){
+ const state={...history.state};delete state[key];
+ // replaceState avoids adding a history entry or firing a fragment navigation.
+ history.replaceState(state,'',location.pathname+location.search);
+ scrollTo({top:0,left:0,behavior:'instant'});
+}
 
 export function flowTop(element:HTMLElement){
  let top=0;
@@ -122,7 +129,9 @@ export function restoreReadingPosition(measure:()=>void){
    stable=geometry===previous?stable+1:0;previous=geometry;
    if(!cancelled&&stable<2&&performance.now()<deadline){requestAnimationFrame(settle);return;}
    if(!cancelled&&location.hash===initialHash){
-    if(restoring&&saved){
+    if(reloading){
+     scrollTo({top:0,left:0,behavior:'instant'});
+    }else if(restoring&&saved){
      const anchor=anchors().find(item=>item.kind===saved.kind&&item.id===saved.id);
      scrollTo({top:anchor?flowTop(anchor.element)+saved.offset:saved.y,behavior:'instant'});
     }else if(initialHash){
