@@ -225,3 +225,7 @@ Use one wrapping monochrome tool-row component across expertise, approach, proje
 ## Refresh starts at the header — 12 October 2026
 
 Explicit reloads now disable native scroll restoration during startup, discard only the previous portfolio reading checkpoint and remove the stale fragment with replaceState. The path, query and unrelated history state remain. The page scrolls to the origin immediately and once after fonts/layout have settled; user input cancels the later adjustment. Initial deep links and previous/next history navigation retain their existing behaviour. No additional scrolling listener or animation is introduced.
+
+## Cardiag as a product case study — 14 October 2026
+
+Keep the same project-card anatomy and native detail disclosure. Put the working live CTA beside Project details. Show owner-reported approximate adoption, inspection-mode sizes and catalogue coverage in the existing result row; distinguish the public launch month from usage metrics. Within details, lead with the user problem and Product Owner scope, then product decisions, MoSCoW scope and acceptance criteria before audience/technical detail. The public web app and native-platform code targets are described separately. All workflow illustrations carry an explicit screenshot disclaimer in both languages. Retain the single semantic About heading confirmed on the current production page.

@@ -1,4 +1,10 @@
 /* Same compact monochrome language for tools, methods and study frameworks. */
+.project-cardiag .project-status{font:400 12px/1.7 var(--font);color:var(--muted);margin-top:14px}
+.project-cardiag .project-status>span{color:var(--accent);font-weight:500}
+.project-cardiag .creator-results{display:flex;flex-wrap:wrap;width:100%;gap:20px 32px}
+.project-cardiag .creator-results strong{font-size:26px;white-space:nowrap}
+.project-cardiag .creator-results span{font-size:12px;max-width:155px}
+@media(max-width:760px){.project-cardiag .creator-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.project-cardiag .creator-results>div{min-width:0;width:auto}}
 .context-toolkit{min-width:0;max-width:100%;margin:18px 0 24px;padding-top:18px;border-top:1px solid var(--faint-line)}
 .context-toolkit-label{font:500 10px/1.5 var(--font);text-transform:uppercase;letter-spacing:.11em;color:var(--muted);margin:0 0 14px}
 .context-toolkit-items{list-style:none;display:flex;flex-wrap:wrap;gap:14px 24px;margin:0;padding:0;max-width:100%}

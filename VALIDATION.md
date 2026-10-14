@@ -268,3 +268,9 @@ TypeScript typecheck and all 32 existing production-build checks pass. All decla
 ## Refresh-origin fix — 12 October 2026
 
 TypeScript passes. Browser regression: desktop direct SIT link opens at scrollY 22472; reload clears the stale fragment and returns to scrollX/Y 0 while retaining the query. After wheel scrolling to 468 with no fragment, another reload returns to 0. At mobile 375×812, the direct UIR/Nantes education link opens at scrollY 36856, then reload returns to 0 with the hero at viewport top and no fragment. The mobile header/portrait was visually reviewed. Temporary viewport settings were reset.
+
+## Cardiag product case study — 14 October 2026
+
+TypeScript and the final production build pass. Scoped content checks confirm the public Cardiag CTA, September 2026 launch month, approximate ten-user indicator, complete EN/FR keys, 33/12/201 figures, Product Owner/decision/prioritisation/acceptance content and all six explicit workflow-illustration captions. Current Cardiag repository definitions independently confirm seven inspection areas / 33 checks, 12 quick checks, 201 makes / 2,697 model entries; public landing and mobile tab were read in the browser.
+
+Browser review at 1280px desktop and 375/320px mobile: the new figures use a two-column grid on phones; no document or expanded-detail horizontal overflow. Native project details open with Enter, remain open across language switches and expose the translated sections. Status/launch and figures translate correctly. The current About section has one h2 in EN/FR. Six illustration captions explicitly distinguish diagrams from screenshots. No local browser console errors were captured. Temporary viewport overrides were reset. No real Cardiag account, vehicle record, payment or inspection was created.
