@@ -28,6 +28,11 @@ async function verify(url){
   const english=await read('en/index.html');
   check('Dedicated FR and EN pages have matching language and Product Owner positioning',html.includes('<html lang="fr"')&&english.includes('<html lang="en"')&&html.includes('Product Owner à Paris</title>')&&english.includes('Product Owner in Paris</title>'));
   check('Contact guidance is translated in the initial French document',html.includes('Tous les champs sont obligatoires.'));
+  check('Reading preference and refresh position initialise before stylesheets',[html,english].every(page=>page.indexOf("localStorage.getItem('portfolio-motion-paused')")>0&&page.indexOf("localStorage.getItem('portfolio-motion-paused')")<page.indexOf('<link rel="stylesheet"')&&page.includes("history.scrollRestoration='manual'")));
+  const selected=html.slice(html.indexOf('<section id="selected-work"'),html.indexOf('<section id="services"'));
+  check('Selected-work thumbnails have three mobile density variants without changing desktop images',(selected.match(/<picture>/g)||[]).length===3&&(selected.match(/media="\(max-width:760px\)"/g)||[]).length===3&&['ffa','leadhunt','cardiag'].every(id=>selected.includes(manifest.assets[`assets/${id}-selected-3x.webp`])));
+  const runtime=await read(manifest.js);
+  check('Mobile thumbnail sources also resolve to fingerprinted files after hydration',['ffa','leadhunt','cardiag'].every(id=>[1,2,3].every(density=>runtime.includes(manifest.assets[`assets/${id}-selected-${density}x.webp`]))));
   const about=html.match(/<p class="animated-profile-text"[\s\S]*?<\/p>/)?.[0]||'';
   check('About reveal preserves accessible text without a character-sized DOM tree',about.includes('class="sr-only"')&&(about.match(/<span/g)||[]).length<100&&about.includes('animated-text-word'));
   const work=html.slice(html.indexOf('<section id="work"'),html.indexOf('<section id="entrepreneurship"'));

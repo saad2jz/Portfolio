@@ -20,7 +20,7 @@
 
 ## Validation
 
-TypeScript checks passed. The production build suite now passes 88 checks across FR/EN, root/subfolder/local builds, all nine projects, the 27 gallery links, unique IDs, direct scheduling, local CVs, metadata, delivered assets and shared flow geometry.
+TypeScript checks passed. The production build suite now passes 97 checks across FR/EN, root/subfolder/local builds, all nine projects, the 27 gallery links, unique IDs, direct scheduling, local CVs, metadata, delivered assets, shared flow geometry, early preferences and mobile thumbnail delivery before/after hydration.
 
 Browser checks cover 320×740, 390×844, 844×390 and 1280×720: first-screen actions, overflow, menu and Escape, gallery controls and keyboard, LeadHunt tour, education navigation, header-to-About zoom and reading/immersive switching. No real contact message was sent and no appointment booked.
 
@@ -44,3 +44,11 @@ Analytics remains inactive because no provider account is configured. Form deliv
 - Browser verification covers first menu activation, Skills/Projects/Education navigation, FFA-to-LeadHunt stacking in both directions, a gallery change with unchanged card height (1,477px at the tested size), reading mode and English rendering. No horizontal overflow or captured JavaScript errors in those checks.
 
 Local Lighthouse experiments and the final measurement are retained outside Git under `work/audit-applied-20261015/mobile-pass2-*`. One-run scores vary and do not establish a field-performance improvement or physical-device frame rate. No content, projects or captures were removed to increase a score.
+
+## Mobile asset and startup follow-up
+
+- Selected-work cards now use 84×74 mobile thumbnails with 1×/2×/3× density variants. Combined delivered image bytes are 4,188 / 11,254 / 17,938 instead of 30,140; desktop keeps the original images. The existing top-centred crop is preserved and these are derived from the sanitised assets.
+- A small, local inline startup script applies the existing immersive/reading preference before the stylesheet's first layout. Refresh clears the stale fragment/reading position before heavy JavaScript is parsed; the later scroll controller still owns history navigation.
+- Verified mobile reading-mode refresh: scroll 0, cleared fragment, paused preference retained, hero height equal to the 844px viewport. Resuming immersion and FR/EN selected-work navigation remain functional, without horizontal overflow or captured JavaScript errors.
+- An experimental deferred React bundle was not shipped: it reduced the simulated LCP in an initial run but increased blocking time. Source patch and all measurements remain outside Git under `work/audit-applied-20261015/bootstrap-experiment/` and `mobile-profile-*`.
+- The retained local mobile run scored 80, with LCP 3.27s, TBT 461ms and automated accessibility/best practices/SEO 100. Its CPU benchmark was 1378.5; the earlier profiling run scored 76 with benchmark 1535.5. These single synthetic runs are not a controlled field comparison. The asset byte reduction is established; remaining mobile loading/interaction work is not claimed to be resolved.

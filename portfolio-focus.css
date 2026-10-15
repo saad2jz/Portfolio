@@ -4,6 +4,7 @@
 .selected-work nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .selected-work nav>a{display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px;border:1px solid var(--line);border-radius:20px;color:var(--ink);transition:border-color .2s}
 .selected-work nav>a:hover{border-color:var(--accent)}
+.selected-work picture{display:block;grid-column:1/-1;min-width:0}
 .selected-work img{grid-column:1/-1;width:100%;height:150px;object-fit:cover;object-position:top;border-radius:12px}
 .selected-work strong{display:block;font:500 20px/1.5 var(--display)}
 .selected-work small{display:block;color:var(--muted);font-size:13px;line-height:1.6}
@@ -30,7 +31,7 @@
 .legal-section{padding:25px var(--gutter);max-width:1440px;margin:auto;scroll-margin-top:110px}
 .legal-section summary{cursor:pointer;padding:18px 0;font-size:16px}.legal-section details>div{max-width:850px}.legal-section h3{font-size:18px;margin:24px 0 10px}.legal-section p{font-size:14px;line-height:1.8;color:var(--muted)}.legal-section a{display:inline-block;font-size:14px;color:var(--accent);margin-top:8px;text-decoration:underline;text-underline-offset:3px}
 .creator-hero-statement{max-width:260px!important}
-@media(max-width:760px){.selected-work{padding:30px 20px}.selected-work nav{grid-template-columns:1fr}.selected-work nav>a{grid-template-columns:84px minmax(0,1fr) 20px;align-items:center;gap:12px}.selected-work img{grid-column:auto;width:84px;height:74px}.selected-work strong{font-size:18px}.selected-work small{font-size:12px}.quality-bridge{padding:18px}.legal-section{padding-inline:20px}}
+@media(max-width:760px){.selected-work{padding:30px 20px}.selected-work nav{grid-template-columns:1fr}.selected-work nav>a{grid-template-columns:84px minmax(0,1fr) 20px;align-items:center;gap:12px}.selected-work picture{grid-column:auto;width:84px}.selected-work img{grid-column:auto;width:84px;height:74px}.selected-work strong{font-size:18px}.selected-work small{font-size:12px}.quality-bridge{padding:18px}.legal-section{padding-inline:20px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.animated-profile-text span{opacity:1!important}.hero-tool-fallback{transform:none!important}.chapter-stage,.chapter-exit-surface{transform:none!important;opacity:1!important}}
 
 .interest-details>summary{padding:20px 0;cursor:pointer;border-top:1px solid var(--line);font-size:18px}.ppl-status{color:var(--muted);font-size:15px;margin:24px 0}

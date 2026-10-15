@@ -2,6 +2,23 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+  // Set the existing layout and reading preference before CSS first measures
+  // the document. A saved pause must not expand then collapse the hero track.
+  (()=>{
+    const root=document.documentElement;
+    root.classList.add('layout-ready');
+    let paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try{paused=paused||localStorage.getItem('portfolio-motion-paused')==='true';}catch{}
+    root.classList.toggle('motion-paused',paused);
+    if(performance.getEntriesByType('navigation')[0]?.type==='reload'){
+      history.scrollRestoration='manual';
+      const state={...history.state};delete state.portfolioReadingPosition;
+      history.replaceState(state,'',location.pathname+location.search);
+      scrollTo({top:0,left:0,behavior:'instant'});
+    }
+  })();
+  </script>
   <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <meta name="theme-color" content="#0C0C0C">
