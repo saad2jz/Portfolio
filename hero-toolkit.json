@@ -55,17 +55,17 @@
     {
       "name": "Cisco",
       "color": "#41bbde",
-      "kind": "tool"
+      "kind": "learning"
     },
     {
       "name": "AWS",
       "color": "#f9a028",
-      "kind": "tool"
+      "kind": "learning"
     },
     {
       "name": "SAP",
       "color": "#439bd6",
-      "kind": "tool"
+      "kind": "learning"
     },
     {
       "name": "Google Ads",

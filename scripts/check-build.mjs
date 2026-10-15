@@ -14,6 +14,14 @@ async function verify(url){
   const result=build(url);assert.equal(result.status,0,result.stderr);
   const html=await read('index.html'),manifest=JSON.parse(await read('build-manifest.json'));
   const base=url?url.replace(/\/?$/,'/'):null;
+  const english=await read('en/index.html');
+  check('Dedicated FR and EN pages have matching language and Product Owner positioning',html.includes('<html lang="fr"')&&english.includes('<html lang="en"')&&html.includes('Product Owner à Paris</title>')&&english.includes('Product Owner in Paris</title>'));
+  check('Contact guidance is translated in the initial French document',html.includes('Tous les champs sont obligatoires.'));
+  const work=html.slice(html.indexOf('<section id="work"'),html.indexOf('<section id="entrepreneurship"'));
+  check('Only three full project cards are rendered and other projects start collapsed',(work.match(/class="[^"]*creator-project project\b/g)||[]).length===3&&/class="other-projects"/.test(work)&&!/<details[^>]*class="other-projects"[^>]*\bopen/.test(work));
+  check('English page assets resolve from its own directory',english.includes(`src="../${manifest.js}"`)&&english.includes(`href="../${manifest.css}"`)&&!/\b(?:src|href|data-full-src|data-logo-atlas)="assets\//.test(english));
+  check('Both public CV PDFs are valid PDF files',(await fs.readFile(path.join(root,'dist/cv/saad-bayahia-fr.pdf'))).subarray(0,5).toString()==='%PDF-'&&(await fs.readFile(path.join(root,'dist/cv/saad-bayahia-en.pdf'))).subarray(0,5).toString()==='%PDF-');
+  check('CV landing pages and language-specific links are delivered',html.includes('href="cv/"')&&english.includes('href="../cv/en/"')&&(await read('cv/index.html')).includes('saad-bayahia-fr.pdf')&&(await read('cv/en/index.html')).includes('saad-bayahia-en.pdf'));
   check('Both entry points have the same canonical document',html===await read('portfolio.html'));
   check('Configured root/subfolder is preserved',manifest.url===base);
   const missing=[];
@@ -27,6 +35,7 @@ async function verify(url){
   check('Every HTML script and stylesheet request has a delivered file',stale.length===0);
   const cover=manifest.assets['assets/og-cover.jpg'];
   if(base){
+    check('Both languages publish reciprocal hreflang and their own canonical',english.includes(`rel="canonical" href="${new URL('en/',base).href}"`)&&[html,english].every(page=>page.includes(`hreflang="fr" href="${base}"`)&&page.includes(`hreflang="en" href="${new URL('en/',base).href}"`)));
     check('Canonical and Open Graph URLs match',html.includes(`rel="canonical" href="${base}"`)&&html.includes(`property="og:url" content="${base}"`));
     check('Social images use an absolute hashed URL',html.includes(`property="og:image" content="${new URL(cover,base).href}"`)&&html.includes(`name="twitter:image" content="${new URL(cover,base).href}"`));
     const person=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);

@@ -46,18 +46,19 @@
     inspect(){if(!ready)return Promise.resolve(null);if(!worker)return Promise.resolve(renderer.inspect());const id=++sequence;return new Promise(resolve=>{pending.set(id,resolve);worker.postMessage({type:'inspect',id});});},
     loseContext(){if(worker)worker.postMessage({type:'lose-context'});else renderer?.loseContext();}
   };
-  control.addEventListener('click',()=>{paused=!paused;model.paused=paused;try{localStorage.setItem('portfolio-motion-paused',String(paused));}catch{}label();send({type:'update',model:{...model}});});
+  control.addEventListener('click',()=>{paused=!paused;model.paused=paused;try{localStorage.setItem('portfolio-motion-paused',String(paused));}catch{}label();send({type:'update',model:{...model}});if(!paused)startScene();});
   new MutationObserver(label).observe(root,{attributes:true,attributeFilter:['lang']});
   addEventListener('pointermove',event=>{if(!model.visible||!fine.matches||paused||reduced.matches||lost)return;lastPointer={x:event.clientX,y:event.clientY};model.pointerActive=true;schedule();},{passive:true});
   hero.addEventListener('pointerleave',()=>{model.pointerActive=false;schedule();});
   addEventListener('scroll',progress,{passive:true});
   document.addEventListener('visibilitychange',()=>{model.hidden=document.hidden;send({type:'update',model:{...model}});});
-  reduced.addEventListener('change',()=>{model.reduced=reduced.matches;progress();label();send({type:'update',model:{...model}});});
+  reduced.addEventListener('change',()=>{model.reduced=reduced.matches;progress();label();send({type:'update',model:{...model}});if(!reduced.matches)startScene();});
   new IntersectionObserver(entries=>{model.visible=entries[0].isIntersecting;send({type:'update',model:{...model}});schedule();},{threshold:.01}).observe(hero);
   new ResizeObserver(([entry])=>{model.width=entry.contentRect.width;model.height=entry.contentRect.height;model.dpr=devicePixelRatio||1;if(creator)model.renderScale=peakScale();resolveDimensions();progress();send({type:'resize',model:{...model}});}).observe(hero);
   addEventListener('pagehide',()=>{model.hidden=true;send({type:'update',model:{...model}});});
   addEventListener('pageshow',()=>{model.hidden=document.hidden;schedule();});
-  requestAnimationFrame(()=>requestAnimationFrame(async()=>{
+  let started=false;
+  function startScene(){if(started||reduced.matches||paused)return;started=true;void (async()=>{
     try{
       await dimensionsReady;
       if(typeof Worker==='function'&&typeof canvas.transferControlToOffscreen==='function'){
@@ -70,5 +71,10 @@
         renderer=await createRenderer(canvas,model,fail);if(!renderer)throw Error('Scene unavailable');activate();
       }
     }catch{fail();}
-  }));
+  })();}
+  // Leave the initial paint and input processing ahead of decorative GPU work.
+  if(reduced.matches){stage.classList.add('scene-static');finish();}
+  const scheduleScene=()=>{if('requestIdleCallback' in window)requestIdleCallback(startScene,{timeout:2500});else setTimeout(startScene,800);};
+  if(document.readyState==='complete')scheduleScene();else addEventListener('load',scheduleScene,{once:true});
+  for(const type of ['pointerdown','touchstart','wheel'])addEventListener(type,startScene,{once:true,passive:true});
 })();

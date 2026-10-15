@@ -7,6 +7,8 @@ import {transform,build} from 'esbuild';
 import {createRequire} from 'node:module';
 import postcss from 'postcss';
 import tailwind from '@tailwindcss/postcss';
+import {pageLanguage} from './page-language.mjs';
+import {writeCVPages} from './cv-pages.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const config=JSON.parse(await fs.readFile(path.join(root,'site.config.json'),'utf8'));
@@ -17,14 +19,17 @@ if(configuredUrl){
   if(!['http:','https:'].includes(siteUrl.protocol)||siteUrl.username||siteUrl.password||siteUrl.search||siteUrl.hash)throw Error('SITE_URL must be an HTTP(S) domain/subfolder without credentials, query or fragment');
   if(!siteUrl.pathname.endsWith('/'))siteUrl.pathname+='/';
 }
+await import('./generate-copy.mjs');
 // Pre-render the React composition: content and native disclosures work without JS.
 await fs.mkdir(path.join(root,'.build'),{recursive:true});
 const ssrFile=path.join(root,'.build/render.cjs');
 await build({entryPoints:[path.join(root,'src/render.tsx')],outfile:ssrFile,bundle:true,platform:'node',format:'cjs',packages:'external',jsx:'automatic'});
 const require=createRequire(import.meta.url);delete require.cache[ssrFile];
-const markup=require(ssrFile).render();
+const render=require(ssrFile).render;
+const markup=render('fr');
 const template=await fs.readFile(path.join(root,'page-template.html'),'utf8');
-const sourceHtml=template.replace('<!--app-->',markup).replace(/[\t ]+$/gm,'');
+const sourceHtml=pageLanguage(template.replace('<!--app-->',markup).replace(/[\t ]+$/gm,''),'fr');
+const sourceEnglish=pageLanguage(template.replace('<!--app-->',render('en')).replace(/[\t ]+$/gm,''),'en');
 for(const name of ['index.html','portfolio.html'])await fs.writeFile(path.join(root,name),sourceHtml);
 const tailwindCss=await postcss([tailwind()]).process(await fs.readFile(path.join(root,'tailwind-input.css'),'utf8'),{from:path.join(root,'tailwind-input.css')});
 await fs.writeFile(path.join(root,'generated-tailwind.css'),tailwindCss.css);
@@ -34,7 +39,7 @@ await fs.rm(dist,{recursive:true,force:true});
 await fs.mkdir(path.join(dist,'assets'),{recursive:true});
 const read=name=>fs.readFile(path.join(root,name),'utf8');
 let html=await read('index.html');
-const cssNames=['fonts.css','styles.css','refinements.css','reference-effects.css','project-reels.css','profile-content.css','deadwater.css','generated-tailwind.css','creator.css','ecosystems.css','extensions.css','personality.css','chapter-transitions.css','context-toolkit.css'];
+const cssNames=['fonts.css','styles.css','refinements.css','reference-effects.css','project-reels.css','profile-content.css','deadwater.css','generated-tailwind.css','creator.css','ecosystems.css','extensions.css','personality.css','chapter-transitions.css','context-toolkit.css','portfolio-focus.css'];
 let css=(await Promise.all(cssNames.map(read))).join('\n');
 const scripts=['src/main.tsx'];
 const client=await build({entryPoints:[path.join(root,'src/main.tsx')],bundle:true,write:false,format:'iife',platform:'browser',target:'es2020',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},minify:true,legalComments:'none'});
@@ -46,11 +51,11 @@ for(const [entry,format] of [['hero-worker.js','iife'],['hero-renderer.js','esm'
   const buffer=result.outputFiles[0].contents;
   const target=`assets/${entry.slice(0,-3)}.${fingerprint(buffer)}.js`;
   await fs.writeFile(path.join(dist,target),buffer);rendererFiles.push(target);
-  js=js.replaceAll(`'${entry}'`,`'${target}'`).replaceAll(`"${entry}"`,`"${target}"`);
+  js=js.replaceAll(`'${entry}'`,`'${siteUrl?.pathname||'/'}${target}'`).replaceAll(`"${entry}"`,`"${siteUrl?.pathname||'/'}${target}"`);
 }
 const map=new Map();
 const assetPattern=/assets\/[a-zA-Z0-9_./-]+\.(?:svg|webp|avif|woff2|jpg|png)/g;
-const references=new Set((html+'\n'+css+'\n'+js).match(assetPattern)||[]);
+const references=new Set((html+'\n'+sourceEnglish+'\n'+css+'\n'+js).match(assetPattern)||[]);
 for(const name of [...references].sort()){
   const source=path.resolve(root,name);
   if(!source.startsWith(path.join(root,'assets')+path.sep))throw Error('Invalid asset');
@@ -60,7 +65,7 @@ for(const name of [...references].sort()){
 }
 // HTML paths remain relative to the page; stylesheet URLs are relative to assets/.
 html=html.replace(assetPattern,name=>map.get(name)||name);
-js=js.replace(assetPattern,name=>map.get(name)||name);
+js=js.replace(assetPattern,name=>(siteUrl?.pathname||'/')+(map.get(name)||name));
 css=css.replace(assetPattern,name=>path.posix.relative('assets',map.get(name)||name));
 const escape=value=>value.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 if(siteUrl){
@@ -82,12 +87,30 @@ await fs.copyFile(path.join(root,'assets/fonts/OFL.txt'),path.join(dist,'assets/
 await fs.copyFile(path.join(root,'assets/fonts/Humane-LICENSE.txt'),path.join(dist,'assets/fonts/Humane-LICENSE.txt'));
 await fs.copyFile(path.join(root,'assets/fonts/Kanit-OFL.txt'),path.join(dist,'assets/fonts/Kanit-OFL.txt'));
 for(const name of ['SpaceGrotesk-OFL.txt','DMSans-OFL.txt'])await fs.copyFile(path.join(root,'assets/fonts',name),path.join(dist,'assets/fonts',name));
+const alternate=(lang,relative)=>siteUrl?new URL(relative,siteUrl).href:relative;
+const alternates=`<link rel="alternate" hreflang="fr" href="${alternate('fr','./')}"><link rel="alternate" hreflang="en" href="${alternate('en','en/')}"><link rel="alternate" hreflang="x-default" href="${alternate('fr','./')}">`;
+html=html.replace('</head>',alternates+'</head>');
+let englishHtml=sourceEnglish.replace(assetPattern,name=>map.get(name)||name);
+englishHtml=englishHtml.replace(/<link\b[^>]*>/g,tag=>cssNames.includes(tag.match(/\bhref=["']([^"']+)["']/)?.[1])?'':tag);
+englishHtml=englishHtml.replace(/<script\b[^>]*>\s*<\/script>/g,tag=>scripts.includes(tag.match(/\bsrc=["']([^"']+)["']/)?.[1])?'':tag);
+englishHtml=englishHtml.replace('<script type="application/ld+json">',`<link rel="stylesheet" href="${cssFile}"><script src="${jsFile}" defer></script><script type="application/ld+json">`);
+englishHtml=englishHtml.replace(/(src|href|data-full-src|data-logo-atlas)="assets\//g,'$1="../assets/').replace(/(srcset=")[^"]+"/g,match=>match.replace(/assets\//g,'../assets/')).replaceAll('href="cv/"','href="../cv/en/"');
+if(siteUrl){
+ const canonical=escape(new URL('en/',siteUrl).href),cover=escape(new URL(map.get('assets/og-cover.jpg'),siteUrl).href);
+ englishHtml=englishHtml.replace('  <meta property="og:type"',`<link rel="canonical" href="${canonical}"><meta property="og:url" content="${canonical}"> <meta property="og:type"`);
+ englishHtml=englishHtml.replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]+("\s*>)/g,(_,a,b)=>a+cover+b);
+ englishHtml=englishHtml.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/,(_,a,json,b)=>{const person=JSON.parse(json);person.url=siteUrl.href;person['@id']=new URL('#saad-bayahia',siteUrl).href;delete person.email;person.jobTitle='Product Owner';return a+JSON.stringify(person)+b;});
+}
+const enAlternates=siteUrl?alternates:'<link rel="alternate" hreflang="fr" href="../"><link rel="alternate" hreflang="en" href="./"><link rel="alternate" hreflang="x-default" href="../">';
+englishHtml=englishHtml.replace('</head>',enAlternates+'</head>');
+await fs.mkdir(path.join(dist,'en'),{recursive:true});await fs.writeFile(path.join(dist,'en/index.html'),englishHtml);
 for(const name of ['index.html','portfolio.html'])await fs.writeFile(path.join(dist,name),html);
+await writeCVPages(root,dist);
 await fs.writeFile(path.join(dist,'robots.txt'),'User-agent: *\nAllow: /\n'+(siteUrl?`Sitemap: ${new URL('sitemap.xml',siteUrl).href}\n`:''));
-if(siteUrl)await fs.writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escape(siteUrl.href)}</loc></url></urlset>\n`);
+if(siteUrl)await fs.writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escape(siteUrl.href)}</loc></url><url><loc>${escape(new URL('en/',siteUrl).href)}</loc></url></urlset>\n`);
 await fs.writeFile(path.join(dist,'_headers'),'/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n');
 let compressedBytes=0;
-for(const name of ['index.html','portfolio.html',cssFile,jsFile,...rendererFiles,...map.values()]){
+for(const name of ['index.html','portfolio.html','en/index.html',cssFile,jsFile,...rendererFiles,...map.values()]){
   if(!/\.(?:html|css|js|svg)$/.test(name))continue;
   const buffer=await fs.readFile(path.join(dist,name));
   const br=brotliCompressSync(buffer,{params:{[constants.BROTLI_PARAM_QUALITY]:11}}),gz=gzipSync(buffer,{level:9});

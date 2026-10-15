@@ -23,6 +23,10 @@ export function flowTop(element:HTMLElement){
 // Resolve sticky cards against their flow markers, rather than the pile's
 // current screen position. Chapter links finish the introduction's zoom.
 export function navigateToFragment(target:HTMLElement,behavior:ScrollBehavior='instant'){
+ // Old project links can point inside the collapsed experiments collection.
+ for(let parent=target.parentElement;parent;parent=parent.parentElement){
+  if(parent instanceof HTMLDetailsElement&&!parent.open)parent.open=true;
+ }
  const card=target.closest<HTMLElement>('.creator-project.project');
  const marker=card?.previousElementSibling as HTMLElement|null;
  const stage=target.closest<HTMLElement>('.chapter-stage')||target.querySelector<HTMLElement>('.chapter-stage');

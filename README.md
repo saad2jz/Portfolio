@@ -2,6 +2,22 @@
 
 Publication: [www.saadbayahia.com](https://www.saadbayahia.com/). GitHub Pages builds `main` automatically; see [deployment setup](DEPLOYMENT.md).
 
+## Current structure — 15 October 2026
+
+This section supersedes the historical revision descriptions below. Product Owner in Paris is the primary positioning; business engineering and industrial quality remain supporting expertise. The initial document is French at `/`, with a separately rendered English page at `/en/`, reciprocal hreflang, language-specific metadata and stable asset paths. Language controls navigate between documents while preserving the current fragment.
+
+Hero/About → Selected work → Expertise → Skills → Approach (including quality-to-product methods) → three flagship case studies → collapsed other projects → independent commerce → professional experience → education → continuing development → international → compact interests → visible contact form → legal/privacy information.
+
+FFA, LeadHunt and Cardiag share Problem / Role / Delivery / Result. The six secondary projects retain supplied technical descriptions and genuine captures in collapsed records. FFA's owner-reported −40% and zero manual-entry outcomes remain in its details with measurement context marked as pending. Later explicit owner corrections take precedence over older wording.
+
+Confirmed chronology: ALLIANCES 2015, TGR 2016, UIR/Nantes 2012–2016, Franche-Comté 2016–2018, ISEN/KEDGE and FFA work-study 2025–2026, independent commerce since 2019. FFA role: B2B e-commerce Project Lead / Product Manager. ISO 27001 is an academic ISEN module; SAP S/4HANA Cloud Public Edition and PPL are in progress. SAP/AWS/Cisco are learning subjects rather than hero mastery medals.
+
+Public CVs are delivered at `/cv/` and `/cv/en/` with local FR/EN PDFs. These are newly typeset public versions based on confirmed portfolio facts, without personal phone/email. `scripts/generate-public-cv.py` is optional authoring tooling; CI copies committed PDFs without Python. Edit `src/localization.ts` and `src/ecosystem-copy.json` for French; `src/copy-en.json` is generated from trusted native content during build.
+
+Motion respects reduced-motion, manual pause and hidden tabs. Decorative WebGL starts after initial load/idle or interaction and stays static when reduced motion is active. Keyboard access, anchor navigation and refresh-to-top remain. `portfolio-focus.css` styles selected work, secondary records, the quality bridge, contact and privacy information.
+
+CTA analytics are **prepared but inactive**, because no provider account was supplied. See [analytics setup and outstanding evidence](AUDIT-FOLLOW-UP.md). `npm run typecheck` and `npm run test:build` validate both languages, PDFs, assets, root/subfolder deployments and unconfigured previews.
+
 A separate adaptation of [`saad2jz/Portfolio`](https://github.com/saad2jz/Portfolio), initially cloned from `main` at `5a69054`. The 10 October personalisation refines the creator composition around Saad’s product, e-commerce, B2B and engineering profile: local Space Grotesk/DM Sans typography, ivory/teal accents, a colour portrait and real tool logos in WebGL.
 
 ## Run locally

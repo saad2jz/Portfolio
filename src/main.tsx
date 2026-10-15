@@ -7,6 +7,6 @@ import {App} from './App';
 // hydration completion with animation frames on slower devices.
 function Portfolio(){
  React.useEffect(()=>{void import('./legacy');},[]);
- return <App/>;
+ return <App language={document.documentElement.lang}/>;
 }
 hydrateRoot(document.getElementById('root')!,<Portfolio/>);

@@ -31,7 +31,7 @@ import {createCardStacks} from './project-layout';
   certifications:['#education','.creator-project:last-of-type','violet'],
   international:['#certifications','.creator-project:last-of-type','mint'],
   beyond:['#international','.language-cards','blue'],
-  contact:['#beyond','.interest-cards','amber']
+  contact:['#beyond','.travel-panel','amber']
  };
  const colors={mint:'139,197,178',forest:'55,105,77',blue:'119,166,208',violet:'164,145,207',amber:'203,162,108'};
  const scenes=definitions.flatMap(([name,selector,container,tone,hero])=>{

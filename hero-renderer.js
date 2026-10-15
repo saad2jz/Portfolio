@@ -102,7 +102,7 @@ export async function createRenderer(canvas,config,onLost=()=>{}) {
     return positions;
   }
   let layout=scatter(false,width/height),mobileLayout=scatter(true,width/height);
-  const objects=layout.map((_,i)=>({time:0,parallaxX:0,parallaxY:0,screenX:0,screenY:0,radius:0,index:i,pose:null}));
+  const objects=layout.map((_,i)=>({time:0,parallaxX:0,parallaxY:0,screenX:0,screenY:0,radius:0,index:i,pose:null})).filter(object=>toolkit.tools[object.index].kind==='tool');
   let pointer={x:0,y:0},hovered=-1,scroll=0,targetScroll=0,clock=0,last=0,frame=0,visible=true,paused=false,sceneLost=false;
 
   const projection=new Float32Array(16),rotationMatrix=new Float32Array(9),center=new Float32Array(3);
@@ -132,7 +132,7 @@ export async function createRenderer(canvas,config,onLost=()=>{}) {
     gl.enableVertexAttribArray(attributes.Position);gl.vertexAttribPointer(attributes.Position,3,gl.FLOAT,false,28,0);
     gl.enableVertexAttribArray(attributes.Normal);gl.vertexAttribPointer(attributes.Normal,3,gl.FLOAT,false,28,12);
     gl.enableVertexAttribArray(attributes.Detail);gl.vertexAttribPointer(attributes.Detail,1,gl.FLOAT,false,28,24);
-    objects.forEach((object,i)=>{
+    objects.forEach(object=>{const i=object.index;
       if(mobile&&i>=mobileLayout.length)return;
       const [x,y,z,radius,motion]=positions[i],depth=camera-z,size=radius*2*depth/f;
       if(hovered!==i||!object.pose){
@@ -160,7 +160,7 @@ export async function createRenderer(canvas,config,onLost=()=>{}) {
     const dt=last?Math.min((stamp-last)/1000,.1):0;last=stamp;
     clock+=dt;const ease=1-Math.exp(-dt*6);
     scroll+=(targetScroll-scroll)*ease;
-    objects.forEach((object,i)=>{if(hovered===i)return;object.time+=dt;object.parallaxX+=(pointer.x-object.parallaxX)*ease;object.parallaxY+=(pointer.y-object.parallaxY)*ease;});
+    objects.forEach(object=>{const i=object.index;if(hovered===i)return;object.time+=dt;object.parallaxX+=(pointer.x-object.parallaxX)*ease;object.parallaxY+=(pointer.y-object.parallaxY)*ease;});
     paint();frame=requestAnimationFrame(animate);
   }
   function schedule(){if(frame)cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!hidden&&!paused&&!reduced&&!sceneLost)frame=requestAnimationFrame(animate);}

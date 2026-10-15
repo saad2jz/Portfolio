@@ -1,5 +1,13 @@
 # Portfolio content provenance — 8 October 2026
 
+## Owner confirmations and harmonisation — 14–15 October 2026
+
+Direct owner replies confirm ALLIANCES 2015, TGR 2016, independent commerce since 2019, UIR/Nantes 2012–2016, Franche-Comté 2016–2018, ISEN/KEDGE 2025–2026 and FFA work-study during KEDGE. The FFA role is B2B e-commerce Project Lead / Product Manager. Ansys is the KEDGE Business School hackathon, 2026, first place Innovation. ISO/IEC 27001 was part of the ISEN Business & Data Analyst academic track. SAP S/4HANA Cloud Public Edition and PPL are in progress.
+
+The owner explicitly requests retaining supplied information. FFA −40% and zero-entry outcomes are therefore retained as reported results, with baseline/period/method still pending. Secondary technical descriptions and real captures are preserved behind compact disclosures. Declared Shopify, Cisco, HubSpot, Lean Green Belt and Anthropic credential names remain; missing personal verification is stated rather than replacing them with invented awards or dates. The later ISO clarification supersedes the ambiguous older Lead Implementer/Auditor wording.
+
+No analytics account exists according to the owner. CTA hooks are inactive. No recommendation quotes, industrial outcome metrics, financial results, flight hours or Ansys team/role are fabricated. See AUDIT-FOLLOW-UP.md for unresolved evidence and operational policy notes.
+
 ## Chapter-navigation refinement — 10 October 2026
 
 The twelve bilingual project-index labels summarise existing project names and categories; no new client, credential or outcome is added. International and Beyond work receive continuation links, and repeated decorative interest labels are removed. The unused earlier profile HTML fragment is removed from the delivered content JSON; its source-backed facts remain in the current About, Career, International and Beyond work sections.
