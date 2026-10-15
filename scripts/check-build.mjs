@@ -33,6 +33,9 @@ async function verify(url){
   check('Selected-work thumbnails have three mobile density variants without changing desktop images',(selected.match(/<picture>/g)||[]).length===3&&(selected.match(/media="\(max-width:760px\)"/g)||[]).length===3&&['ffa','leadhunt','cardiag'].every(id=>selected.includes(manifest.assets[`assets/${id}-selected-3x.webp`])));
   const runtime=await read(manifest.js);
   check('Mobile thumbnail sources also resolve to fingerprinted files after hydration',['ffa','leadhunt','cardiag'].every(id=>[1,2,3].every(density=>runtime.includes(manifest.assets[`assets/${id}-selected-${density}x.webp`]))));
+  const atlasPath=manifest.assets['assets/tool-medallions.webp'],atlas=await fs.readFile(path.join(root,'dist',atlasPath));
+  check('The header delivers its full-resolution lossless atlas',atlas.subarray(0,4).toString()==='RIFF'&&atlas.subarray(12,16).toString()==='VP8L'&&atlas[20]===0x2f&&(atlas.readUInt32LE(21)&0x3fff)+1===4096&&((atlas.readUInt32LE(21)>>>14)&0x3fff)+1===2048&&html.includes(atlasPath));
+  check('The heavier PNG atlas is not requested by the page or renderer',!manifest.assets['assets/tool-medallions.png']&&!runtime.includes('tool-medallions.png'));
   const about=html.match(/<p class="animated-profile-text"[\s\S]*?<\/p>/)?.[0]||'';
   check('About reveal preserves accessible text without a character-sized DOM tree',about.includes('class="sr-only"')&&(about.match(/<span/g)||[]).length<100&&about.includes('animated-text-word'));
   const work=html.slice(html.indexOf('<section id="work"'),html.indexOf('<section id="entrepreneurship"'));

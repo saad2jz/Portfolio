@@ -1,5 +1,9 @@
 # Project media sources
 
+## Lossless header delivery — 15 October 2026
+
+The current 4096×2048 atlas is delivered as `assets/tool-medallions.webp` (146,394 bytes), converted losslessly from the existing 302,036-byte PNG. All decoded RGBA pixels were compared and are identical, including transparent pixels. The original PNG is retained. Texture dimensions, 512px cells, colours, geometry and movements are unchanged. The registry contains 32 marks; the renderer displays its 29 tool entries and keeps Cisco, AWS and SAP as learning entries in the profile. Earlier dated atlas descriptions below document previous versions.
+
 ## Commerce and deployment toolkit — 11 October 2026
 
 The header now contains 32 tools. Eight additional SVG marks retain the source geometry from Simple Icons, with a pale fill for the dark static fallback:

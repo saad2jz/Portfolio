@@ -20,7 +20,7 @@
 
 ## Validation
 
-TypeScript checks passed. The production build suite now passes 97 checks across FR/EN, root/subfolder/local builds, all nine projects, the 27 gallery links, unique IDs, direct scheduling, local CVs, metadata, delivered assets, shared flow geometry, early preferences and mobile thumbnail delivery before/after hydration.
+TypeScript checks passed. The production build suite now passes 103 checks across FR/EN, root/subfolder/local builds, all nine projects, the 27 gallery links, unique IDs, direct scheduling, local CVs, metadata, delivered assets, shared flow geometry, early preferences and mobile thumbnail delivery before/after hydration.
 
 Browser checks cover 320×740, 390×844, 844×390 and 1280×720: first-screen actions, overflow, menu and Escape, gallery controls and keyboard, LeadHunt tour, education navigation, header-to-About zoom and reading/immersive switching. No real contact message was sent and no appointment booked.
 
@@ -52,3 +52,4 @@ Local Lighthouse experiments and the final measurement are retained outside Git 
 - Verified mobile reading-mode refresh: scroll 0, cleared fragment, paused preference retained, hero height equal to the 844px viewport. Resuming immersion and FR/EN selected-work navigation remain functional, without horizontal overflow or captured JavaScript errors.
 - An experimental deferred React bundle was not shipped: it reduced the simulated LCP in an initial run but increased blocking time. Source patch and all measurements remain outside Git under `work/audit-applied-20261015/bootstrap-experiment/` and `mobile-profile-*`.
 - The retained local mobile run scored 80, with LCP 3.27s, TBT 461ms and automated accessibility/best practices/SEO 100. Its CPU benchmark was 1378.5; the earlier profiling run scored 76 with benchmark 1535.5. These single synthetic runs are not a controlled field comparison. The asset byte reduction is established; remaining mobile loading/interaction work is not claimed to be resolved.
+- The header logo atlas now uses lossless WebP: 146,394 bytes instead of 302,036. Every decoded RGBA pixel was compared and matches the original, which is retained locally/in the repository. The 4096×2048 dimensions, geometry, colours, movements and hover pause are unchanged.
