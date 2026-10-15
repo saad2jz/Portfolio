@@ -73,8 +73,17 @@
     }catch{fail();}
   })();}
   // Leave the initial paint and input processing ahead of decorative GPU work.
-  if(reduced.matches){stage.classList.add('scene-static');finish();}
-  const scheduleScene=()=>{if('requestIdleCallback' in window)requestIdleCallback(startScene,{timeout:2500});else setTimeout(startScene,800);};
+  // A saved pause must still expose Resume, even before WebGL is created.
+  if(paused||reduced.matches){stage.classList.add('scene-static');finish();}
+  const scheduleIdle=()=>{if('requestIdleCallback' in window)requestIdleCallback(startScene,{timeout:2500});else setTimeout(startScene,800);};
+  const scheduleScene=()=>{
+    const portrait=document.querySelector('.portrait-frame img');
+    // Decode the actual hero and settle fonts before decorative GPU startup.
+    // Two frames allow that ready content to paint; direct input remains immediate.
+    Promise.allSettled([portrait?.decode?.(),document.fonts?.ready]).then(()=>{
+      requestAnimationFrame(()=>requestAnimationFrame(scheduleIdle));
+    });
+  };
   if(document.readyState==='complete')scheduleScene();else addEventListener('load',scheduleScene,{once:true});
   for(const type of ['pointerdown','touchstart','wheel'])addEventListener(type,startScene,{once:true,passive:true});
 })();

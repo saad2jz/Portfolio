@@ -1,4 +1,4 @@
-import ecosystemCopy from './ecosystem-copy.json';
+import {fr as ecosystemFrench} from './ecosystem-copy.json';
 const french:Record<string,string> = {
   projectConcept:'Voir le concept',
   moreCaptures:'Autres images du projet', liveProject:'Voir le site', projectRepository:'Dépôt GitHub',
@@ -178,7 +178,7 @@ Object.assign(french, {
 });
 
 
-Object.assign(french,ecosystemCopy.fr);
+Object.assign(french,ecosystemFrench);
 french.formRequired='Tous les champs sont obligatoires. Votre email sert uniquement à vous répondre.';
 export {french};
 export function localizeMarkup(markup:string,language:string){

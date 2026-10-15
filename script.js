@@ -1,41 +1,11 @@
-import ecosystemCopy from './src/ecosystem-copy.json';
-import sourceEnglish from './src/copy-en.json';
-import {french} from './src/localization';
 import {navigateToFragment} from './src/scroll-position';
 
 'use strict';
 
-const english={...sourceEnglish};
-Object.assign(english, ecosystemCopy.en);
-Object.assign(french, ecosystemCopy.fr);
-french.formRequired = 'Tous les champs sont obligatoires. Votre email sert uniquement à vous répondre.';
-
-let currentLanguage = document.documentElement.lang;
-function writeCopy(element, value) {
-  const parts = String(value).split('\n');
-  const fragment = document.createDocumentFragment();
-  parts.forEach((part, index) => { if (index) fragment.append(document.createElement('br')); fragment.append(document.createTextNode(part)); });
-  element.replaceChildren(fragment);
-}
-function setLanguage(language) {
-  const nextLanguage = language === 'fr' ? 'fr' : 'en';
-  const copyChanged = currentLanguage !== nextLanguage;
-  currentLanguage = nextLanguage;
-  const copy = currentLanguage === 'fr' ? french : english;
-  if (document.documentElement.lang !== currentLanguage) document.documentElement.lang = currentLanguage;
-  // The initial English document already contains this copy; keep its existing nodes.
-  if (copyChanged) document.querySelectorAll('[data-i18n]').forEach(element => {
-    const value = copy[element.dataset.i18n] ?? english[element.dataset.i18n];
-    if (value !== undefined) writeCopy(element, value);
-  });
+const currentLanguage=document.documentElement.lang;
+// Copy and metadata are already rendered for this URL at build time.
+function initialiseLanguageControls(){
   document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === currentLanguage)));
-  const description = currentLanguage === 'fr'
-    ? 'Product Owner à Paris. Shopify Plus, 5 marketplaces, automatisation n8n et produits IA. Expérience complémentaire en ingénierie d’affaires et qualité industrielle.'
-    : 'Product Owner in Paris. Shopify Plus, 5 marketplaces, n8n automation and AI products. Supported by business-engineering and industrial-quality experience.';
-  for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) document.querySelector(selector).content = description;
-  const title=currentLanguage==='fr'?'Saad Bayahia — Product Owner à Paris':'Saad Bayahia — Product Owner in Paris';document.title=title;for(const selector of ['meta[property="og:title"]','meta[name="twitter:title"]'])document.querySelector(selector).content=title;
-  const coverAlt = currentLanguage === 'fr' ? 'Saad Bayahia — Product Owner à Paris' : 'Saad Bayahia — Product Owner in Paris';
-  for (const selector of ['meta[property="og:image:alt"]', 'meta[name="twitter:image:alt"]']) document.querySelector(selector).content = coverAlt;
   document.querySelector('.desktop-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation principale' : 'Main navigation');
   document.querySelector('.mobile-nav').setAttribute('aria-label', currentLanguage === 'fr' ? 'Navigation mobile' : 'Mobile navigation');
   document.querySelector('.contact-arrow').setAttribute('aria-label', currentLanguage === 'fr' ? 'Réserver un appel avec Saad Bayahia' : 'Book a call with Saad Bayahia');
@@ -94,6 +64,7 @@ window.matchMedia('(min-width:761px)').addEventListener('change', event => { if 
 const form = document.querySelector('.contact-form');
 const formButton = form.querySelector('button[type="submit"]');
 const formButtonLabel = formButton.querySelector('[data-i18n="formSubmit"]');
+const formDefaultLabel=formButtonLabel.textContent;
 const formStatus = form.querySelector('.form-status');
 let formState = 'idle';
 // Native required/type validation remains available when JavaScript is disabled.
@@ -126,14 +97,14 @@ function updateFormFeedback() {
     invalid: 'Vérifiez les champs indiqués avant l’envoi.',
     sending: 'Envoi en cours…',
     success: 'Message envoyé. Merci, je vous réponds rapidement.',
-    error: 'Envoi impossible. Réessayez ou contactez-moi directement par email.'
+    error: 'Envoi impossible. Réessayez ou réservez un appel via Calendly.'
   } : {
     invalid: 'Check the highlighted fields before sending.',
     sending: 'Sending…',
     success: "Message sent. Thank you — I'll get back to you shortly.",
-    error: 'Could not send. Please retry or email me directly.'
+    error: 'Could not send. Please retry or book a call via Calendly.'
   };
-  formButtonLabel.textContent = formState === 'sending' ? messages.sending : fr ? french.formSubmit : english.formSubmit;
+  formButtonLabel.textContent = formState === 'sending' ? messages.sending : formDefaultLabel;
   formStatus.textContent = messages[formState] || '';
   form.dataset.state = formState;
 }
@@ -169,5 +140,5 @@ form.addEventListener('submit', async event => {
   }
 });
 
-setLanguage(document.documentElement.lang);
+initialiseLanguageControls();
 document.getElementById('year').textContent = String(new Date().getFullYear());

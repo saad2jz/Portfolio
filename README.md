@@ -18,6 +18,8 @@ Motion respects reduced-motion, manual pause and hidden tabs. Decorative WebGL s
 
 CTA analytics are **prepared but inactive**, because no provider account was supplied. See [analytics setup and outstanding evidence](AUDIT-FOLLOW-UP.md). `npm run typecheck` and `npm run test:build` validate both languages, PDFs, assets, root/subfolder deployments and unconfigured previews.
 
+Client startup uses the language already rendered in the document instead of loading another English-copy dictionary and rewriting metadata. French build/hydration imports only the French ecosystem copy. This removes about 60 KB of uncompressed JavaScript; source content, captures and PDFs remain unchanged. Decorative WebGL waits for portrait decoding, font readiness and a paint opportunity, while direct input can start it immediately. A saved pause exposes Resume after reloading, even before WebGL exists. Contact errors now point to the visible Calendly option instead of an email that is no longer displayed.
+
 A separate adaptation of [`saad2jz/Portfolio`](https://github.com/saad2jz/Portfolio), initially cloned from `main` at `5a69054`. The 10 October personalisation refines the creator composition around Saad’s product, e-commerce, B2B and engineering profile: local Space Grotesk/DM Sans typography, ivory/teal accents, a colour portrait and real tool logos in WebGL.
 
 ## Run locally
