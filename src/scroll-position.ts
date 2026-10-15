@@ -1,5 +1,6 @@
 // History navigation retains the reading position. An explicit refresh starts
 // at the hero instead, including when the previous URL contained a fragment.
+import {createFlowMeasure} from '../flow-geometry';
 type Position = {version:1;hash:string;kind:string;id:string;offset:number;y:number};
 let earlyInput=false;
 for(const type of ['pointerdown','touchstart','wheel','keydown'])window.addEventListener(type,()=>{earlyInput=true;},{once:true,passive:true,capture:true});
@@ -72,7 +73,8 @@ export function restoreReadingPosition(measure:()=>void){
  new MutationObserver(invalidate).observe(document.documentElement,{attributes:true,attributeFilter:['lang','class']});
  function cacheGeometry(){
   header=document.querySelector('header')?.offsetHeight||80;
-  cachedAnchors=anchors().map(item=>({kind:item.kind,id:item.id,top:flowTop(item.element)}));
+  const measureTop=createFlowMeasure();
+  cachedAnchors=anchors().map(item=>({kind:item.kind,id:item.id,top:measureTop(item.element)}));
   geometryDirty=false;
  }
  const initialHash=location.hash;

@@ -20,7 +20,7 @@
 
 ## Validation
 
-TypeScript checks passed. The production build suite passed 82 checks across FR/EN, root/subfolder/local builds, all nine projects, the 27 gallery links, unique IDs, direct scheduling, local CVs, metadata and delivered assets.
+TypeScript checks passed. The production build suite now passes 88 checks across FR/EN, root/subfolder/local builds, all nine projects, the 27 gallery links, unique IDs, direct scheduling, local CVs, metadata, delivered assets and shared flow geometry.
 
 Browser checks cover 320×740, 390×844, 844×390 and 1280×720: first-screen actions, overflow, menu and Escape, gallery controls and keyboard, LeadHunt tour, education navigation, header-to-About zoom and reading/immersive switching. No real contact message was sent and no appointment booked.
 
@@ -33,3 +33,14 @@ Public-host checks at commit `5d6b675`, before the final portrait delivery refin
 See `AUDIT-FOLLOW-UP.md`: baseline/period/method for FFA's reported −40% and zero manual entries; measured industrial-quality outcomes; commerce financial results; individual Ansys role/team and supporting event evidence; personal credential verification; authorised recommendations. Facts remain present, with their existing qualification, until supporting records can be added.
 
 Analytics remains inactive because no provider account is configured. Form delivery has not been validated with a real message. No hosting migration, history rewrite or new external service is introduced by this change.
+
+## Scroll and mobile follow-up
+
+- Replaced chapter-track bottom padding with an actual flow spacer. Padding did not provide the sticky introduction with usable travel: a mobile navigation to Skills left its title at 58px under an 80px header. The same navigation now places it at 138px. Verified at 320×740 and 390×844; desktop English deep links also keep their title below the header.
+- The spacer collapses in reading/reduced-motion mode. Its mobile fallback changes a variable rather than overriding the reduced-motion height rule.
+- Card handoff spacing is applied before measuring later chapters. A fresh, shared offset-ancestor cache reduces repeated geometry reads without using sticky screen rectangles or keeping stale positions across resizes/disclosures. Build tests verify all three properties.
+- About retains its exact FR/EN copy and progressive scroll reveal, now by word. The French paragraph drops from 373 span elements / 40,013 bytes of markup to 56 / 9,773; the accessible text remains a single complete string.
+- Removed the unused compact preference and StackCard flags. The responsive CSS already owns card layout; the redundant matchMedia update rerendered the mobile tree after hydration.
+- Browser verification covers first menu activation, Skills/Projects/Education navigation, FFA-to-LeadHunt stacking in both directions, a gallery change with unchanged card height (1,477px at the tested size), reading mode and English rendering. No horizontal overflow or captured JavaScript errors in those checks.
+
+Local Lighthouse experiments and the final measurement are retained outside Git under `work/audit-applied-20261015/mobile-pass2-*`. One-run scores vary and do not establish a field-performance improvement or physical-device frame rate. No content, projects or captures were removed to increase a score.

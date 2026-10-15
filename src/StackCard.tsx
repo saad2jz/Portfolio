@@ -1,6 +1,6 @@
 import React, {type ReactNode} from 'react';
 
-type StackCardProps={id:string;index:number;total:number;stopped:boolean;compact:boolean;children:ReactNode;className?:string;titleId?:string};
+type StackCardProps={id:string;index:number;total:number;children:ReactNode;className?:string;titleId?:string};
 
 // Projects, career and skills share the same geometry and handoff animation.
 export function StackCard({id,index,total,children,className='',titleId=id+'-title'}:StackCardProps){

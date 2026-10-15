@@ -1,5 +1,8 @@
 /* A viewport-sized first screen: portrait, role and actions fit together. */
-.chapter-track{height:auto;padding-bottom:var(--chapter-travel,min(160px,20svh))}
+.chapter-track{height:auto;padding-bottom:0}
+/* Sticky is constrained by its parent's content box. A real flow spacer,
+   unlike bottom padding, lets the introduction pin below the fixed header. */
+.chapter-track::after{content:'';display:block;height:var(--chapter-travel,var(--chapter-default-travel,min(160px,20svh)));pointer-events:none}
 .chapter-track>.chapter-stage{min-height:clamp(220px,42svh,420px)}
 html.motion-switching,html.motion-switching body{overflow-anchor:none}
 .creator-hero-stage{--hero-frame:100svh}
@@ -39,11 +42,11 @@ html.motion-switching,html.motion-switching body{overflow-anchor:none}
 html.motion-paused .creator-page .creator-project.project{position:relative;top:0!important;transform:none!important;scale:1;opacity:1}
 html.motion-paused .project-handoff{height:0!important}
 html.motion-paused .chapter-track{height:auto!important}
-html.motion-paused .chapter-track{padding-bottom:0}
+html.motion-paused .chapter-track::after{height:0}
 html.motion-paused .chapter-track>.chapter-stage{position:relative;top:0}
 @media(prefers-reduced-motion:reduce){
  .creator-page .creator-project.project{position:relative;top:0!important;transform:none!important;scale:1;opacity:1}
- .project-handoff{height:0!important}.chapter-track{height:auto!important;padding-bottom:0}.chapter-track>.chapter-stage{position:relative;top:0}
+ .project-handoff{height:0!important}.chapter-track{height:auto!important;padding-bottom:0}.chapter-track::after{height:0}.chapter-track>.chapter-stage{position:relative;top:0}
 }
 @media(max-height:850px) and (min-width:901px){
  .creator-hero-stage{--hero-frame:100svh}.creator-hero h1{font-size:min(13.7vw,22svh)}
@@ -52,7 +55,7 @@ html.motion-paused .chapter-track>.chapter-stage{position:relative;top:0}
 }
 @media(max-width:900px){.case-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-ctas{max-width:280px}.creator-scroll{display:none}}
 @media(max-width:760px){
- .chapter-track{padding-bottom:var(--chapter-travel,min(80px,10svh))}
+ .chapter-track{--chapter-default-travel:min(80px,10svh)}
  .chapter-track>.chapter-stage{min-height:clamp(180px,32svh,280px)}
  .creator-hero-stage{--hero-frame:max(100svh,560px)}
  .creator-hero-heading{padding:112px 12px 0}.creator-hero h1{font-size:13vw}

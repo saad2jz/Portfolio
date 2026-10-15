@@ -1,5 +1,6 @@
 // Shared with chapter transitions: one passive scroll listener, one frame,
 // cached flow positions. Long cards remain readable before the next handoff.
+import {createFlowMeasure} from './flow-geometry';
 export function createCardStacks(invalidate){
  const cards=[...document.querySelectorAll('.creator-project.project')].map(card=>({card,height:card.offsetHeight,top:0,end:0,pin:0,start:0,finish:0,depth:Number(card.dataset.stackDepth)||0,previous:-1}));
  const byElement=new Map(cards.map(item=>[item.card,item]));
@@ -12,7 +13,6 @@ export function createCardStacks(invalidate){
   if(changed)invalidate();
  });
  cards.forEach(({card})=>observer.observe(card));
- function flowTop(element){let top=0;for(let node=element;node;node=node.offsetParent)top+=node.offsetTop;return top;}
  function measure(viewport,header,width){
   for(const item of cards){
    const {card,height}=item,rest=Number.parseFloat(card.style.getPropertyValue('--stack-rest-top'))||96;
@@ -29,6 +29,7 @@ export function createCardStacks(invalidate){
    const handoff=card.nextElementSibling;
    if(handoff?.classList.contains('project-handoff'))handoff.style.setProperty('--stack-hold',`${enabled&&item.depth?Math.min(160,viewport*.18):1}px`);
   }
+  const flowTop=createFlowMeasure();
   for(const item of cards){
    const start=item.card.previousElementSibling,end=item.card.nextElementSibling;
    if(!start?.classList.contains('project-marker')||!end?.classList.contains('project-handoff'))continue;
@@ -37,6 +38,7 @@ export function createCardStacks(invalidate){
    item.start=Math.max(item.top-item.pin,item.end-viewport*.88);
    item.finish=Math.max(item.start+Math.min(220,viewport*.28),item.end-header-48);
   }
+  return flowTop;
  }
  function paint(y,stopped,width){
   for(const item of cards){

@@ -65,7 +65,6 @@ import {createCardStacks} from './project-layout';
  const paused=()=>reduced.matches||root.classList.contains('motion-paused');
  const clamp=n=>Math.max(0,Math.min(1,n));
  const ease=n=>n*n*(3-2*n);
- function layoutTop(element){let top=0;for(let node=element;node;node=node.offsetParent)top+=node.offsetTop;return top;}
  function measure(){
   viewport=viewportProbe.offsetHeight||innerHeight;headerHeight=document.querySelector('header').offsetHeight;
   // Read geometry as a batch; changing custom properties follows the reads.
@@ -80,9 +79,11 @@ import {createCardStacks} from './project-layout';
    if(scene.track)scene.track.style.setProperty('--chapter-travel',`${scene.travel}px`);
   }
   departure.style.setProperty('--chapter-header-height',`${headerHeight}px`);
+  // Card handoff spacing can move later chapters. Finish those writes before
+  // caching any flow positions so one measurement describes one stable layout.
+  const layoutTop=stacks.measure(viewport,headerHeight,innerWidth);
   maxScroll=Math.max(0,document.documentElement.scrollHeight-viewport);
   for(const scene of scenes)scene.top=layoutTop(scene.track||scene.title);
-  stacks.measure(viewport,headerHeight,innerWidth);
   dirty=false;
  }
  function paint(stamp){

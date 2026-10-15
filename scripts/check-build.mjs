@@ -4,12 +4,23 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {brotliDecompressSync,gunzipSync} from 'node:zlib';
+import {createFlowMeasure} from '../flow-geometry.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=name=>fs.readFile(path.join(root,'dist',name),'utf8');
 let count=0;
 function check(name,test){assert.ok(test,name);count++;console.log(`PASS ${name}`);}
 function build(url){return spawnSync(process.execPath,['scripts/build.mjs'],{cwd:root,env:{...process.env,SITE_URL:url},encoding:'utf8'});}
+// Geometry must use document flow even when sticky rectangles move, share reads
+// within a batch, and discard the cache after a disclosure changes the layout.
+let parentTop=120,parentReads=0;
+const parent={get offsetTop(){parentReads++;return parentTop;},offsetParent:null};
+const first={offsetTop:21,offsetParent:parent},second={offsetTop:41,offsetParent:parent};
+const flow=createFlowMeasure();
+check('Flow markers retain their document positions',flow(first)===141&&flow(second)===161);
+check('Shared offset ancestors are read only once per measurement',parentReads===1);
+parentTop=220;
+check('A fresh measurement sees disclosure and resize layout changes',createFlowMeasure()(first)===241);
 async function verify(url){
   const result=build(url);assert.equal(result.status,0,result.stderr);
   const html=await read('index.html'),manifest=JSON.parse(await read('build-manifest.json'));
@@ -17,6 +28,8 @@ async function verify(url){
   const english=await read('en/index.html');
   check('Dedicated FR and EN pages have matching language and Product Owner positioning',html.includes('<html lang="fr"')&&english.includes('<html lang="en"')&&html.includes('Product Owner à Paris</title>')&&english.includes('Product Owner in Paris</title>'));
   check('Contact guidance is translated in the initial French document',html.includes('Tous les champs sont obligatoires.'));
+  const about=html.match(/<p class="animated-profile-text"[\s\S]*?<\/p>/)?.[0]||'';
+  check('About reveal preserves accessible text without a character-sized DOM tree',about.includes('class="sr-only"')&&(about.match(/<span/g)||[]).length<100&&about.includes('animated-text-word'));
   const work=html.slice(html.indexOf('<section id="work"'),html.indexOf('<section id="entrepreneurship"'));
   check('All nine projects are visible as full case-study cards',(work.match(/class="[^"]*creator-project project\b/g)||[]).length===9&&!/class="other-projects"/.test(work));
   check('All nine projects expose problem, role, delivery and result/status',(work.match(/class="case-summary"/g)||[]).length===9);
