@@ -12,23 +12,20 @@
 .chapter-stage::after{width:clamp(260px,64vw,920px);height:clamp(120px,27vw,390px);border:1px solid rgba(var(--chapter-rgb),.23);border-radius:50%;box-shadow:0 0 0 24px rgba(var(--chapter-rgb),.025),inset 0 0 0 22px rgba(var(--chapter-rgb),.025);transform:translate(-50%,-50%) rotate(calc(-18deg + var(--chapter-progress)*25deg)) scale(calc(.45 + var(--chapter-progress)*1.8));opacity:calc((1 - var(--chapter-progress))*.7 + .13);mask-image:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent)}
 .chapter-track{position:relative;z-index:15;height:calc(var(--chapter-height,auto) + var(--chapter-travel,0px));margin-bottom:20px;pointer-events:none}
 .chapter-track :is(a,button,summary){pointer-events:auto}
-.chapter-track>.chapter-stage{position:sticky;top:var(--chapter-header-height,92px);min-height:clamp(240px,56svh,520px);margin:0!important;justify-content:center;align-content:center;padding-block:28px;translate:0 var(--chapter-lock-y,0px)}
+.chapter-track,.project-stack{overflow-anchor:none}
+.chapter-track>.chapter-stage{position:sticky;top:var(--chapter-header-height,92px);min-height:clamp(240px,56svh,520px);margin:0!important;justify-content:center;align-content:center;padding-block:28px}
 .chapter-track>.chapter-stage:is(.extension-heading,.creator-work-heading,.journey-group-header,.services-heading){display:flex;flex-direction:column;align-items:center;gap:0}
+.chapter-track>.chapter-stage[data-chapter-fits=false]{position:relative;top:0}
 .chapter-track .chapter-stage::before{opacity:calc(.15 + var(--chapter-progress)*.75);background:radial-gradient(ellipse at center,rgba(var(--chapter-rgb),.25),transparent 66%),repeating-radial-gradient(ellipse at center,transparent 0 67px,rgba(var(--chapter-rgb),.17) 68px 69px,transparent 70px 96px)}
-.creator-page section[data-chapter-arriving=true]{position:relative;z-index:20}
-.chapter-backdrop{display:none;position:absolute;z-index:-2;pointer-events:none;left:50%;top:calc(-1*var(--chapter-header-height,92px));width:100vw;height:100lvh;background:#0c0c0c;transform:translateX(-50%);opacity:clamp(0,calc(var(--chapter-progress)*6),1)}
-.chapter-stage[data-chapter-active=true]>.chapter-backdrop{display:block}
-.chapter-stage[data-chapter=expertise]>.chapter-backdrop{background:#eff2ec}
-.creator-page:has(.chapter-exit-surface :focus-visible) .chapter-backdrop{display:none}
-.chapter-zoom-title{scale:calc(.28 + var(--chapter-progress)*.72);opacity:clamp(0,calc((var(--chapter-progress) - .08)*1.5),1);transform-origin:50% 50%}
+/* Arrival changes visual ink only, never the section's stacking/offset parent. */
+.chapter-zoom-title{scale:calc(.72 + var(--chapter-progress)*.28);opacity:calc(.65 + var(--chapter-progress)*.35);transform-origin:50% 50%}
 .chapter-track .chapter-stage>p:not(.creator-eyebrow,.chapter-zoom-title),.chapter-track .chapter-stage>.skills-introduction{scale:calc(.78 + var(--chapter-progress)*.22);opacity:clamp(0,calc((var(--chapter-progress) - .4)*1.8),1)}
 .chapter-track .chapter-stage>.creator-eyebrow{opacity:clamp(0,calc(var(--chapter-progress)*2.5),1)}
 .chapter-stage[data-chapter-active=true] .chapter-zoom-title{will-change:scale,translate}
 .chapter-stage[data-chapter-active=true]::before,.chapter-stage[data-chapter-active=true]::after{will-change:transform,opacity}
-.chapter-stage[data-chapter-active=true]>.chapter-backdrop{will-change:opacity}
 /* The last content surface moves forward before the next title grows in.
    Individual scale composes with Framer's card transform without wrapping a stack. */
-.chapter-exit-surface{--chapter-exit-progress:0;scale:calc(1 + var(--chapter-exit-progress)*.16);opacity:clamp(.2,calc(1.5 - var(--chapter-exit-progress)*1.3),1);transform-origin:50% 90%}
+.chapter-exit-surface{--chapter-exit-progress:0;scale:calc(1 + var(--chapter-exit-progress)*.08);opacity:clamp(.65,calc(1.4 - var(--chapter-exit-progress)*.75),1);transform-origin:50% 90%}
 .chapter-exit-surface[data-chapter-exiting=true]{will-change:scale,opacity}
 .chapter-exit-surface:focus-within{scale:1;opacity:1}
 .creator-page .creator-project.project.chapter-exit-surface{scale:calc(1 + var(--chapter-exit-progress)*.04)}
@@ -104,16 +101,14 @@
  :is(#education,#certifications)>.journey-group-header>p{font-size:clamp(26px,7vw,40px);overflow-wrap:anywhere}
 }
 html.motion-paused .chapter-zoom-title{scale:1;translate:none;opacity:1;will-change:auto}
-html.motion-paused .chapter-track{height:auto}
-html.motion-paused .chapter-track>.chapter-stage{position:relative;top:0;min-height:0;translate:none}
+html.motion-paused .chapter-track>.chapter-stage{translate:none}
 html.motion-paused .chapter-track .chapter-stage>p,html.motion-paused .chapter-track .chapter-stage>.skills-introduction{scale:1;translate:none;opacity:1}
 html.motion-paused .chapter-stage::before,html.motion-paused .chapter-stage::after{transform:translate(-50%,-50%);opacity:.18}
 html.motion-paused .chapter-exit-surface{scale:1;opacity:1;will-change:auto}
 html.motion-paused .creator-page .creator-project.project.chapter-exit-surface{scale:1;opacity:1}
 html.motion-paused .chapter-departure-art{display:none}
 @media(prefers-reduced-motion:reduce){
- .chapter-track{height:auto}
- .chapter-track>.chapter-stage{position:relative;top:0;min-height:0;translate:none}
+ .chapter-track>.chapter-stage{translate:none}
  .chapter-track .chapter-stage>p,.chapter-track .chapter-stage>.skills-introduction{scale:1;translate:none;opacity:1}
  .chapter-zoom-title{scale:1;translate:none;opacity:1;will-change:auto}
  .chapter-stage::before,.chapter-stage::after{transform:translate(-50%,-50%);opacity:.18}

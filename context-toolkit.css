@@ -12,6 +12,17 @@
 .context-toolkit-items li>svg{flex:0 0 24px;color:var(--accent)}
 .context-toolkit-items li>img{width:28px;height:28px;flex:0 0 28px;object-fit:contain;filter:brightness(0) invert(.8)}
 .context-toolkit-items li>.context-tool-wordmark{width:80px;flex-basis:80px}
+.context-toolkit-items li>img{width:34px;height:34px;flex-basis:34px}
+.context-toolkit-items li>.context-tool-wordmark{width:88px;flex-basis:88px}
+.context-methods{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:14px 0 0}
+.context-methods:first-child{margin-top:0}
+.context-methods li{font:400 12px/1.5 var(--font);border:1px solid var(--faint-line);padding:6px 11px;border-radius:8px;color:var(--muted);max-width:100%;overflow-wrap:anywhere}
+.creator-services .context-methods li{color:#334a3f;border-color:#334a3f30}
+.method-brand-logo{width:24px;height:24px;object-fit:contain;filter:brightness(0) invert(.8)}
+.language-card{min-height:0}
+.certification-method{font:600 24px/1 var(--display);color:var(--accent)}
+.additional-learning .journey-certifications{padding-top:0}
+.project-code-status{font:400 12px/1.5 var(--font);color:var(--muted);padding:10px 0}
 .context-toolkit-items li>span{overflow-wrap:anywhere}
 .creator-page .service-item .context-toolkit{margin-bottom:0}
 .creator-page .creator-services .context-toolkit-items li{color:#283d34}

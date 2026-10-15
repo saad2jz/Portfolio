@@ -246,3 +246,9 @@ Existing vendor and institution assets are reused. Four additional local SVG mar
 - `assets/tools/tiktok.svg`: [TikTok](https://raw.githubusercontent.com/simple-icons/simple-icons/16.1.0/icons/tiktok.svg)
 
 Methods, standards and risk/quality practices use installed Lucide React pictograms beside readable names. These are navigation/subject illustrations, not ISO/IATF logos, certification seals or issuer endorsements. Images are local, dimensioned, lazy-loaded and fingerprinted for production.
+
+## Logo harmonisation — 15 October 2026
+
+Contextual rows now use actual local vendor marks, followed by plain named method/framework badges. Generic method pictograms are removed. Socket.IO and PostGIS artwork comes from their official websites; the Anthropic mark comes from Simple Icons. Exact asset URLs are recorded in `assets/tools/SOURCES.md`. Methods without a single official brand and credentials without a supplied issuer do not receive fabricated certification seals.
+
+All previously supplied certification/learning records are visible. AWS and Power BI reuse the existing logos and are explicitly attributed to the ISEN Business & Data Analyst track (2025–2026), as confirmed by the owner. No exam designation or new awarded credential is inferred. ISO/IEC 27001 remains an academic module; SAP S/4HANA Cloud Public Edition remains in progress.

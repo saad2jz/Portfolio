@@ -17,10 +17,13 @@ export function createCardStacks(invalidate){
   for(const item of cards){
    const {card,height}=item,rest=Number.parseFloat(card.style.getPropertyValue('--stack-rest-top'))||96;
    const preferred=header+12+(rest-96)*(width<=900?.5:1);
-   item.pin=Math.min(preferred,viewport-height-24);
+   // Pin only a complete card that fits below the navigation. A negative top
+   // pinned long mobile cards past their introductions and hid earlier content.
+   const fits=height<=viewport-preferred-24&&!card.querySelector('details[open]');
+   item.pin=fits?preferred:0;
    card.style.setProperty('--stack-top',`${item.pin}px`);
    card.style.setProperty('--stack-origin',height>viewport-header-36?'50% 100%':'50% 0%');
-   card.dataset.stackFit='true';
+   card.dataset.stackFit=fits?'true':'false';
   }
   for(const item of cards){
    const start=item.card.previousElementSibling,end=item.card.nextElementSibling;
@@ -33,7 +36,7 @@ export function createCardStacks(invalidate){
  }
  function paint(y,stopped,width){
   for(const item of cards){
-   const raw=stopped?0:Math.max(0,Math.min(1,(y-item.start)/Math.max(1,item.finish-item.start)));
+   const raw=stopped||item.card.dataset.stackFit!=='true'?0:Math.max(0,Math.min(1,(y-item.start)/Math.max(1,item.finish-item.start)));
    const progress=raw*raw*(3-2*raw),scale=1-progress*item.depth*(width<=900?.012:.025);
    const active=!stopped&&raw>0&&raw<1?'true':'false';
    if(item.card.dataset.stackAnimating!==active)item.card.dataset.stackAnimating=active;

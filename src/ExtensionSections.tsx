@@ -39,10 +39,10 @@ export function MethodSection({fr,stopped}:Preferences) {
 }
 
 const languages = [
- {code:'FR',name:{en:'French',fr:'Français'},level:{en:'Native / bilingual',fr:'Natif / bilingue'},use:{en:'Discovery workshops, stakeholder alignment and executive reporting.',fr:'Ateliers de discovery, alignement des parties prenantes et reporting de direction.'}},
- {code:'EN',name:{en:'English',fr:'Anglais'},level:{en:'Professional · C1 / C2',fr:'Professionnel · C1 / C2'},use:{en:'Technical specifications, international teams and cross-border suppliers.',fr:'Spécifications techniques, équipes internationales et fournisseurs à l’étranger.'}},
- {code:'AR',name:{en:'Arabic',fr:'Arabe'},level:{en:'Native / bilingual',fr:'Natif / bilingue'},use:{en:'Regional partnerships, business negotiation and multicultural projects.',fr:'Partenariats régionaux, négociation commerciale et projets multiculturels.'}},
- {code:'ES',name:{en:'Spanish',fr:'Espagnol'},level:{en:'Elementary · A2',fr:'Élémentaire · A2'},use:{en:'Everyday conversations and understanding basic professional documents.',fr:'Échanges du quotidien et compréhension de documents professionnels simples.'}}
+ {code:'FR',name:{en:'French',fr:'Français'},level:{en:'Native / bilingual',fr:'Natif / bilingue'}},
+ {code:'EN',name:{en:'English',fr:'Anglais'},level:{en:'Professional · C1 / C2',fr:'Professionnel · C1 / C2'}},
+ {code:'AR',name:{en:'Arabic',fr:'Arabe'},level:{en:'Native / bilingual',fr:'Natif / bilingue'}},
+ {code:'ES',name:{en:'Spanish',fr:'Espagnol'},level:{en:'Elementary · A2',fr:'Élémentaire · A2'}}
 ];
 
 export function InternationalSection({fr,stopped}:Preferences) {
@@ -50,7 +50,7 @@ export function InternationalSection({fr,stopped}:Preferences) {
  return <section id="international" ref={ref} className="extended-section international-section" aria-labelledby="international-title" data-stopped={stopped} data-in-view={visible}>
   <div className="extension-heading"><p className="creator-eyebrow">{fr?'LANGUES / COLLABORATION / MOBILITÉ':'LANGUAGES / COLLABORATION / MOBILITY'}</p><Reveal stopped={stopped}><h2 id="international-title" className="hero-heading extension-title">International</h2></Reveal><p className="extension-lead">{fr?'Relier les équipes, au-delà des frontières.':'Connecting teams across borders.'}</p></div>
   <div className="international-layout"><div className="international-context"><div className="connection-orbit" aria-hidden="true"><i/><i/><i/><span>SB</span><b className="orbit-label orbit-paris">PARIS</b><b className="orbit-label orbit-remote">REMOTE</b></div><p>{fr?'Basé à Paris. Ouvert au travail hybride, à distance et à la mobilité internationale.':'Based in Paris. Open to hybrid work, remote collaboration and international mobility.'}</p><span className="mobility-caption"><MapPin size={16} aria-hidden="true"/>{fr?'Permis B · Véhiculé':'Category B licence · Personal vehicle'}</span></div>
-   <div className="language-cards">{languages.map((language,i)=><Reveal key={language.code} stopped={stopped} delay={i*.06}><article className="language-card"><span className="language-code" aria-hidden="true">{language.code}</span><h3>{text(language.name,fr)}</h3><p className="language-level">{text(language.level,fr)}</p><p className="language-use">{text(language.use,fr)}</p></article></Reveal>)}</div>
+   <div className="language-cards">{languages.map((language,i)=><Reveal key={language.code} stopped={stopped} delay={i*.06}><article className="language-card"><span className="language-code" aria-hidden="true">{language.code}</span><h3>{text(language.name,fr)}</h3><p className="language-level">{text(language.level,fr)}</p></article></Reveal>)}</div>
   </div>
   <a className="extension-link chapter-next" href="#beyond">{fr?'Découvrir mes autres terrains':'Explore my other interests'}<ArrowUpRight size={18} aria-hidden="true"/></a>
  </section>;

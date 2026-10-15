@@ -21,16 +21,16 @@ import {createCardStacks} from './project-layout';
   ['contact','#contact-title','.contact-heading','mint']
  ];
  const exits={
-  expertise:['#about','.about-content','mint'],
-  skills:['#services','.services-list','forest'],
+  expertise:['#selected-work','nav','mint'],
+  skills:['#services','.services-list > div:last-of-type','forest'],
   approach:['#skills','.skill-card:last-of-type','blue'],
-  projects:['#method','.method-steps','violet'],
+  projects:['#method','.method-steps > li:last-child','violet'],
   commerce:['#work','.creator-project:last-of-type','mint'],
   career:['#entrepreneurship','.entrepreneurship-card','amber'],
   education:['#professional-experience','.creator-project:last-of-type','blue'],
   certifications:['#education','.creator-project:last-of-type','violet'],
   international:['#certifications','.creator-project:last-of-type','mint'],
-  beyond:['#international','.language-cards','blue'],
+  beyond:['#international','.language-cards > div:last-child','blue'],
   contact:['#beyond','.travel-panel','amber']
  };
  const colors={mint:'139,197,178',forest:'55,105,77',blue:'119,166,208',violet:'164,145,207',amber:'203,162,108'};
@@ -44,17 +44,14 @@ import {createCardStacks} from './project-layout';
   let track=null;
   if(!hero){
    track=document.createElement('div');track.className='chapter-track';stage.before(track);track.append(stage);
-   const backdrop=document.createElement('div');backdrop.className='chapter-backdrop';backdrop.setAttribute('aria-hidden','true');stage.prepend(backdrop);
   }
   const exit=exits[name],source=exit&&document.querySelector(exit[0]),surface=source?.querySelector(exit[1]);
   if(surface){
    surface.classList.add('chapter-exit-surface');
    stage.dataset.chapterFrom=source.id;
   }
-  const host=stage.closest('main > section, main > div > section');
-  return [{title,stage,track,surface,host,exitColor:exit&&colors[exit[2]],top:0,travel:0,previous:-1,previousLock:NaN,previousExit:-1,hero:!!hero}];
+  return [{title,stage,track,surface,exitColor:exit&&colors[exit[2]],top:0,travel:0,previous:-1,previousExit:-1,hero:!!hero}];
  });
- const hosts=[...new Set(scenes.map(scene=>scene.host).filter(Boolean))];
  // One viewport-sized, clipped layer carries the outgoing palette across the
  // boundary. Vector rings stay sharp and add no height or pointer/focus target.
  const departure=document.createElement('div');departure.className='chapter-departure-art';departure.setAttribute('aria-hidden','true');departure.hidden=true;
@@ -74,7 +71,11 @@ import {createCardStacks} from './project-layout';
   // Read geometry as a batch; changing custom properties follows the reads.
   const geometry=scenes.map(scene=>({scene,height:scene.stage.offsetHeight}));
   for(const {scene,height} of geometry){
-   scene.travel=scene.hero||paused()?0:innerWidth<=760?Math.min(200,viewport*.25):Math.min(240,viewport*.3);
+   // An introduction taller than the available viewport must stay in flow.
+   // Keep the same geometry when animations pause: preferences never move text.
+   const fits=height<viewport-headerHeight-24;
+   scene.travel=scene.hero||!fits?0:innerWidth<=760?Math.min(120,viewport*.15):Math.min(160,viewport*.2);
+   scene.stage.dataset.chapterFits=fits?'true':'false';
    scene.stage.style.setProperty('--chapter-header-height',`${headerHeight}px`);
    if(scene.track){scene.track.style.setProperty('--chapter-height',`${height}px`);scene.track.style.setProperty('--chapter-travel',`${scene.travel}px`);}
   }
@@ -87,7 +88,7 @@ import {createCardStacks} from './project-layout';
  function paint(stamp){
   frame=0;if(document.hidden)return;
   const changed=dirty;if(changed)measure();
-  const actualY=scrollY,stop=paused(),activeHosts=new Set();let activeExit=null;
+  const actualY=scrollY,stop=paused();let activeExit=null;
   // Native scroll owns the page. Only the visual progress is damped: wheel
   // notches become a continuous zoom, while touch keeps a shorter response.
   // Geometry changes, anchors and large jumps settle immediately.
@@ -113,24 +114,17 @@ import {createCardStacks} from './project-layout';
     const visibility=ease(clamp(exitRaw/.28))*(1-ease(clamp((exitRaw-.52)/.48)));
     scene.stage.style.setProperty('--chapter-exit-visibility',visibility.toFixed(4));
    }
-   const start=scene.hero?scene.top-viewport*.88:scene.surface?exitStart+(exitEnd-exitStart)*.2:scene.top-headerHeight-viewport*.65,end=Math.min(maxScroll,scene.hero?scene.top-viewport*.27:scene.top-headerHeight+scene.travel*.6);
+   const start=scene.hero?scene.top-viewport*.88:scene.top-viewport*.85,end=Math.min(maxScroll,scene.hero?scene.top-viewport*.27:scene.top-headerHeight+scene.travel*.6);
    const raw=stop?1:clamp((y-start)/Math.max(1,end-start));
    // Smoothstep stays attached to the scroll position in both directions.
    const progress=ease(raw);
-   if(!stop&&!scene.hero&&raw>0&&raw<1&&scene.host)activeHosts.add(scene.host);
-   // Cancel the title's vertical approach. While it grows, its centre stays
-   // in the same place; at the sticky pin point the compensation reaches zero.
-   const lock=!stop&&!scene.hero&&raw>0?Math.min(0,headerHeight-(scene.top-actualY)):0;
-   if(lock!==scene.previousLock){scene.previousLock=lock;scene.stage.style.setProperty('--chapter-lock-y',`${lock.toFixed(2)}px`);}
+   // The title grows where it is in the document. Moving it up by a viewport
+   // covered the preceding chapter and made sections appear to skip and return.
    const active=!stop&&raw>0&&raw<1?'true':'false';
    if(scene.stage.dataset.chapterActive!==active)scene.stage.dataset.chapterActive=active;
    if(Math.abs(progress-scene.previous)<.0005)continue;
    scene.previous=progress;
    scene.stage.style.setProperty('--chapter-progress',progress.toFixed(4));
-  }
-  for(const host of hosts){
-   const active=activeHosts.has(host)?'true':'false';
-   if(host.dataset.chapterArriving!==active)host.dataset.chapterArriving=active;
   }
   departure.hidden=!activeExit;
   if(activeExit){

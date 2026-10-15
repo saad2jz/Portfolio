@@ -29,7 +29,7 @@ html,body,#root,.creator-page{background:#0c0c0c;min-height:100%;font-family:var
 @media(max-width:420px){.creator-portrait{width:265px;bottom:130px}.creator-hero-statement{max-width:150px;font-size:12px}.creator-hero-bottom{gap:18px;inset-inline:24px}.contact-pill{min-height:48px;font-size:10px;padding:14px 20px;gap:9px}.contact-pill svg{width:16px}.profile-facts{gap:18px}.profile-facts strong{font-size:24px}.service-item{grid-template-columns:minmax(0,1fr);gap:18px}.service-item h3{font-size:20px}.creator-project.project{padding:16px}.creator-project .project-description{font-size:13px}.project-collage{grid-template-rows:130px 170px}.creator-project .project-copy .micro{font-size:8px}.profile-records .timeline>div{grid-template-columns:1fr}.creator-header{gap:14px}.header-actions{gap:10px!important}}
 @media(prefers-reduced-motion:reduce){.creator-project.project{position:relative;top:0!important;transform:none!important}.creator-marquee-row,.portrait-magnet{will-change:auto;transform:none!important}.creator-scroll,.contact-pill{transition:none}.animated-profile-text span{opacity:1!important}.creator-hero .hero-art{opacity:.3}}
 html.motion-paused .creator-project.project{position:relative;top:0!important;transform:none!important}html.motion-paused .portrait-magnet,html.motion-paused .creator-marquee-row{will-change:auto;transform:none!important}
-.creator-project[data-stack-focus=true],.creator-project[data-stack-focus=true]~.creator-project{position:relative;top:0!important;transform:none!important}
+.creator-project[data-stack-focus=true]{z-index:40!important;transform:none!important}
 
 .animated-text-word:not(:last-child){margin-right:.24em}
 @media(max-width:760px){.creator-portrait{top:50%;bottom:auto;transform:translate(-50%,-34%)}}

@@ -1,5 +1,6 @@
 import {fr as ecosystemFrench} from './ecosystem-copy.json';
 const french:Record<string,string> = {
+  isenCloudDataTraining:'ISEN · Track Business & Data Analyst · 2025–2026. Formation académique.',
   projectConcept:'Voir le concept',
   moreCaptures:'Autres images du projet', liveProject:'Voir le site', projectRepository:'Dépôt GitHub',
   carWorkshopCaption: "Diagnostic en atelier — illustration de présentation",
@@ -29,7 +30,7 @@ const french:Record<string,string> = {
   ffaProblem: 'Une boutique WordPress vieillissante et des opérations fragmentées : commandes recopiées entre systèmes, étiquettes créées manuellement et factures saisies une à une.',
   ffaRole: 'Discovery produit, ownership de la roadmap et priorisation ; alignement des équipes techniques, des opérations et des partenaires marketplace, de la spécification à la mise en production.',
   ffaDelivery: 'Une refonte Shopify Plus B2B/B2C avec synchronisation Erplain, intégrations Mirakl et workflow n8n reliant commandes, expédition et facturation. Redirections et mappings canoniques préservés pendant la migration.',
-  visitFFA: 'Visiter ffaperitif.com', leadCaption: 'Hub des agents IA · capture produit fournie par Saad.',
+  visitFFA: 'Visiter ffaperitif.com', leadCaption: 'Hub des agents IA · capture d’écran du produit.',
   visitLeadHunt: 'Visiter LeadHunt', leadCapture: "Écran de connexion public, capturé le 7 octobre 2026. Une démo distincte est nécessaire pour le produit authentifié.",
   leadTitle: 'LeadHunt', leadIntro: 'Une plateforme de prospection B2B multitenant reliant découverte de vraies entreprises, contacts vérifiés, pipeline et séquences de prospection.',
   projectDetails: 'Découvrir le projet', leadProblem: 'Données dispersées, qualification répétitive et séquences déconnectées rendent la prospection B2B lente et irrégulière.',
@@ -41,7 +42,7 @@ const french:Record<string,string> = {
   dtcTitle: 'Commerce indépendant', dtcIntro: "Création de marques e-commerce et pilotage de toute l’activité : identité, boutiques, négociation fournisseurs, acquisition et ventes internationales.",
   cursorViewImage: 'VOIR L’IMAGE', toolsLabel: 'MES OUTILS CONNECTÉS',
   labEyebrow: 'PLUS / EXPLORATIONS PRODUIT', labTitle: 'Projets personnels & explorations', productNotes: 'Notes sur le produit',
-  secoursCaption: 'Écran d’accueil · capture du prototype fournie par Saad.',
+  secoursCaption: 'Écran d’accueil · capture du prototype.',
   secoursGalleryNote: '6 vues du prototype · sélectionnez une image pour explorer',
   secoursDemoStatus: 'Prototype de phase 1 · démonstration',
   secoursInsideTitle: 'Au cœur du prototype',
