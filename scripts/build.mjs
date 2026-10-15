@@ -39,7 +39,7 @@ await fs.rm(dist,{recursive:true,force:true});
 await fs.mkdir(path.join(dist,'assets'),{recursive:true});
 const read=name=>fs.readFile(path.join(root,name),'utf8');
 let html=await read('index.html');
-const cssNames=['fonts.css','styles.css','refinements.css','reference-effects.css','project-reels.css','profile-content.css','deadwater.css','generated-tailwind.css','creator.css','ecosystems.css','extensions.css','personality.css','chapter-transitions.css','context-toolkit.css','portfolio-focus.css','project-image-decks.css'];
+const cssNames=['fonts.css','styles.css','refinements.css','reference-effects.css','project-reels.css','profile-content.css','deadwater.css','generated-tailwind.css','creator.css','ecosystems.css','extensions.css','personality.css','chapter-transitions.css','context-toolkit.css','portfolio-focus.css','project-image-decks.css','audit-polish.css'];
 let css=(await Promise.all(cssNames.map(read))).join('\n');
 const scripts=['src/main.tsx'];
 const client=await build({entryPoints:[path.join(root,'src/main.tsx')],bundle:true,write:false,format:'iife',platform:'browser',target:'es2020',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},minify:true,legalComments:'none'});
@@ -94,7 +94,7 @@ let englishHtml=sourceEnglish.replace(assetPattern,name=>map.get(name)||name);
 englishHtml=englishHtml.replace(/<link\b[^>]*>/g,tag=>cssNames.includes(tag.match(/\bhref=["']([^"']+)["']/)?.[1])?'':tag);
 englishHtml=englishHtml.replace(/<script\b[^>]*>\s*<\/script>/g,tag=>scripts.includes(tag.match(/\bsrc=["']([^"']+)["']/)?.[1])?'':tag);
 englishHtml=englishHtml.replace('<script type="application/ld+json">',`<link rel="stylesheet" href="${cssFile}"><script src="${jsFile}" defer></script><script type="application/ld+json">`);
-englishHtml=englishHtml.replace(/(src|href|data-full-src|data-logo-atlas)="assets\//g,'$1="../assets/').replace(/(srcset=")[^"]+"/g,match=>match.replace(/assets\//g,'../assets/')).replaceAll('href="cv/"','href="../cv/en/"');
+englishHtml=englishHtml.replace(/(src|href|data-full-src|data-logo-atlas)="assets\//g,'$1="../assets/').replace(/(srcset=")[^"]+"/gi,match=>match.replace(/assets\//g,'../assets/')).replaceAll('href="cv/"','href="../cv/en/"');
 if(siteUrl){
  const canonical=escape(new URL('en/',siteUrl).href),cover=escape(new URL(map.get('assets/og-cover.jpg'),siteUrl).href);
  englishHtml=englishHtml.replace('  <meta property="og:type"',`<link rel="canonical" href="${canonical}"><meta property="og:url" content="${canonical}"> <meta property="og:type"`);

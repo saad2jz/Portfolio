@@ -76,6 +76,13 @@
   }
   function reveal(heading) {
     if (stopped() || revealed.has(heading)) return;
+    if(heading.closest('.creator-project')){
+      // Never split all card titles into new inline boxes during startup.
+      // Animate their ink without changing wrapping or sticky geometry.
+      revealed.add(heading);
+      const animation=heading.animate([{opacity:.8,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}],{duration:550,easing:'cubic-bezier(.16,1,.3,1)'});
+      active.add(animation);animation.finished.then(()=>active.delete(animation)).catch(()=>active.delete(animation));return;
+    }
     if (heading === signature) {
       revealed.add(heading);
       const animation = heading.animate([{opacity:.25,transform:'translateY(60px)'},{opacity:1,transform:'translateY(0)'}], {duration:1200,easing:'cubic-bezier(.16,1,.3,1)'});
@@ -95,13 +102,29 @@
   // Word masks can change line wrapping. Prepare card titles before measuring
   // their sticky geometry, rather than changing their height during a handoff.
   headings.forEach(heading => {
-    if(heading.closest('.creator-project'))prepare(heading);
     observer.observe(heading);
   });
   if (signature) observer.observe(signature);
 
   function syncPause() {
-    root.classList.toggle('motion-paused', reduced.matches || control.getAttribute('aria-pressed') === 'true');
+    const next=reduced.matches || control.getAttribute('aria-pressed') === 'true';
+    const changed=root.classList.contains('motion-paused')!==next;
+    // Switching between immersive and reading layouts must not abandon the
+    // paragraph the visitor is reading when motion tracks collapse/expand.
+    const anchor=changed&&scrollY>0?(document.activeElement?.closest('.reading-toolbar')?document.querySelector('#selected-title'):document.elementFromPoint(innerWidth*.5,innerHeight*.55)?.closest('p,h1,h2,h3,h4,a,button,li,figure,section')):null;
+    const before=anchor?.getBoundingClientRect().top;
+    if(anchor)root.classList.add('motion-switching');
+    root.classList.toggle('motion-paused', next);
+    if(anchor){
+      let frames=0,stable=0;
+      const settle=()=>{
+        const delta=anchor.isConnected?anchor.getBoundingClientRect().top-before:0;
+        if(Math.abs(delta)>1){scrollBy({top:delta,behavior:'instant'});stable=0;}else stable++;
+        if(++frames<8&&stable<3)requestAnimationFrame(settle);
+        else root.classList.remove('motion-switching');
+      };
+      requestAnimationFrame(settle);
+    }
     root.classList.toggle('effects-suspended', document.hidden);
     if (stopped()) { for (const animation of active) animation.cancel(); active.clear(); cursor.classList.remove('is-visible'); }
   }
@@ -133,7 +156,6 @@
     active.clear();
     for (const heading of headings) {
       revealed.delete(heading);
-      if(heading.closest('.creator-project'))prepare(heading);
       const r = heading.getBoundingClientRect();
       if (r.bottom > 0 && r.top < innerHeight) reveal(heading);
     }

@@ -321,7 +321,10 @@
     "ffaVisualInvoice": "04 / INVOICING",
     "experienceFFA": "B2B E-Commerce Project Lead / Product Manager · Work-study",
     "ffaDeclaredResults": "Reported results: −40% administrative workload and zero manual entries in the core workflow. Reference period, baseline and measurement method remain to be documented.",
-    "retainedProjectDetails": "Product information & captures"
+    "retainedProjectDetails": "Product information & captures",
+    "credentialAcademic": "Academic module · ISEN",
+    "credentialProgress": "In progress · 2026",
+    "credentialContinuing": "Continuing education"
   },
   "fr": {
     "leadEcoTitle": "Recherche de contacts",
@@ -645,6 +648,10 @@
     "ffaVisualInvoice": "04 / FACTURATION",
     "experienceFFA": "Chef de projet e-commerce B2B / Product Manager · Alternance",
     "ffaDeclaredResults": "Résultats déclarés : −40 % de charge administrative et aucune saisie manuelle dans le flux principal. Période de référence, situation initiale et méthode de mesure restent à documenter.",
-    "retainedProjectDetails": "Informations produit & captures"
+    "retainedProjectDetails": "Informations produit & captures",
+    "credentialAcademic": "Module académique · ISEN",
+    "credentialProgress": "En cours · 2026",
+    "credentialContinuing": "Formation continue",
+    "ansysConfirmed": "Hackathon Ansys · KEDGE Business School · 2026 · 1re place, Innovation."
   }
 }

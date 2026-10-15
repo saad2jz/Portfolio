@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ArrowUpRight,ShieldCheck,GitBranch,RefreshCw} from 'lucide-react';
 
 export function SelectedWork({fr}:{fr:boolean}){
  const projects=[['ffa','FFA','assets/ffa-storefront-thumb.webp',fr?'Commerce connecté · 5 marketplaces':'Connected commerce · 5 marketplaces'],['leadhunt','LeadHunt','assets/leadhunt-agents-320.webp',fr?'Prospection B2B · copilote IA':'B2B prospecting · AI copilot'],['cardiag','Cardiag','assets/cardiag-owner-360.webp',fr?'Inspection automobile · 33 contrôles':'Vehicle inspection · 33 checks']];
- return <section id="selected-work" className="selected-work" aria-labelledby="selected-title"><h2 id="selected-title">{fr?'Travaux sélectionnés':'Selected work'}</h2><p>{fr?'Trois produits pour découvrir ma façon de travailler.':'Three products that show how I work.'}</p><nav aria-label={fr?'Accéder aux études de cas':'Explore the case studies'}>{projects.map(([id,title,image,description])=><a key={id} href={'#'+id+'-title'}><img src={image} alt="" width="360" height="202" loading="lazy" decoding="async"/><span><strong>{title}</strong><small>{description}</small></span><ArrowUpRight size={20} aria-hidden="true"/></a>)}</nav></section>;
+ return <section id="selected-work" className="selected-work" aria-labelledby="selected-title"><h2 id="selected-title">{fr?'Travaux sélectionnés':'Selected work'}</h2><p>{fr?'Trois produits pour découvrir ma façon de travailler.':'Three products that show how I work.'}</p><nav aria-label={fr?'Accéder aux études de cas':'Explore the case studies'}>{projects.map(([id,title,image,description])=><a key={id} href={'#'+id+'-title'}><img src={image} alt="" width="360" height="202" loading="lazy" decoding="async"/><span><strong>{title}</strong><small>{description}</small></span><ArrowUpRight size={20} aria-hidden="true"/></a>)}</nav><div className="reading-toolbar"><a href="#work">{fr?'Voir les 9 projets':'Explore all 9 projects'} ↗</a><ReadingMode fr={fr}/></div></section>;
+}
+
+function ReadingMode({fr}:{fr:boolean}){
+ const [reading,setReading]=useState(false),[reduced,setReduced]=useState(false);
+ useEffect(()=>{const root=document.documentElement,media=matchMedia('(prefers-reduced-motion: reduce)');const update=()=>{setReading(root.classList.contains('motion-paused'));setReduced(media.matches);};const observer=new MutationObserver(update);observer.observe(root,{attributes:true,attributeFilter:['class']});media.addEventListener('change',update);update();return()=>{observer.disconnect();media.removeEventListener('change',update);};},[]);
+ return <button type="button" className="reading-mode" aria-pressed={reading} disabled={reduced} onClick={()=>document.querySelector<HTMLButtonElement>('.motion-toggle')?.click()}>{reduced?(fr?'Mouvement réduit activé':'Reduced motion enabled'):reading?(fr?'Vue lecture · reprendre l’immersion':'Reading view · resume immersion'):(fr?'Activer la vue lecture':'Enable reading view')}</button>;
 }
 
 export function QualityBridge({fr}:{fr:boolean}){

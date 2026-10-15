@@ -41,9 +41,9 @@ import {createCardStacks} from './project-layout';
   stage.classList.add('chapter-stage');stage.dataset.chapter=name;stage.dataset.chapterTone=tone;
   if(hero)stage.dataset.chapterHero='true';else title.classList.add('chapter-zoom-title');
   // Pin only the chapter introduction, never an ancestor of the long card stacks.
-  let track=null;
+  let track=stage.parentElement?.classList.contains('chapter-track')?stage.parentElement:null;
   if(!hero){
-   track=document.createElement('div');track.className='chapter-track';stage.before(track);track.append(stage);
+   if(!track){track=document.createElement('div');track.className='chapter-track';stage.before(track);track.append(stage);}
   }
   const exit=exits[name],source=exit&&document.querySelector(exit[0]),surface=source?.querySelector(exit[1]);
   if(surface){
@@ -74,10 +74,10 @@ import {createCardStacks} from './project-layout';
    // An introduction taller than the available viewport must stay in flow.
    // Keep the same geometry when animations pause: preferences never move text.
    const fits=height<viewport-headerHeight-24;
-   scene.travel=scene.hero||!fits?0:innerWidth<=760?Math.min(120,viewport*.15):Math.min(160,viewport*.2);
+   scene.travel=scene.hero||!fits?0:innerWidth<=760?Math.min(80,viewport*.1):Math.min(160,viewport*.2);
    scene.stage.dataset.chapterFits=fits?'true':'false';
    scene.stage.style.setProperty('--chapter-header-height',`${headerHeight}px`);
-   if(scene.track){scene.track.style.setProperty('--chapter-height',`${height}px`);scene.track.style.setProperty('--chapter-travel',`${scene.travel}px`);}
+   if(scene.track)scene.track.style.setProperty('--chapter-travel',`${scene.travel}px`);
   }
   departure.style.setProperty('--chapter-header-height',`${headerHeight}px`);
   maxScroll=Math.max(0,document.documentElement.scrollHeight-viewport);

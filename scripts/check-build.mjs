@@ -19,12 +19,18 @@ async function verify(url){
   check('Contact guidance is translated in the initial French document',html.includes('Tous les champs sont obligatoires.'));
   const work=html.slice(html.indexOf('<section id="work"'),html.indexOf('<section id="entrepreneurship"'));
   check('All nine projects are visible as full case-study cards',(work.match(/class="[^"]*creator-project project\b/g)||[]).length===9&&!/class="other-projects"/.test(work));
+  check('All nine projects expose problem, role, delivery and result/status',(work.match(/class="case-summary"/g)||[]).length===9);
+  check('Capture decks are delivered before hydration, with no duplicate gallery links',(work.match(/class="project-image-deck"/g)||[]).length===4&&!work.includes('data-image-deck-source'));
+  check('LeadHunt offers a real-image tour independent of its login page',work.includes('data-open-gallery="leadhunt"')&&work.includes('id="leadhunt-capture-deck"'));
+  check('Scheduling CTA and destination consistently use the actual 30-minute event',[html,english].every(page=>page.includes('https://calendly.com/saad-bayahia/30min')&&!page.includes('20-minute')&&!page.includes('20 minutes')));
+  check('Document IDs remain unique',(()=>{const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);return new Set(ids).size===ids.length;})());
   check('All 27 requested project captures retain their original gallery groups',Object.entries({ffa:9,leadhunt:7,cardiag:5,secoursnow:6}).every(([id,total])=>(work.match(new RegExp(`data-gallery="${id}"`,'g'))||[]).length===total));
   const career=work.slice(work.indexOf('<article id="career"'),work.indexOf('<article id="remote"'));
   check('Career Ops keeps its case study without screenshots',career.includes('Career Ops Workspace')&&!career.includes('media-link'));
   check('Owner certifications and ISEN AWS / Power BI learning remain visible',html.includes('data-i18n="certLean"')&&html.includes('data-i18n="certAnthropic"')&&html.includes('data-i18n="certShopify"')&&html.includes('data-i18n="certCisco"')&&html.includes('data-i18n="certHubspot"')&&(html.match(/data-i18n="isenCloudDataTraining"/g)||[]).length===2&&!/<details class="additional-learning"/.test(html));
   check('Requested hero and language descriptions are removed in both languages',[html,english].every(page=>!page.includes('class="language-use"')&&!page.includes('5 marketplaces · n8n automation')&&!page.includes('5 marketplaces · automatisation n8n')));
   check('English page assets resolve from its own directory',english.includes(`src="../${manifest.js}"`)&&english.includes(`href="../${manifest.css}"`)&&!/\b(?:src|href|data-full-src|data-logo-atlas)="assets\//.test(english));
+  check('English responsive images resolve all srcSet candidates from the English directory',[...english.matchAll(/\bsrcset="([^"]+)"/gi)].every(match=>match[1].split(',').every(candidate=>candidate.trim().startsWith('../assets/'))));
   check('Both public CV PDFs are valid PDF files',(await fs.readFile(path.join(root,'dist/cv/saad-bayahia-fr.pdf'))).subarray(0,5).toString()==='%PDF-'&&(await fs.readFile(path.join(root,'dist/cv/saad-bayahia-en.pdf'))).subarray(0,5).toString()==='%PDF-');
   check('CV landing pages and language-specific links are delivered',html.includes('href="cv/"')&&english.includes('href="../cv/en/"')&&(await read('cv/index.html')).includes('saad-bayahia-fr.pdf')&&(await read('cv/en/index.html')).includes('saad-bayahia-en.pdf'));
   check('Both entry points have the same canonical document',html===await read('portfolio.html'));

@@ -1,5 +1,7 @@
 import {fr as ecosystemFrench} from './ecosystem-copy.json';
 const french:Record<string,string> = {
+  leadProductTour:'Visite du produit · 7 vues',
+  capturePrivacy:'Capture produit · données sensibles masquées',
   ffaFullName:'Fédération Française de l’Apéritif',
   isenCloudDataTraining:'ISEN · Track Business & Data Analyst · 2025–2026. Formation académique.',
   projectConcept:'Voir le concept',
@@ -76,7 +78,7 @@ const french:Record<string,string> = {
   experienceQADetail: 'Discovery, causes racines et validation des releases', experienceMascir: 'Ingénieur QHSE · Dispositifs médicaux', experienceSchaeffler: 'Ingénieur Qualité · Automobile',
   educationLabel: 'Formation', educationKedge: "MSc en Ingénierie d'Affaires · 2026", educationQuality: 'Master en Management de la Qualité et de la Performance', educationEngineering: 'Double diplôme de Génie Informatique', educationISEN: 'Parcours Business & Data Analyst',
   contactEyebrow: '04 / PRENONS CONTACT', contactLocation: 'PARIS / FRANCE & REMOTE', contactTitle: 'Un bon produit commence\npar une conversation.',
-  bookCall: 'Réserver un appel de 20 minutes', writeMessage: 'Ou laisser un message ici', formName: 'Votre nom', formEmail: 'Adresse email', formMessage: 'Parlez-moi de votre projet ou de votre offre', formSubmit: 'Envoyer le message', backTop: 'Retour en haut ↑'
+  bookCall: 'Réserver un appel de 30 minutes', writeMessage: 'Ou laisser un message ici', formName: 'Votre nom', formEmail: 'Adresse email', formMessage: 'Parlez-moi de votre projet ou de votre offre', formSubmit: 'Envoyer le message', backTop: 'Retour en haut ↑'
 };
 
 // Content adapted from the live portfolio on 8 October 2026.

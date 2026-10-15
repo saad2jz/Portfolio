@@ -252,3 +252,13 @@ Methods, standards and risk/quality practices use installed Lucide React pictogr
 Contextual rows now use actual local vendor marks, followed by plain named method/framework badges. Generic method pictograms are removed. Socket.IO and PostGIS artwork comes from their official websites; the Anthropic mark comes from Simple Icons. Exact asset URLs are recorded in `assets/tools/SOURCES.md`. Methods without a single official brand and credentials without a supplied issuer do not receive fabricated certification seals.
 
 All previously supplied certification/learning records are visible. AWS and Power BI reuse the existing logos and are explicitly attributed to the ISEN Business & Data Analyst track (2025–2026), as confirmed by the owner. No exam designation or new awarded credential is inferred. ISO/IEC 27001 remains an academic module; SAP S/4HANA Cloud Public Edition remains in progress.
+# Public capture privacy — 15 October 2026
+
+With the owner's explicit approval, opaque pixel masks replace customer names,
+private contact details, order data, balances, SMTP configuration and vehicle
+registration details in the reviewed FFA, LeadHunt and Cardiag captures. The
+full-size files and all their referenced delivery derivatives are sanitised;
+the gallery's original-file links resolve to these sanitised public files.
+Original captures are preserved locally outside this repository. They must not
+be copied back into `assets/` or the deployment artifact. Earlier public exports
+and Git history are not rewritten by this change.

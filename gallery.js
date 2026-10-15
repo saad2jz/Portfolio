@@ -75,6 +75,19 @@
     });
   });
 
+  // Product tours reuse the real gallery without duplicating a capture or
+  // implying that the authenticated product is an interactive public demo.
+  document.querySelectorAll('[data-open-gallery]').forEach(trigger => {
+    trigger.addEventListener('click', event => {
+      if(event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+      const group=links.filter(link=>link.dataset.gallery===trigger.dataset.openGallery);
+      if(!group.length)return;
+      event.preventDefault();opener=trigger;galleryLinks=group;show(0);
+      dialog.showModal();document.documentElement.classList.add('gallery-open');
+      dialog.querySelector('.lightbox-close').focus();
+    });
+  });
+
   dialog.querySelector('.lightbox-close').addEventListener('click', () => dialog.close());
   dialog.querySelectorAll('.lightbox-step').forEach(button => {
     button.addEventListener('click', () => show(position + (button.dataset.direction === 'next' ? 1 : -1)));

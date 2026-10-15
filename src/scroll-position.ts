@@ -1,6 +1,8 @@
 // History navigation retains the reading position. An explicit refresh starts
 // at the hero instead, including when the previous URL contained a fragment.
 type Position = {version:1;hash:string;kind:string;id:string;offset:number;y:number};
+let earlyInput=false;
+for(const type of ['pointerdown','touchstart','wheel','keydown'])window.addEventListener(type,()=>{earlyInput=true;},{once:true,passive:true,capture:true});
 const key='portfolioReadingPosition';
 const navigation=performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming|undefined;
 const reloading=navigation?.type==='reload';
@@ -32,7 +34,9 @@ export function navigateToFragment(target:HTMLElement,behavior:ScrollBehavior='i
  const stage=target.closest<HTMLElement>('.chapter-stage')||target.querySelector<HTMLElement>('.chapter-stage');
  const track=stage?.parentElement?.classList.contains('chapter-track')?stage.parentElement:null;
  const header=document.querySelector('header')?.offsetHeight||80;
- const top=target.id==='home'||target.id==='main'?0:marker?.classList.contains('project-marker')?flowTop(marker)-header-16:track?flowTop(track)-header+parseFloat(track.style.getPropertyValue('--chapter-travel')||'0'):flowTop(target)-header-16;
+ const reading=document.documentElement.classList.contains('motion-paused')||matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const travel=reading?0:parseFloat(track?.style.getPropertyValue('--chapter-travel')||'0');
+ const top=target.id==='home'||target.id==='main'?0:marker?.classList.contains('project-marker')?flowTop(marker)-header-16:track?flowTop(track)-header+travel:flowTop(target)-header-16;
  target.setAttribute('tabindex','-1');target.focus({preventScroll:true});
  scrollTo({top:Math.max(0,top),behavior});
 }
@@ -58,7 +62,7 @@ function anchors(){
 }
 
 export function restoreReadingPosition(measure:()=>void){
- let cancelled=false,ready=false;
+ let cancelled=earlyInput,ready=false;
  let geometryDirty=true,header=80,cachedAnchors:{kind:string;id:string;top:number}[]=[];
  const invalidate=()=>{geometryDirty=true;};
  const geometry=new ResizeObserver(invalidate);

@@ -34,7 +34,7 @@ copy={
 'projects':'PROJETS & ENTREPRENEURIAT',
 'projectsText':'<b>LeadHunt</b> — produit de prospection B2B avec copilote conversationnel et extension Chrome. <b>Cardiag</b> — inspection guidée : 12 points rapides, 33 contrôles complets, 201 marques ; version publique depuis septembre 2026, environ 10 utilisateurs.<br/><b>Commerce indépendant · depuis 2019</b> — 20+ boutiques Shopify / WooCommerce, branding, sourcing Chine/Turquie, négociation, affiliation, acquisition et ventes internationales.',
 'education':'FORMATIONS',
-'educationText':'<b>2025–2026 · KEDGE Business School, Toulon</b> — double diplôme MSc Business Engineer & Master Ingénieur d’Affaires.<br/><b>2025–2026 · ISEN, Toulon</b> — Track Business & Data Analyst ; module académique ISO/IEC 27001.<br/><b>2016–2018 · Université de Franche-Comté, Besançon</b> — Master Qualité et Management des Performances.<br/><b>2012–2016 · UIR × Université de Nantes</b> — Licence en Génie Informatique, double diplôme.',
+'educationText':'<b>2025–2026 · KEDGE Business School, Toulon</b> — double diplôme MSc Business Engineer & Master Ingénieur d’Affaires.<br/><b>2025–2026 · ISEN, Toulon</b> — Track Business & Data Analyst ; enseignements AWS, Power BI et ISO/IEC 27001.<br/><b>2016–2018 · Université de Franche-Comté, Besançon</b> — Master Qualité et Management des Performances.<br/><b>2012–2016 · UIR × Université de Nantes</b> — Licence en Génie Informatique, double diplôme.',
 'skills':'COMPÉTENCES & FORMATION CONTINUE',
 'skillsText':'Discovery, backlog, critères d’acceptation, MoSCoW, vente complexe et B2B. Shopify, n8n, HubSpot, JavaScript/TypeScript, Python et SQL. AMDEC, 8D, PDCA, Lean Six Sigma. SAP S/4HANA Cloud Public Edition : formation en cours en 2026.',
 'extra':'Français et arabe courants · anglais professionnel · espagnol élémentaire. Formation PPL en cours, sécurité rallye, restauration de moteurs et simracing.',
@@ -54,7 +54,7 @@ copy={
 'projects':'PROJECTS & ENTREPRENEURSHIP',
 'projectsText':'<b>LeadHunt</b> — B2B prospecting product with a conversational copilot and Chrome extension. <b>Cardiag</b> — guided inspection: 12 quick points, 33 full checks and 201 makes; public since September 2026, approximately 10 users.<br/><b>Independent commerce · since 2019</b> — 20+ Shopify / WooCommerce stores, branding, China/Turkey sourcing, negotiation, affiliates, acquisition and international sales.',
 'education':'EDUCATION',
-'educationText':'<b>2025–2026 · KEDGE Business School, Toulon</b> — MSc Business Engineer & Master Ingénieur d’Affaires dual qualification.<br/><b>2025–2026 · ISEN, Toulon</b> — Business & Data Analyst track; academic ISO/IEC 27001 module.<br/><b>2016–2018 · Université de Franche-Comté, Besançon</b> — Master in Quality and Performance Management.<br/><b>2012–2016 · UIR × Université de Nantes</b> — dual qualification in Computer Science.',
+'educationText':'<b>2025–2026 · KEDGE Business School, Toulon</b> — MSc Business Engineer & Master Ingénieur d’Affaires dual qualification.<br/><b>2025–2026 · ISEN, Toulon</b> — Business & Data Analyst track; academic AWS, Power BI and ISO/IEC 27001 training.<br/><b>2016–2018 · Université de Franche-Comté, Besançon</b> — Master in Quality and Performance Management.<br/><b>2012–2016 · UIR × Université de Nantes</b> — dual qualification in Computer Science.',
 'skills':'SKILLS & CONTINUING EDUCATION',
 'skillsText':'Discovery, backlogs, acceptance criteria, MoSCoW, complex sales and B2B. Shopify, n8n, HubSpot, JavaScript/TypeScript, Python and SQL. FMEA, 8D, PDCA and Lean Six Sigma. SAP S/4HANA Cloud Public Edition: training in progress in 2026.',
 'extra':'Fluent French and Arabic · professional English · elementary Spanish. PPL training in progress, rally safety, engine restoration and simracing.',
@@ -63,7 +63,7 @@ copy={
 for lang,data in copy.items():
  target=out/f'saad-bayahia-{lang}.pdf'
  doc=SimpleDocTemplate(str(target),pagesize=A4,leftMargin=38,rightMargin=38,topMargin=32,bottomMargin=32,title=f'Saad Bayahia — {data["title"]}',author='Saad Bayahia')
- story=[Paragraph('SAAD BAYAHIA',title),Paragraph(data['title'],sub),Paragraph('<link href="https://www.saadbayahia.com/">saadbayahia.com</link> · <link href="https://calendly.com/saad-bayahia">Calendly</link> · <link href="https://www.linkedin.com/in/saad-bayahia-2b025916a/">LinkedIn</link>',base),Paragraph(data['intro'],base),Paragraph(data['experience'],heading)]
+ story=[Paragraph('SAAD BAYAHIA',title),Paragraph(data['title'],sub),Paragraph('<link href="https://www.saadbayahia.com/">saadbayahia.com</link> · <link href="https://calendly.com/saad-bayahia/30min">Calendly</link> · <link href="https://www.linkedin.com/in/saad-bayahia-2b025916a/">LinkedIn</link>',base),Paragraph(data['intro'],base),Paragraph(data['experience'],heading)]
  for date,body in data['rows']:story+=[Paragraph('<b>'+date+'</b><br/>'+body,base)]
  story+=[Paragraph(data['projects'],heading),Paragraph(data['projectsText'],base),Paragraph(data['award'],base),Paragraph(data['education'],heading),Paragraph(data['educationText'],base),Paragraph(data['skills'],heading),Paragraph(data['skillsText'],base),Paragraph(data['extra'],base)]
  doc.build(story)
