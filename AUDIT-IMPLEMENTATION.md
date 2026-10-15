@@ -3,6 +3,7 @@
 ## Shipped changes
 
 - Viewport-sized hero at desktop, phone and landscape sizes. Product Owner / Paris is more legible, and contact plus CV actions fit the tested first screens.
+- Responsive portrait sizes match the actual image box (including frame padding); a 560px derivative fills the gap between 420px and 800px without changing the original portrait.
 - English responsive-image URLs now account for React's `srcSet` casing, fixing the broken portrait under `/en/`.
 - Calendar CTAs and both CVs point directly to the existing 30-minute Calendly event; copy consistently announces 30 minutes.
 - Project navigation targets all nine projects. Mobile navigation adds education, certifications and the CV. Selected work retains the three quick-entry cards and links to the complete collection.
@@ -24,6 +25,8 @@ TypeScript checks passed. The production build suite passed 82 checks across FR/
 Browser checks cover 320×740, 390×844, 844×390 and 1280×720: first-screen actions, overflow, menu and Escape, gallery controls and keyboard, LeadHunt tour, education navigation, header-to-About zoom and reading/immersive switching. No real contact message was sent and no appointment booked.
 
 Local Lighthouse 13.5.0 diagnostics after the main optimisation, animations enabled: mobile performance 75, desktop 99; automated accessibility, best practices and SEO 100 on both. Mobile TBT approximately 442 ms; desktop 63 ms. These are synthetic local measurements, not public-host comparisons or physical-device FPS/INP measurements. Reports are in the parent workspace under `work/audit-applied-20261015/local-final/`.
+
+Public-host checks at commit `5d6b675`, before the final portrait delivery refinement: mobile 59 in a contended run (CPU benchmark 1592) and 71 with the control browser's WebGL scene offscreen (benchmark 1775), desktop 99. The latter mobile FCP was 1.64 s, LCP 3.46 s and TBT 629 ms. The initial audit recorded 64 / 95 with mobile benchmark 1783. All runs are retained; results vary with machine load and are not field data. The remaining mobile loading margin is explicitly acknowledged.
 
 ## Evidence still dependent on owner records
 
