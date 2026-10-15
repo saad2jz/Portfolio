@@ -286,3 +286,15 @@ CUA checked forward and reverse traversal through Expertise / Skills at desktop 
 Nine certification/learning entries are visible, including owner-confirmed ISEN AWS and Power BI training in 2025–2026. All checked certification logos loaded. ISO/IEC 27001 stays an academic module and SAP stays in progress. The hero emphasises six years in quality and B2B business engineering; the former FFA metric line and language-use descriptions are removed in FR/EN. Generic tool/method pictograms are replaced with local vendor logos or named practice badges.
 
 TypeScript passes. All 58 production-build checks pass, including root/subfolder deployments, dedicated FR/EN pages, all nine visible projects, retained learning records and delivered asset references. No new performance score or externally verified credential is claimed.
+
+## Restored stacking and compact capture decks — 15 October 2026
+
+Supersedes the preceding long-card exclusion: closed cards now use native sticky positioning, including tall cards. A tall card scrolls through its complete content, pins its bottom edge, then scales as the following card overlaps it. A short handoff interval lets the reader use the final controls before the next card arrives. Expanded details remain normal flow; pause/reduced-motion states retain static presentation. There is no wheel interception or scroll-position rewrite for the stacking effect.
+
+Four progressively enhanced image decks replace the large collage/rail combinations. Original figures, captions, anchors and gallery groups are moved rather than duplicated. FFA retains 9 images, LeadHunt 7, Cardiag 5 and SecoursNow 6. All 27 captures remain available in the full-size gallery. Career Ops screenshots were removed at the owner's explicit request; its presentation, stack and case-study details remain.
+
+CUA confirmed desktop card overlap, pinned/scaled FFA geometry, reverse scrolling, LeadHunt deck navigation (02/07) and its full-size gallery (2/7), and mobile Cardiag touch/keyboard navigation (02/05 then 01/05) without changing the reading position. Mobile Cardiag closed-card height is 1256px at 390×844, versus 1796px before this revision. The following SecoursNow card visibly overlaps it after the full content has scrolled. No horizontal document overflow was observed.
+
+All four education cards put the date beside the title area at left and the institutional mark at top right, with locations and qualification/module content retained. Desktop and mobile ISEN layouts were visually checked; all four dates remain in their own title blocks. The full name Fédération Française de l’Apéritif appears in both its project and professional-experience cards.
+
+TypeScript and all 64 production-build checks pass. Final EN mobile regression: Cardiag lightbox reports 1/5; closing and pressing ArrowRight changes the deck to 02/05, keeps focus on the newly active image, and does not change the reading position. No horizontal overflow was observed. The final bundle delivers 163 fingerprinted assets, with the two Career Ops capture files no longer referenced by the site.

@@ -1,6 +1,7 @@
 import '../script.js';
 import '../hero-scene.js';
 import '../gallery.js';
+import '../project-image-decks.js';
 import '../project-reels.js';
 import '../reference-effects.js';
 

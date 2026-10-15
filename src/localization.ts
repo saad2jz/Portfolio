@@ -1,5 +1,6 @@
 import {fr as ecosystemFrench} from './ecosystem-copy.json';
 const french:Record<string,string> = {
+  ffaFullName:'Fédération Française de l’Apéritif',
   isenCloudDataTraining:'ISEN · Track Business & Data Analyst · 2025–2026. Formation académique.',
   projectConcept:'Voir le concept',
   moreCaptures:'Autres images du projet', liveProject:'Voir le site', projectRepository:'Dépôt GitHub',

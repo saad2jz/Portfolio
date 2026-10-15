@@ -17,13 +17,17 @@ export function createCardStacks(invalidate){
   for(const item of cards){
    const {card,height}=item,rest=Number.parseFloat(card.style.getPropertyValue('--stack-rest-top'))||96;
    const preferred=header+12+(rest-96)*(width<=900?.5:1);
-   // Pin only a complete card that fits below the navigation. A negative top
-   // pinned long mobile cards past their introductions and hid earlier content.
-   const fits=height<=viewport-preferred-24&&!card.querySelector('details[open]');
-   item.pin=fits?preferred:0;
+   // Short cards pin below the navigation. Tall cards scroll completely first,
+   // then pin their bottom edge while the following card slides over them.
+   // Native sticky positioning owns both directions; no scroll position writes.
+   const enabled=!card.querySelector('details[open]');
+   item.pin=enabled?Math.min(preferred,viewport-height-24):0;
    card.style.setProperty('--stack-top',`${item.pin}px`);
    card.style.setProperty('--stack-origin',height>viewport-header-36?'50% 100%':'50% 0%');
-   card.dataset.stackFit=fits?'true':'false';
+   card.dataset.stackFit=enabled?'true':'false';
+   card.dataset.stackMode=!enabled?'flow':item.pin<preferred?'bottom':'top';
+   const handoff=card.nextElementSibling;
+   if(handoff?.classList.contains('project-handoff'))handoff.style.setProperty('--stack-hold',`${enabled&&item.depth?Math.min(160,viewport*.18):1}px`);
   }
   for(const item of cards){
    const start=item.card.previousElementSibling,end=item.card.nextElementSibling;

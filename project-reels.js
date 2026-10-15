@@ -13,6 +13,7 @@
     for(const entry of entries){const observer=measurements.get(entry.target);if(entry.isIntersecting)observer.observe(entry.target);else observer.unobserve(entry.target);}
   },{rootMargin:'400px 0px'});
   for(const reel of document.querySelectorAll('.project-reel')) {
+    if(reel.closest('[data-image-deck-source]'))continue;
     const track=reel.querySelector('.reel-track');
     const slides=[...track.children];
     const previous=reel.querySelector('[data-direction="previous"]');

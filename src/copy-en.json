@@ -1,5 +1,6 @@
 {
   "ffaCategory": "SHOPIFY PLUS / B2B / AUTOMATION",
+  "ffaFullName": "Fédération Française de l’Apéritif",
   "ffaIntro": "B2B e-commerce Project Lead / Product Manager at FFA, during a KEDGE work-study placement (2025–2026). Rebuild the storefront and connect orders, stock, shipping and invoicing.",
   "ffaCompany": "FFA sells French apéritif products and gift boxes to consumers and businesses. Work-study placement alongside KEDGE, 2025–2026.",
   "ffaResult1": "connected marketplaces",
@@ -170,8 +171,6 @@
   "careerEcoTitle": "Owner-only career workspace",
   "careerEcogithub": "OAuth & scheduled checks",
   "careerEcoturso": "Application database",
-  "careerCaption": "Public access page · private workspace.",
-  "careerMobileCaption": "Mobile public access page · private workspace.",
   "unifiedremoteType": "AI / LOCAL AUTOMATION",
   "copilotIntro": "A personal Windows copilot connecting a private Telegram interface to local tools and configurable inference.",
   "remoteEcoNote": "Text, photos and CPU-transcribed voice can drive local tools. Named webhooks, a bounded repair loop and an audit journal support the workflow; an external model API is optional.",

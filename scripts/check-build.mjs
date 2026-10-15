@@ -19,6 +19,9 @@ async function verify(url){
   check('Contact guidance is translated in the initial French document',html.includes('Tous les champs sont obligatoires.'));
   const work=html.slice(html.indexOf('<section id="work"'),html.indexOf('<section id="entrepreneurship"'));
   check('All nine projects are visible as full case-study cards',(work.match(/class="[^"]*creator-project project\b/g)||[]).length===9&&!/class="other-projects"/.test(work));
+  check('All 27 requested project captures retain their original gallery groups',Object.entries({ffa:9,leadhunt:7,cardiag:5,secoursnow:6}).every(([id,total])=>(work.match(new RegExp(`data-gallery="${id}"`,'g'))||[]).length===total));
+  const career=work.slice(work.indexOf('<article id="career"'),work.indexOf('<article id="remote"'));
+  check('Career Ops keeps its case study without screenshots',career.includes('Career Ops Workspace')&&!career.includes('media-link'));
   check('Owner certifications and ISEN AWS / Power BI learning remain visible',html.includes('data-i18n="certLean"')&&html.includes('data-i18n="certAnthropic"')&&html.includes('data-i18n="certShopify"')&&html.includes('data-i18n="certCisco"')&&html.includes('data-i18n="certHubspot"')&&(html.match(/data-i18n="isenCloudDataTraining"/g)||[]).length===2&&!/<details class="additional-learning"/.test(html));
   check('Requested hero and language descriptions are removed in both languages',[html,english].every(page=>!page.includes('class="language-use"')&&!page.includes('5 marketplaces · n8n automation')&&!page.includes('5 marketplaces · automatisation n8n')));
   check('English page assets resolve from its own directory',english.includes(`src="../${manifest.js}"`)&&english.includes(`href="../${manifest.css}"`)&&!/\b(?:src|href|data-full-src|data-logo-atlas)="assets\//.test(english));

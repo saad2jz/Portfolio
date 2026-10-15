@@ -145,7 +145,7 @@ html.motion-paused .creator-intro>.creator-about::before,.creator-about:has(:foc
 #education .education-logos .school-franche-comte{width:30px;max-width:30px;height:24px}
 .school-abbreviation{font:500 24px/1 var(--display);color:#c7c7c7}
 #education .journey-location{font:400 15px/1.55 var(--font);color:var(--muted);margin:0}
-#education .journey-date{margin-left:auto}
+#education .journey-date{margin:0 0 12px;color:var(--accent);font:500 16px/1.5 var(--font)}
 .education-focus-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;color:var(--accent)}
 .education-focus-icon svg,.education-focus-icon img{width:26px;height:26px}
 .education-focus-icon img{filter:brightness(0) invert(.78)}
@@ -219,3 +219,29 @@ html.motion-paused .creator-intro>.creator-about::before,.creator-about:has(:foc
 html.motion-paused .creator-intro>.creator-hero-stage{height:var(--hero-frame);min-height:0}
 html.motion-paused .creator-intro>.creator-hero-stage>.creator-hero{position:relative;top:auto;height:var(--hero-frame)}
 html.motion-paused .creator-intro>.creator-about{margin-top:0}
+
+/* Education: date and qualification at left; institution mark at top right. */
+#education .creator-project-intro{grid-template-columns:minmax(0,1fr) minmax(150px,240px);align-items:start;gap:24px 36px}
+#education .creator-project-intro>.project-copy{grid-column:1;grid-row:1}
+#education .creator-project-intro>.project-context{grid-column:2;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;gap:10px;text-align:right}
+#education .creator-project-intro .education-logos{width:auto;justify-content:flex-end}
+#education .creator-project-intro .school-logo{object-position:right center}
+#education .creator-project-intro .education-qualification{margin-top:14px}
+#education .creator-project-intro .project-description{margin-top:14px;max-width:65ch}
+.project-company-name{font:500 16px/1.5 var(--font);color:var(--accent);margin:0 0 14px}
+@media(max-width:760px){
+ #education .creator-project-intro{grid-template-columns:minmax(0,1fr) 116px;gap:14px}
+ #education .creator-project-intro>.project-copy{display:contents}
+ #education .creator-project-intro .micro{grid-column:1/-1;grid-row:1;margin:0}
+ #education .creator-project-intro .journey-date{grid-column:1;grid-row:2;align-self:center;margin:0;font-size:15px}
+ #education .creator-project-intro>.project-context{grid-column:2;grid-row:2;gap:6px}
+ #education .creator-project-intro h3{grid-column:1/-1;grid-row:3;margin:8px 0 0}
+ #education .creator-project-intro .education-qualification{grid-column:1/-1;grid-row:4;margin:0;font-size:18px}
+ #education .creator-project-intro .project-description{grid-column:1/-1;grid-row:5;margin:0;font-size:15px}
+ #education .creator-project-intro .education-logos{max-width:116px;gap:4px 10px}
+ #education .creator-project-intro .school-logo{max-width:112px;width:112px;height:32px}
+ #education .creator-project-intro .school-uir{width:38px;height:36px}
+ #education .creator-project-intro .school-franche-comte{width:30px;height:24px}
+ #education .creator-project-intro .journey-location{font-size:11px}
+ .project-company-name{font-size:14px}
+}
