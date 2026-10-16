@@ -9,6 +9,7 @@ import postcss from 'postcss';
 import tailwind from '@tailwindcss/postcss';
 import {pageLanguage} from './page-language.mjs';
 import {writeCVPages} from './cv-pages.mjs';
+import {pruneUnusedSelectors} from './prune-css.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const config=JSON.parse(await fs.readFile(path.join(root,'site.config.json'),'utf8'));
@@ -44,6 +45,9 @@ let css=(await Promise.all(cssNames.map(read))).join('\n');
 const scripts=['src/main.tsx'];
 const client=await build({entryPoints:[path.join(root,'src/main.tsx')],bundle:true,write:false,format:'iife',platform:'browser',target:'es2020',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},minify:true,legalComments:'none'});
 let js=client.outputFiles[0].text;
+const cssSourceBytes=Buffer.byteLength(css);
+const pruned=pruneUnusedSelectors(css,html+'\n'+sourceEnglish+'\n'+js);
+css=pruned.css;
 const fingerprint=buffer=>createHash('sha256').update(buffer).digest('hex').slice(0,12);
 const rendererFiles=[];
 for(const [entry,format] of [['hero-worker.js','iife'],['hero-renderer.js','esm']]){
@@ -116,6 +120,6 @@ for(const name of ['index.html','portfolio.html','en/index.html',cssFile,jsFile,
   const br=brotliCompressSync(buffer,{params:{[constants.BROTLI_PARAM_QUALITY]:11}}),gz=gzipSync(buffer,{level:9});
   await fs.writeFile(path.join(dist,name+'.br'),br);await fs.writeFile(path.join(dist,name+'.gz'),gz);compressedBytes+=br.length;
 }
-const manifest={url:siteUrl?.href||null,assets:Object.fromEntries(map),css:cssFile,js:jsFile,cssBytes:Buffer.byteLength(cssResult.code),jsBytes:Buffer.byteLength(jsResult.code),brotliTextBytes:compressedBytes};
+const manifest={url:siteUrl?.href||null,assets:Object.fromEntries(map),css:cssFile,js:jsFile,cssBytes:Buffer.byteLength(cssResult.code),cssSourceBytes,cssPrunedBytes:Buffer.byteLength(pruned.css),cssRemovedSelectors:pruned.removed,jsBytes:Buffer.byteLength(jsResult.code),brotliTextBytes:compressedBytes};
 await fs.writeFile(path.join(dist,'build-manifest.json'),JSON.stringify(manifest,null,2));
 console.log(`Built dist/: ${map.size} fingerprinted assets, CSS ${manifest.cssBytes} bytes, JS ${manifest.jsBytes} bytes.`);

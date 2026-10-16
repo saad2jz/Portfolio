@@ -53,3 +53,10 @@ Local Lighthouse experiments and the final measurement are retained outside Git 
 - An experimental deferred React bundle was not shipped: it reduced the simulated LCP in an initial run but increased blocking time. Source patch and all measurements remain outside Git under `work/audit-applied-20261015/bootstrap-experiment/` and `mobile-profile-*`.
 - The retained local mobile run scored 80, with LCP 3.27s, TBT 461ms and automated accessibility/best practices/SEO 100. Its CPU benchmark was 1378.5; the earlier profiling run scored 76 with benchmark 1535.5. These single synthetic runs are not a controlled field comparison. The asset byte reduction is established; remaining mobile loading/interaction work is not claimed to be resolved.
 - The header logo atlas now uses lossless WebP: 146,394 bytes instead of 302,036. Every decoded RGBA pixel was compared and matches the original, which is retained locally/in the repository. The 4096×2048 dimensions, geometry, colours, movements and hover pause are unchanged.
+
+## Conservative stylesheet cleanup — 16 October 2026
+
+- Production delivery removes 510 obsolete simple selectors whose literal class/ID names appear in neither rendered language nor the complete client bundle. Functional, attribute and escaped selectors remain intact. Source stylesheets are preserved, and the build manifest records all removed selectors.
+- Minified CSS drops from 185,053 to 153,987 bytes (16.8%). This is a delivery-size reduction, not a claim of measured frame-rate improvement.
+- Compared computed styles of 652 elements against public commit `c35f913` at 1280×720 and 390×844 in reading mode: zero property differences in both viewports. Local immersive navigation to Projects/LeadHunt, gallery image changes and Escape/focus return also passed without horizontal overflow.
+- TypeScript and 108 production-build checks passed. All nine projects and 27 project captures remain. Comparison evidence is retained outside Git in `work/audit-performance-20261016/css-style-comparison.json`.

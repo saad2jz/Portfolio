@@ -5,12 +5,16 @@ import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {brotliDecompressSync,gunzipSync} from 'node:zlib';
 import {createFlowMeasure} from '../flow-geometry.js';
+import {pruneUnusedSelectors} from './prune-css.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=name=>fs.readFile(path.join(root,'dist',name),'utf8');
 let count=0;
 function check(name,test){assert.ok(test,name);count++;console.log(`PASS ${name}`);}
 function build(url){return spawnSync(process.execPath,['scripts/build.mjs'],{cwd:root,env:{...process.env,SITE_URL:url},encoding:'utf8'});}
+const selectorFixture=pruneUnusedSelectors('.obsolete{color:red}.ready,.retired{color:green}.revealed{opacity:1}.obsolete:is(.ready,.retired){color:blue}.escaped\\:name{color:white}@keyframes drift{from{opacity:0}to{opacity:1}}','<div class="ready"></div> classList.add("revealed")');
+check('Unused CSS never removes rendered or runtime classes',selectorFixture.css.includes('.ready')&&selectorFixture.css.includes('.revealed')&&!selectorFixture.css.includes('.obsolete{')&&!selectorFixture.css.includes('.retired{'));
+check('Complex/escaped selectors and keyframes remain intact',selectorFixture.css.includes('.obsolete:is(.ready,.retired)')&&selectorFixture.css.includes('.escaped\\:name')&&selectorFixture.css.includes('@keyframes drift'));
 // Geometry must use document flow even when sticky rectangles move, share reads
 // within a batch, and discard the cache after a disclosure changes the layout.
 let parentTop=120,parentReads=0;
@@ -28,6 +32,7 @@ async function verify(url){
   const english=await read('en/index.html');
   check('Dedicated FR and EN pages have matching language and Product Owner positioning',html.includes('<html lang="fr"')&&english.includes('<html lang="en"')&&html.includes('Product Owner à Paris</title>')&&english.includes('Product Owner in Paris</title>'));
   check('Contact guidance is translated in the initial French document',html.includes('Tous les champs sont obligatoires.'));
+  check('CSS delivery prunes obsolete selectors while retaining an audit trail',manifest.cssPrunedBytes<manifest.cssSourceBytes&&manifest.cssRemovedSelectors.length>0);
   check('Reading preference and refresh position initialise before stylesheets',[html,english].every(page=>page.indexOf("localStorage.getItem('portfolio-motion-paused')")>0&&page.indexOf("localStorage.getItem('portfolio-motion-paused')")<page.indexOf('<link rel="stylesheet"')&&page.includes("history.scrollRestoration='manual'")));
   const selected=html.slice(html.indexOf('<section id="selected-work"'),html.indexOf('<section id="services"'));
   check('Selected-work thumbnails have three mobile density variants without changing desktop images',(selected.match(/<picture>/g)||[]).length===3&&(selected.match(/media="\(max-width:760px\)"/g)||[]).length===3&&['ffa','leadhunt','cardiag'].every(id=>selected.includes(manifest.assets[`assets/${id}-selected-3x.webp`])));
