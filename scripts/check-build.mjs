@@ -8,6 +8,7 @@ import {createFlowMeasure} from '../flow-geometry.js';
 import {pruneUnusedSelectors} from './prune-css.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const projectContent=JSON.parse(await fs.readFile(path.join(root,'src/content.json'),'utf8'));
 const read=name=>fs.readFile(path.join(root,'dist',name),'utf8');
 let count=0;
 function check(name,test){assert.ok(test,name);count++;console.log(`PASS ${name}`);}
@@ -44,9 +45,15 @@ async function verify(url){
   const about=html.match(/<p class="animated-profile-text"[\s\S]*?<\/p>/)?.[0]||'';
   check('About reveal preserves accessible text without a character-sized DOM tree',about.includes('class="sr-only"')&&(about.match(/<span/g)||[]).length<100&&about.includes('animated-text-word'));
   const work=html.slice(html.indexOf('<section id="work"'),html.indexOf('<section id="entrepreneurship"'));
-  check('All nine projects are visible as full case-study cards',(work.match(/class="[^"]*creator-project project\b/g)||[]).length===9&&!/class="other-projects"/.test(work));
-  check('All nine projects expose problem, role, delivery and result/status',(work.match(/class="case-summary"/g)||[]).length===9);
-  check('Capture decks are delivered before hydration, with no duplicate gallery links',(work.match(/class="project-image-deck"/g)||[]).length===4&&!work.includes('data-image-deck-source'));
+  check('Every project remains a full case-study card',(work.match(/class="[^"]*creator-project project\b/g)||[]).length===projectContent.projects.length&&!/class="other-projects"/.test(work));
+  check('Every project exposes problem, role, delivery and result/status',(work.match(/class="case-summary"/g)||[]).length===projectContent.projects.length);
+  check('Capture decks are delivered before hydration, with no duplicate gallery links',(work.match(/class="project-image-deck"/g)||[]).length===projectContent.projects.filter(project=>project.captures?.length).length&&!work.includes('data-image-deck-source'));
+  check('The original nine projects and the two requested repositories remain available',['ffa','leadhunt','cardiag','secoursnow','rencontre','career','remote','ansys','debarra','simulaiz','findwhere'].every(id=>work.includes(`id="${id}-title"`))&&projectContent.projects.length===11);
+  check('Selected-work project count follows the full collection',html.includes(`Voir les ${projectContent.projects.length} projets`)&&english.includes(`Explore all ${projectContent.projects.length} projects`));
+  const projectFragment=(page,id)=>page.slice(page.indexOf(`<article id="${id}"`),page.indexOf('</article>',page.indexOf(`<article id="${id}"`)));
+  check('Sidely has its actual logo in the FFA project and professional experience',projectFragment(html,'ffa').includes(manifest.assets['assets/logos/sidely.svg'])&&projectFragment(html,'experience-ffa').includes(manifest.assets['assets/logos/sidely.svg'])&&projectFragment(html,'experience-ffa').includes('Sidely CRM'));
+  check('New projects retain identities, adjacent details, source/live links and real captures',['simulaiz','findwhere'].every(id=>{const part=projectFragment(html,id);return part.includes(manifest.assets[`assets/logos/${id}.svg`])&&part.includes(`id="${id}-details"`)&&(part.match(new RegExp(`data-gallery="${id}"`,'g'))||[]).length===2;})&&projectFragment(html,'simulaiz').includes('https://saad2jz.github.io/simulaiz/')&&projectFragment(html,'findwhere').includes('https://github.com/saad2jz/findwhere'));
+  check('Findwhere sample attribution survives both languages',[html,english].every(page=>(projectFragment(page,'findwhere').match(/Bert K\. · CC BY 2\.0/g)||[]).length===2));
   check('LeadHunt offers a real-image tour independent of its login page',work.includes('data-open-gallery="leadhunt"')&&work.includes('id="leadhunt-capture-deck"'));
   check('Scheduling CTA and destination consistently use the actual 30-minute event',[html,english].every(page=>page.includes('https://calendly.com/saad-bayahia/30min')&&!page.includes('20-minute')&&!page.includes('20 minutes')));
   check('Document IDs remain unique',(()=>{const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);return new Set(ids).size===ids.length;})());

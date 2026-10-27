@@ -267,3 +267,12 @@ the gallery's original-file links resolve to these sanitised public files.
 Original captures are preserved locally outside this repository. They must not
 be copied back into `assets/` or the deployment artifact. Earlier public exports
 and Git history are not rewritten by this change.
+
+## FFA CRM and repository projects — 27 October 2026
+
+- `assets/logos/sidely.svg`: original Sidely dark-scheme favicon served by the [official Sidely website](https://www.go-sidely.com/), [SVG source](https://framerusercontent.com/images/MPZC7OhAXQzmBFnTFTJuBjikAs.svg). The owner confirmed Sidely CRM use at FFA; this does not claim a new CRM integration or performance outcome.
+- `assets/logos/simulaiz.svg`: the existing Simulaiz geometric S favicon from the owner's repository, `public/favicon.svg`. Public studio: https://saad2jz.github.io/simulaiz/. Source access stays private.
+- `assets/logos/findwhere.svg`: existing Findwhere favicon from https://github.com/saad2jz/findwhere/blob/main/public/favicon.svg. The requested "fromwhere" project is presented under its actual repository/application name, Findwhere.
+- `assets/tools/{react,threedotjs,leaflet}.svg`: unchanged geometry from the pinned [Simple Icons 16.1.0 catalogue](https://github.com/simple-icons/simple-icons/tree/16.1.0/icons). These marks identify the actual dependencies in the inspected repositories.
+- `assets/simulaiz-{home,workbench}*.webp`: real screenshots of the public Simulaiz browser studio, captured on 27 October 2026. The workbench uses its bundled original Little explorer sample; no owner asset was uploaded.
+- `assets/findwhere-{workspace,evidence}*.webp`: real screenshots of a fresh local checkout of Findwhere, captured on 27 October 2026. They show the bundled, labelled Lisbon demonstration, without a paid AI request or private photo. Source image: [The rooftops of Lisbon, Bert K. / Bert Kaufmann](https://commons.wikimedia.org/wiki/File:The_rooftops_of_Lisbon.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). Visible map attribution is retained and the source/credit link is repeated in both portfolio captions. Screenshots are resized and encoded to WebP for full/720/360 delivery; their interface is not generatively altered.

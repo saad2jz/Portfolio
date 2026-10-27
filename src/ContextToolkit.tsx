@@ -12,6 +12,10 @@ const catalogue:Record<string,Item>={
  erplain:{en:'Erplain',src:'assets/toolkit/erplain.webp',wide:true},
  n8n:{en:'n8n',src:'assets/toolkit/n8n.svg',wide:true},
  hubspot:{en:'HubSpot',src:'assets/toolkit/hubspot.svg',wide:true},
+ sidely:{en:'Sidely CRM',src:'assets/logos/sidely.svg'},
+ react:{en:'React',src:'assets/tools/react.svg'},
+ three:{en:'Three.js',src:'assets/tools/threedotjs.svg'},
+ leaflet:{en:'Leaflet',src:'assets/tools/leaflet.svg'},
  wordpress:{en:'WordPress',src:'assets/hero-tools/wordpress.svg'},
  woocommerce:{en:'WooCommerce',src:'assets/hero-tools/woocommerce.svg'},
  amazon:{en:'Amazon',src:'assets/hero-tools/amazon.svg'},
@@ -77,7 +81,7 @@ const catalogue:Record<string,Item>={
 };
 
 export const cardToolkits:Record<string,string[]>={
- 'experience-ffa':['shopify','mirakl','erplain','n8n','project','pdca'],
+ 'experience-ffa':['shopify','mirakl','erplain','n8n','sidely','project','pdca'],
  'experience-sit':['fmea','pdca','lean','iso9001','project','rootcause','retex'],
  'experience-webmedia':['qa','rootcause','pdca','project'],
  'experience-mascir':['fmea','pdca','iso9001','iso14001','ohsas','audit'],
@@ -92,6 +96,8 @@ export const cardToolkits:Record<string,string[]>={
  ffa:['n8n','hubspot','project','automation','pdca'],
  leadhunt:['typescript','gemini','api','automation'],
  cardiag:['gemini','rootcause','risk','pdf'],
+ simulaiz:['react','typescript','three','api'],
+ findwhere:['react','node','leaflet','gemini'],
  secoursnow:['nest','postgis','consent'],
  rencontre:['typescript','qr','api'],
  career:['next','typescript','project'],
