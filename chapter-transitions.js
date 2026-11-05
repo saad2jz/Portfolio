@@ -1,3 +1,4 @@
+import {navigationHeight} from './src/navigation-metrics';
 import {restoreReadingPosition} from './src/scroll-position';
 import {createCardStacks} from './project-layout';
 
@@ -45,7 +46,7 @@ import {createCardStacks} from './project-layout';
   if(!hero){
    if(!track){track=document.createElement('div');track.className='chapter-track';stage.before(track);track.append(stage);}
   }
-  const exit=exits[name],source=exit&&document.querySelector(exit[0]),surface=source?.querySelector(exit[1]);
+  const exit=exits[name],source=exit&&document.querySelector(exit[0]),surface=source?.closest('[data-section-panel]')===stage.closest('[data-section-panel]')?source?.querySelector(exit[1]):null;
   if(surface){
    surface.classList.add('chapter-exit-surface');
    stage.dataset.chapterFrom=source.id;
@@ -66,9 +67,9 @@ import {createCardStacks} from './project-layout';
  const clamp=n=>Math.max(0,Math.min(1,n));
  const ease=n=>n*n*(3-2*n);
  function measure(){
-  viewport=viewportProbe.offsetHeight||innerHeight;headerHeight=document.querySelector('header').offsetHeight;
+  viewport=viewportProbe.offsetHeight||innerHeight;headerHeight=navigationHeight();
   // Read geometry as a batch; changing custom properties follows the reads.
-  const geometry=scenes.map(scene=>({scene,height:scene.stage.offsetHeight}));
+  const geometry=scenes.map(scene=>{scene.visible=!scene.stage.closest('[data-section-panel]')?.hidden;return {scene,height:scene.stage.offsetHeight};});
   for(const {scene,height} of geometry){
    // An introduction taller than the available viewport must stay in flow.
    // Keep the same geometry when animations pause: preferences never move text.
@@ -81,7 +82,7 @@ import {createCardStacks} from './project-layout';
   departure.style.setProperty('--chapter-header-height',`${headerHeight}px`);
   // Card handoff spacing can move later chapters. Finish those writes before
   // caching any flow positions so one measurement describes one stable layout.
-  const layoutTop=stacks.measure(viewport,headerHeight,innerWidth);
+  const layoutTop=stacks.measure(viewport,headerHeight,innerWidth,paused());
   maxScroll=Math.max(0,document.documentElement.scrollHeight-viewport);
   for(const scene of scenes)scene.top=layoutTop(scene.track||scene.title);
   dirty=false;
@@ -97,8 +98,9 @@ import {createCardStacks} from './project-layout';
   lastStamp=stamp;
   if(stop||changed||Math.abs(delta)>viewport*.75||Math.abs(delta)<.15)motionY=actualY;
   else motionY+=delta*(1-Math.exp(-dt/(coarse.matches?32:70)));
-  const y=motionY;stacks.paint(y,stop,innerWidth);
+  const y=motionY;stacks.paint(y,stop,innerWidth,actualY);
   for(const scene of scenes){
+   if(!scene.visible)continue;
    // The outgoing zoom starts only when the end of the previous chapter is
    // entering the viewport. Cross-fade into the pinned title reveal.
    const exitStart=scene.top-headerHeight-viewport*.9,exitEnd=scene.top-headerHeight-viewport*.08;
@@ -141,6 +143,7 @@ import {createCardStacks} from './project-layout';
  }
  function schedule(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
  function invalidate(){dirty=true;schedule();}
+ document.addEventListener('portfolio:sectionchange',()=>{departure.hidden=true;scenes.forEach(scene=>{scene.previous=-1;scene.previousExit=-1;if(scene.surface)scene.surface.dataset.chapterExiting='false';});measure();motionY=scrollY;invalidate();});
  addEventListener('scroll',schedule,{passive:true});addEventListener('resize',invalidate,{passive:true});
  document.addEventListener('toggle',invalidate,true);
  document.addEventListener('visibilitychange',()=>{motionY=scrollY;lastStamp=0;schedule();});

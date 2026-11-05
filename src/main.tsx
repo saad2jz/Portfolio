@@ -16,7 +16,7 @@ document.documentElement.classList.add('layout-ready');
 let started=false;
 let pendingAction:HTMLElement|null=null;
 function queueAction(event:MouseEvent){
- const target=event.target instanceof Element?event.target.closest<HTMLElement>('.menu-toggle,.motion-toggle,.reading-mode,.image-deck-step,.media-link,[data-open-gallery]'):null;
+ const target=event.target instanceof Element?event.target.closest<HTMLElement>('.menu-toggle,.motion-toggle,.reading-mode,.image-deck-step,.media-link,[data-open-gallery],[data-section-tab],[data-section-step],[data-section-go]'):null;
  if(!target||event.button!==0||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey)return;
  event.preventDefault();event.stopImmediatePropagation();pendingAction=target;start();
 }

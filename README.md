@@ -2,6 +2,26 @@
 
 Publication: [www.saadbayahia.com](https://www.saadbayahia.com/). GitHub Pages builds `main` automatically; see [deployment setup](DEPLOYMENT.md).
 
+## UI / UX redesign — 5 November 2026
+
+The latest iteration groups the portfolio into six horizontally navigable
+sections, inspired by the user's Samsung Music screenshots. `src/SectionPager.tsx`
+renders the content and native fallback links; `src/section-pager.ts` adds tabs,
+keyboard/swipe/trackpad navigation, interruptible transitions and retained reading
+positions. Continuing vertical scroll at a section boundary advances to the next
+section; upward scroll at the start returns to the previous section. The selected
+tab has an interruptible sliding indicator. `section-pager.css` styles the strip. Existing
+zoom/card controllers share `src/navigation-metrics.ts` for navigation offsets.
+
+The current working branch uses an ink / ivory / champagne direction with local Inter,
+a name-led hero, four main navigation links and larger project previews. The
+section order is Hero/About → Selected work → Projects → Entrepreneurship →
+Expertise → Skills → Approach → Career → International → Interests → Contact.
+`editorial.css` contains the visual overrides. Existing hero/chapter zooms, card
+stacking, pause and reduced-motion behavior are retained. A CSS scroll timeline
+adds a reading-progress line; preview hover effects use transforms. See
+[design decisions and verification](UI-UX-REDESIGN.md).
+
 ## Current structure — 15 October 2026
 
 This section supersedes the historical revision descriptions below. Product Owner in Paris is the primary positioning; business engineering and industrial quality remain supporting expertise. The initial document is French at `/`, with a separately rendered English page at `/en/`, reciprocal hreflang, language-specific metadata and stable asset paths. Language controls navigate between documents while preserving the current fragment.
@@ -16,7 +36,7 @@ Public CVs are delivered at `/cv/` and `/cv/en/` with local FR/EN PDFs. These ar
 
 Motion respects reduced-motion, manual pause and hidden tabs. Decorative WebGL starts after initial load/idle or interaction and stays static when reduced motion is active. Keyboard access, anchor navigation and refresh-to-top remain. `portfolio-focus.css` styles selected work, secondary records, the quality bridge, contact and privacy information.
 
-CTA analytics are **prepared but inactive**, because no provider account was supplied. See [analytics setup and outstanding evidence](AUDIT-FOLLOW-UP.md). `npm run typecheck` and `npm run test:build` validate both languages, PDFs, assets, root/subfolder deployments and unconfigured previews.
+CTA analytics are **prepared but inactive**, because no provider account was supplied. See [analytics setup and outstanding evidence](AUDIT-FOLLOW-UP.md). `npm run typecheck`, `npm run test:navigation`, `npm run test:stacks` and `npm run test:build` validate navigation, bounded card reading, both languages, PDFs, assets, root/subfolder deployments and unconfigured previews.
 
 Client startup uses the language already rendered in the document instead of loading another English-copy dictionary and rewriting metadata. French build/hydration imports only the French ecosystem copy. This removes about 60 KB of uncompressed JavaScript; source content, captures and PDFs remain unchanged. Decorative WebGL waits for portrait decoding, font readiness and a paint opportunity, while direct input can start it immediately. A saved pause exposes Resume after reloading, even before WebGL exists. Contact errors now point to the visible Calendly option instead of an email that is no longer displayed.
 

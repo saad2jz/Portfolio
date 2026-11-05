@@ -3,9 +3,23 @@ import {ArrowUpRight,ShieldCheck,GitBranch,RefreshCw} from 'lucide-react';
 import content from './content.json';
 
 export function SelectedWork({fr}:{fr:boolean}){
- const projects=[['ffa','FFA','assets/ffa-storefront-thumb.webp',fr?'Commerce connecté · 5 marketplaces':'Connected commerce · 5 marketplaces','assets/ffa-selected-1x.webp 1x, assets/ffa-selected-2x.webp 2x, assets/ffa-selected-3x.webp 3x'],['leadhunt','LeadHunt','assets/leadhunt-agents-320.webp',fr?'Prospection B2B · copilote IA':'B2B prospecting · AI copilot','assets/leadhunt-selected-1x.webp 1x, assets/leadhunt-selected-2x.webp 2x, assets/leadhunt-selected-3x.webp 3x'],['cardiag','Cardiag','assets/cardiag-owner-360.webp',fr?'Inspection automobile · 33 contrôles':'Vehicle inspection · 33 checks','assets/cardiag-selected-1x.webp 1x, assets/cardiag-selected-2x.webp 2x, assets/cardiag-selected-3x.webp 3x']];
- return <section id="selected-work" className="selected-work" aria-labelledby="selected-title"><h2 id="selected-title">{fr?'Travaux sélectionnés':'Selected work'}</h2><p>{fr?'Trois produits pour découvrir ma façon de travailler.':'Three products that show how I work.'}</p><nav aria-label={fr?'Accéder aux études de cas':'Explore the case studies'}>{projects.map(([id,title,image,description,mobile])=><a key={id} href={'#'+id+'-title'}><picture><source media="(max-width:760px)" srcSet={mobile}/><img src={image} alt="" width="360" height="202" loading="lazy" decoding="async"/></picture><span><strong>{title}</strong><small>{description}</small></span><ArrowUpRight size={20} aria-hidden="true"/></a>)}</nav><div className="reading-toolbar"><a href="#work">{fr?`Voir les ${content.projects.length} projets`:`Explore all ${content.projects.length} projects`} ↗</a><ReadingMode fr={fr}/></div></section>;
+ const projects=[['ffa','FFA','assets/ffa-storefront-thumb.webp',fr?'Commerce connecté · 5 marketplaces':'Connected commerce · 5 marketplaces','assets/ffa-storefront-thumb.webp 360w, assets/ffa-storefront.webp 1918w'],['leadhunt','LeadHunt','assets/leadhunt-agents-320.webp',fr?'Prospection B2B · copilote IA':'B2B prospecting · AI copilot','assets/leadhunt-agents-320.webp 320w, assets/leadhunt-agents.webp 1909w'],['cardiag','Cardiag','assets/cardiag-owner-360.webp',fr?'Inspection automobile · 33 contrôles':'Vehicle inspection · 33 checks','assets/cardiag-owner-360.webp 360w, assets/cardiag-owner.webp 1681w']];
+ return <section id="selected-work" className="selected-work" aria-labelledby="selected-title">
+  <div className="selection-heading">
+   <div><p className="selection-eyebrow">{fr?'UNE SÉLECTION DE PROJETS':'SELECTED PROJECTS'}</p><h2 id="selected-title">{fr?'Du besoin au produit.':'From problem to product.'}</h2></div>
+   <p>{fr?'Trois univers, la même approche : comprendre, construire et améliorer.':'Three different worlds. One approach: understand, build and improve.'}</p>
+  </div>
+  <nav aria-label={fr?'Accéder aux études de cas':'Explore the case studies'}>
+   {projects.map(([id,title,image,description,mobile],index)=><a className={'selection-card selection-'+id} key={id} href={'#'+id+'-title'}>
+    <div className="selection-visual"><span className="selection-number" aria-hidden="true">0{index+1}</span><picture><source media="(max-width:760px)" srcSet={mobile} sizes="calc(100vw - 92px)"/><img src={image} srcSet={mobile} sizes="(max-width:760px) calc(100vw - 92px), (max-width:1100px) calc((100vw - 160px)/3), calc((100vw - 240px)/3)" alt="" width="360" height="202" loading="lazy" decoding="async"/></picture><span className="selection-open" aria-hidden="true"><ArrowUpRight size={24}/></span></div>
+    <div className="selection-info"><span><strong>{title}</strong><small>{description}</small></span><span className="selection-case">{fr?'Étude de cas':'Case study'}<ArrowUpRight size={16} aria-hidden="true"/></span></div>
+   </a>)}
+  </nav>
+  <div className="reading-toolbar"><a href="#work">{fr?`Voir les ${content.projects.length} projets`:`Explore all ${content.projects.length} projects`}<ArrowDownRightIcon/></a><ReadingMode fr={fr}/></div>
+ </section>;
 }
+
+function ArrowDownRightIcon(){return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 5 19 19M5 19h14V5"/></svg>;}
 
 function ReadingMode({fr}:{fr:boolean}){
  const [reading,setReading]=useState(false),[reduced,setReduced]=useState(false);
