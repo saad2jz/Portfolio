@@ -33,12 +33,24 @@ async function verify(url){
   const english=await read('en/index.html');
   check('Dedicated FR and EN pages have matching language and Product Owner positioning',html.includes('<html lang="fr"')&&english.includes('<html lang="en"')&&html.includes('Product Owner à Paris</title>')&&english.includes('Product Owner in Paris</title>'));
   check('Contact guidance is translated in the initial French document',html.includes('Tous les champs sont obligatoires.'));
+  check('Section links target their own panels in both languages',[html,english].every(page=>{
+    const tabs=[...page.matchAll(/<a\b[^>]*data-section-tab="([^"]+)"[^>]*>/g)];
+    return tabs.length===6&&tabs.every(([tag,id])=>{
+      const anchor=tag.match(/href="#([^"]+)"/)?.[1],panelStart=page.indexOf(`id="panel-${id}"`),nextPanel=page.indexOf('<div id="panel-',panelStart+1);
+      const panel=page.slice(panelStart,nextPanel<0?page.length:nextPanel);
+      return tag.includes(`aria-controls="panel-${id}"`)&&anchor&&panel.includes(`id="${anchor}"`);
+    });
+  }));
+  check('The unenhanced document keeps every section available without JavaScript',[html,english].every(page=>{
+    const panels=[...page.matchAll(/<div\b[^>]*data-section-panel="[^"]+"[^>]*>/g)];
+    return panels.length===6&&panels.every(([tag])=>! /\s(?:hidden|inert)(?:\s|=|>)/.test(tag));
+  }));
   check('CSS delivery prunes obsolete selectors while retaining an audit trail',manifest.cssPrunedBytes<manifest.cssSourceBytes&&manifest.cssRemovedSelectors.length>0);
   check('Reading preference and refresh position initialise before stylesheets',[html,english].every(page=>page.indexOf("localStorage.getItem('portfolio-motion-paused')")>0&&page.indexOf("localStorage.getItem('portfolio-motion-paused')")<page.indexOf('<link rel="stylesheet"')&&page.includes("history.scrollRestoration='manual'")));
-  const selected=html.slice(html.indexOf('<section id="selected-work"'),html.indexOf('<section id="services"'));
-  check('Selected-work thumbnails have three mobile density variants without changing desktop images',(selected.match(/<picture>/g)||[]).length===3&&(selected.match(/media="\(max-width:760px\)"/g)||[]).length===3&&['ffa','leadhunt','cardiag'].every(id=>selected.includes(manifest.assets[`assets/${id}-selected-3x.webp`])));
+  const selected=html.slice(html.indexOf('<section id="selected-work"'),html.indexOf('<section id="work"'));
+  check('Selected projects use original captures for full-size high-density previews',(selected.match(/<picture>/g)||[]).length===3&&(selected.match(/media="\(max-width:760px\)"/g)||[]).length===3&&['ffa-storefront','leadhunt-agents','cardiag-owner'].every(id=>selected.includes(manifest.assets[`assets/${id}.webp`])));
   const runtime=await read(manifest.js);
-  check('Mobile thumbnail sources also resolve to fingerprinted files after hydration',['ffa','leadhunt','cardiag'].every(id=>[1,2,3].every(density=>runtime.includes(manifest.assets[`assets/${id}-selected-${density}x.webp`]))));
+  check('Full-size project previews resolve after hydration',['ffa-storefront','leadhunt-agents','cardiag-owner'].every(id=>runtime.includes(manifest.assets[`assets/${id}.webp`])));
   const atlasPath=manifest.assets['assets/tool-medallions.webp'],atlas=await fs.readFile(path.join(root,'dist',atlasPath));
   check('The header delivers its full-resolution lossless atlas',atlas.subarray(0,4).toString()==='RIFF'&&atlas.subarray(12,16).toString()==='VP8L'&&atlas[20]===0x2f&&(atlas.readUInt32LE(21)&0x3fff)+1===4096&&((atlas.readUInt32LE(21)>>>14)&0x3fff)+1===2048&&html.includes(atlasPath));
   check('The heavier PNG atlas is not requested by the page or renderer',!manifest.assets['assets/tool-medallions.png']&&!runtime.includes('tool-medallions.png'));
@@ -51,6 +63,12 @@ async function verify(url){
   check('The original nine projects and the two requested repositories remain available',['ffa','leadhunt','cardiag','secoursnow','rencontre','career','remote','ansys','debarra','simulaiz','findwhere'].every(id=>work.includes(`id="${id}-title"`))&&projectContent.projects.length===11);
   check('Selected-work project count follows the full collection',html.includes(`Voir les ${projectContent.projects.length} projets`)&&english.includes(`Explore all ${projectContent.projects.length} projects`));
   const projectFragment=(page,id)=>page.slice(page.indexOf(`<article id="${id}"`),page.indexOf('</article>',page.indexOf(`<article id="${id}"`)));
+  check('Project reading controls link to named adjacent studies without cycling endpoints',[html,english].every(page=>projectContent.projects.every((project,index)=>{
+    const fragment=projectFragment(page,project.id),navigation=fragment.match(/<nav class="project-frame-navigation"[\s\S]*?<\/nav>/)?.[0]||'';
+    const links=[...navigation.matchAll(/<a\b[^>]*>/g)],destinations=links.map(([tag])=>tag.match(/href="#([^"]+)"/)?.[1]);
+    const expected=[projectContent.projects[index-1],projectContent.projects[index+1]].filter(Boolean).map(item=>item.id+'-title');
+    return fragment.includes('class="project-frame-name"')&&JSON.stringify(destinations)===JSON.stringify(expected)&&links.every(([tag])=>/aria-label="[^"]+"/.test(tag));
+  })));
   check('Sidely has its actual logo in the FFA project and professional experience',projectFragment(html,'ffa').includes(manifest.assets['assets/logos/sidely.svg'])&&projectFragment(html,'experience-ffa').includes(manifest.assets['assets/logos/sidely.svg'])&&projectFragment(html,'experience-ffa').includes('Sidely CRM'));
   check('New projects retain identities, adjacent details, source/live links and real captures',['simulaiz','findwhere'].every(id=>{const part=projectFragment(html,id);return part.includes(manifest.assets[`assets/logos/${id}.svg`])&&part.includes(`id="${id}-details"`)&&(part.match(new RegExp(`data-gallery="${id}"`,'g'))||[]).length===2;})&&projectFragment(html,'simulaiz').includes('https://saad2jz.github.io/simulaiz/')&&projectFragment(html,'findwhere').includes('https://github.com/saad2jz/findwhere'));
   check('Findwhere sample attribution survives both languages',[html,english].every(page=>(projectFragment(page,'findwhere').match(/Bert K\. · CC BY 2\.0/g)||[]).length===2));

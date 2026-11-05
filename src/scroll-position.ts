@@ -1,6 +1,8 @@
+import {navigationHeight} from './navigation-metrics';
 // History navigation retains the reading position. An explicit refresh starts
 // at the hero instead, including when the previous URL contained a fragment.
 import {createFlowMeasure} from '../flow-geometry';
+import {readingAnchors as anchors} from './reading-anchors';
 type Position = {version:1;hash:string;kind:string;id:string;offset:number;y:number};
 let earlyInput=false;
 for(const type of ['pointerdown','touchstart','wheel','keydown'])window.addEventListener(type,()=>{earlyInput=true;},{once:true,passive:true,capture:true});
@@ -26,6 +28,7 @@ export function flowTop(element:HTMLElement){
 // Resolve sticky cards against their flow markers, rather than the pile's
 // current screen position. Chapter links finish the introduction's zoom.
 export function navigateToFragment(target:HTMLElement,behavior:ScrollBehavior='instant'){
+ document.dispatchEvent(new CustomEvent('portfolio:reveal-section',{detail:{id:target.id}}));
  // Old project links can point inside the collapsed experiments collection.
  for(let parent=target.parentElement;parent;parent=parent.parentElement){
   if(parent instanceof HTMLDetailsElement&&!parent.open)parent.open=true;
@@ -34,7 +37,7 @@ export function navigateToFragment(target:HTMLElement,behavior:ScrollBehavior='i
  const marker=card?.previousElementSibling as HTMLElement|null;
  const stage=target.closest<HTMLElement>('.chapter-stage')||target.querySelector<HTMLElement>('.chapter-stage');
  const track=stage?.parentElement?.classList.contains('chapter-track')?stage.parentElement:null;
- const header=document.querySelector('header')?.offsetHeight||80;
+ const header=navigationHeight();
  const reading=document.documentElement.classList.contains('motion-paused')||matchMedia('(prefers-reduced-motion: reduce)').matches;
  const travel=reading?0:parseFloat(track?.style.getPropertyValue('--chapter-travel')||'0');
  const top=target.id==='home'||target.id==='main'?0:marker?.classList.contains('project-marker')?flowTop(marker)-header-16:track?flowTop(track)-header+travel:flowTop(target)-header-16;
@@ -46,33 +49,18 @@ function fragmentTarget(hash:string){
  try{return document.getElementById(decodeURIComponent(hash.slice(1)));}catch{return null;}
 }
 
-function anchors(){
- const hero=document.querySelector<HTMLElement>('.creator-hero-stage');
- const result=hero?[{element:hero,kind:'hero',id:'home'}]:[];
- document.querySelectorAll<HTMLElement>('main section[id]:not(#home)').forEach(element=>result.push({element,kind:'section',id:element.id}));
- document.querySelectorAll<HTMLElement>('.chapter-track').forEach(element=>{
-  const id=element.querySelector<HTMLElement>('.chapter-stage')?.dataset.chapter;
-  if(id)result.push({element,kind:'chapter',id});
- });
- document.querySelectorAll<HTMLElement>('.creator-project.project[id]').forEach(card=>{
-  // Sticky cards' visual positions cannot be used to recover their flow position.
-  const marker=card.previousElementSibling as HTMLElement|null;
-  if(marker?.classList.contains('project-marker'))result.push({element:marker,kind:'card',id:card.id});
- });
- return result;
-}
-
 export function restoreReadingPosition(measure:()=>void){
  let cancelled=earlyInput,ready=false;
  let geometryDirty=true,header=80,cachedAnchors:{kind:string;id:string;top:number}[]=[];
  const invalidate=()=>{geometryDirty=true;};
+ document.addEventListener('portfolio:sectionchange',invalidate);
  const geometry=new ResizeObserver(invalidate);
  const main=document.querySelector('main');if(main)geometry.observe(main);
  addEventListener('resize',invalidate,{passive:true});
  document.addEventListener('toggle',invalidate,true);
  new MutationObserver(invalidate).observe(document.documentElement,{attributes:true,attributeFilter:['lang','class']});
  function cacheGeometry(){
-  header=document.querySelector('header')?.offsetHeight||80;
+  header=navigationHeight();
   const measureTop=createFlowMeasure();
   cachedAnchors=anchors().map(item=>({kind:item.kind,id:item.id,top:measureTop(item.element)}));
   geometryDirty=false;
